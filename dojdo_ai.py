@@ -1,3 +1,4 @@
+```python
 from ollamafreeapi import OllamaFreeAPI
 from utilities import printsl, loading_effect, start_end
 import asyncio
@@ -84,4 +85,4 @@ class dojdo:
   def __del__(self):
     if hasattr(self, 'conn'):
       self.alldata.conn.close()
-
+```
