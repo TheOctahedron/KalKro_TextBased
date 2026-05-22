@@ -47,7 +47,7 @@ class dojdo:
               options={
                 "num_predict": MAX_TOKENS,
                 "top_p": TOP_P,
-                "repeat_penality": REPEAT_PENALTY
+                "repeat_penalty": REPEAT_PENALTY
               }
             )
           ),
@@ -82,6 +82,6 @@ class dojdo:
 
 
   def __del__(self):
-    if hasattr(self, 'conn'):
+    if hasattr(self.alldata, 'conn'):
       self.alldata.conn.close()
 
