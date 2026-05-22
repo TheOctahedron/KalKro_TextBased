@@ -21,13 +21,14 @@ in the introduction of KalKro OS - an unusual operating system, where you will m
 
 
 
-## LIBRARIES
+## LIBRARIES/VERSION
 REQUIRED LIBRARIES:
 
-1. httpx
+1. **httpx**
    
-2. ollamafreeapi
+2. **ollamafreeapi**
 
+**VERSION**: Python **3.7+**
 
 ## DOWLAND LIBRARIES
 ```bash
