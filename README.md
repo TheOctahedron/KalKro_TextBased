@@ -31,7 +31,7 @@ REQUIRED LIBRARIES:
 
 ## DOWLAND LIBRARIES
 ```bash
-pip install httpx ollamafreeapi.
+pip install httpx ollamafreeapi
 
 ```
 
