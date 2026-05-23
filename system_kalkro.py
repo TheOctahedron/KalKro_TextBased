@@ -1,18 +1,18 @@
 import time
 import json
 import httpx
-from dojdo_ai import dojdo
+from dojdo_ai import DojDo
 import sqlite3
 from market_product import all_action
 from programs_kalkro import DelDex, tictactoe, randomiz, boring_calculator, rockpaperscissors, garbage_truck
 from utilities import printsl, loading_effect, start_end, yes_no
-from marketing_simulator import welcome_market
-from octice import octice_select
+from marketing_simulator import WelcomeMarket
+from octice import OcticeSelect
 # PIP IS USED, NOT UV
 
-class welcome:
-  def __init__(self, alldata):
-    self.alldata = alldata
+class Welcome:
+  def __init__(self, Alldata):
+    self.Alldata = Alldata
   
   def go(self):
     printsl("\n\nWelcome to KalKro 2.0\n\n")
@@ -23,7 +23,7 @@ class welcome:
         case "!go":
             print("\n\nEnter your name: ")
             self.register()
-            enter(self.alldata).entrance()
+            Enter(self.Alldata).entrance()
         case "!login":
             self.login()
 
@@ -38,18 +38,18 @@ class welcome:
     question = yes_no("Are you sure you want to upload the last save to JSON?")
     if question:
       time.sleep(1)
-      alldata().Loading()
+      Alldata().Loading()
     else:
         return
 
   def enter_name(self):
-    self.alldata.username = input("\n\n> ").capitalize()
+    self.Alldata.username = input("\n\n> ").capitalize()
     time.sleep(1)
     return
     
-class sql:
-  def __init__(self, alldata):
-    self.alldata = alldata
+class SQL:
+  def __init__(self, Alldata):
+    self.Alldata = Alldata
 
 
   def init_db(self):
@@ -83,7 +83,7 @@ class sql:
       FROM dialogues
       WHERE user_id = (SELECT id FROM users WHERE username = ?)
       ORDER BY timestamp DESC LIMIT 10                
-    """, (self.alldata.username,))
+    """, (self.Alldata.username,))
     rows = self.cursor.fetchall()
 
     if not rows:
@@ -95,20 +95,20 @@ class sql:
       printsl(f"[{ts}] You: {user_msg}")
       printsl(f"DojDo: {ai_resp}\n")
 
-class enter:
-  def __init__(self, alldata):
-    self.alldata = alldata
+class Enter:
+  def __init__(self, Alldata):
+    self.Alldata = Alldata
 
   def entrance(self):
     time.sleep(1)
-    printsl(f"\n\nwelcome, {self.alldata.username}!")
+    printsl(f"\n\nwelcome, {self.Alldata.username}!")
     time.sleep(1.5)
     input("\nPress Enter to log in to the system.")
-    system(self.alldata).select()
+    System(self.Alldata).select()
 
-class system:
-  def __init__(self, alldata):
-    self.alldata = alldata
+class System:
+  def __init__(self, Alldata):
+    self.Alldata = Alldata
 
   def desktop(self):
     time.sleep(1)
@@ -116,7 +116,7 @@ class system:
     print("="*80)
     print("\nDesktop\n")
     print("\nYOUR PROGRAMS: ")
-    for program in self.alldata.programs:
+    for program in self.Alldata.programs:
       printsl(f"\n{program['number']}: {program['name']}")
     print("="*80)
     time.sleep(1)
@@ -131,31 +131,31 @@ class system:
         question = input("\n\n> ").lower().strip()
         match question:
           case "1":
-            garbage_truck(self.alldata).garbage()
+            garbage_truck(self.Alldata).garbage()
           case "2":
             self.settings()
           case "3":
-            internet(self.alldata).request_select()
+            Internet(self.Alldata).request_select()
           case "4":
-            tictactoe(self.alldata).tic_tac_toe()
+            tictactoe(self.Alldata).tic_tac_toe()
           case "5":
-            randomiz(self.alldata).randomizer()
+            randomiz(self.Alldata).randomizer()
           case "6":
-            self.alldata.SaVeLoAd()
+            self.Alldata.SaVeLoAd()
           case "7":
-            installer(self.alldata).diskS()
+            Installer(self.Alldata).diskS()
           case "8":
-            boring_calculator(self.alldata).calculator()
+            boring_calculator(self.Alldata).calculator()
           case "9":
-            octice_select(self.alldata).select_office()
+            OcticeSelect(self.Alldata).select_office()
           case "rps1":
-            rockpaperscissors(self.alldata).rockpaper()
+            rockpaperscissors(self.Alldata).rockpaper()
           case "mrs1":
-            welcome_market(self.alldata).welcome_to_game()
+            WelcomeMarket(self.Alldata).welcome_to_game()
           case "djai1":
-            dojdo(self.alldata).dojdo_ai()
+            DojDo(self.Alldata).DojDo_ai()
           case "ddx1":
-            DelDex(self.alldata).index_del()
+            DelDex(self.Alldata).index_del()
 
           case "!reset":
             self.desktop()
@@ -186,9 +186,9 @@ class system:
     print("="*80)
     return
 
-class internet:
-  def __init__(self, alldata):
-    self.alldata = alldata
+class Internet:
+  def __init__(self, Alldata):
+    self.Alldata = Alldata
 
   @start_end
   def request_select(self):
@@ -199,7 +199,7 @@ class internet:
       print("="*80)
       print("\nINTERNET: ")
       printsl("\nTHE MOST POPULAR REQUESTS\n\n")
-      for number, request in self.alldata.popular_questions.items():
+      for number, request in self.Alldata.popular_questions.items():
         printsl(f"\n{number}: {request}")
       print("="*80)
       time.sleep(1)
@@ -207,23 +207,23 @@ class internet:
       question = input("\n\n> ").lower().strip()
       match question:
         case "1":
-          my_api(self.alldata).Get_Bird_Fact()
+          My_api(self.Alldata).Get_Bird_Fact()
         case "2":
-          self.alldata.program_name = "Rock Paper Scissors"
-          installer(self.alldata).download()
+          self.Alldata.program_name = "Rock Paper Scissors"
+          Installer(self.Alldata).download()
         case "3":
-          self.alldata.program_name = "Marketing Simulator"
-          installer(self.alldata).download()
+          self.Alldata.program_name = "Marketing Simulator"
+          Installer(self.Alldata).download()
         case "4":
-          system(self.alldata).about_me()
+          System(self.Alldata).about_me()
         case "5":
-          self.alldata.program_name = "DojDO AI"
-          installer(self.alldata).download()
+          self.Alldata.program_name = "DojDO AI"
+          Installer(self.Alldata).download()
         case "6":
-          my_api(self.alldata).your_api()
+          My_api(self.Alldata).your_api()
         case "7":
-          self.alldata.program_name = "DelDex"
-          installer(self.alldata).download()
+          self.Alldata.program_name = "DelDex"
+          Installer(self.Alldata).download()
         case "!back":
           printsl("\nGo back...")
           time.sleep(1)
@@ -296,20 +296,21 @@ class Officedata:
     self.pages_leafs = {}
     self.pages_pdf = {}
     
+    
 class UserData:
   def __init__(self):
     self.number_emails = 0
     self.emails = {}
     self.username = "Banana"
 
-class alldata:
+class Alldata:
   def __init__(self):
     self.marketd = MarketData()
     self.internetd = InternetData()
     self.programd = ProgramData()
     self.userd = UserData()
     self.officed = Officedata()
-    self.db = sql(self)
+    self.db = SQL(self)
     self.programs = self.programd.programs
     self.db.init_db()
     
@@ -332,10 +333,10 @@ class alldata:
     self.save()
     printsl("\n\n\nTaking you back...")
     loading_effect(0.3)
-    system(alldata).select()
+    System(Alldata).select()
   
   def save(self):
-    with open('systemPy.json', 'w') as f:
+    with open('SystemPy.json', 'w') as f:
       json.dump(self.__dict__, f, indent=4)
     print("\n\nSaved successfully. \n\n")
 
@@ -362,9 +363,9 @@ class alldata:
 
   def load(self):
     try:
-      with open('systemPy.json', 'r') as f:
-        alldata = json.load(f)
-      self.__dict__.update(alldata)
+      with open('SystemPy.json', 'r') as f:
+        Alldata = json.load(f)
+      self.__dict__.update(Alldata)
       self.init_db()
     except Exception as e:
       printsl(f"\nERROR... {e}\n\n\n")
@@ -383,7 +384,7 @@ class alldata:
           case "!Load":
             self.Loading()
           case "!Back":
-            system(self).select()
+            System(self).select()
           case _:
             continue
       except Exception as e:
@@ -393,23 +394,23 @@ class alldata:
 
 
 
-class installer:
-  def __init__(self, alldata):
-    self.alldata = alldata
+class Installer:
+  def __init__(self, Alldata):
+    self.Alldata = Alldata
 
   @start_end
   def diskS(self):
     loading_effect(1)
     printsl("\n\n\nDISK SETTINGS: ")
-    print(f"disk 1: {self.alldata.disk_1} liters of memory.\n")
-    print(f"disk 2: {self.alldata.disk_2} liters of memory.\n")
-    print(f"disk 3: {self.alldata.disk_3} liters of memory.\n")
+    print(f"disk 1: {self.Alldata.disk_1} liters of memory.\n")
+    print(f"disk 2: {self.Alldata.disk_2} liters of memory.\n")
+    print(f"disk 3: {self.Alldata.disk_3} liters of memory.\n")
     input("\n\n\nPress Enter To Exit\n")
     return
 
   def downloader(self):
     time.sleep(1)
-    question = yes_no(f"Are you sure you want to download this ({self.alldata.program_weight} liters)?")
+    question = yes_no(f"Are you sure you want to download this ({self.Alldata.program_weight} liters)?")
     if question:
       time.sleep(0.3)
     else:
@@ -419,25 +420,25 @@ class installer:
   def check_disk(self):
     while True:
       printsl("\n\n\nGood, Specify which disk you want to download the program to, as well as your disks and their capacity:\n\n")
-      print(f"disk 1: {self.alldata.disk_1} liters of memory.\n")
-      print(f"disk 2: {self.alldata.disk_2} liters of memory.\n")
-      print(f"disk 3: {self.alldata.disk_3} liters of memory.\n")
+      print(f"disk 1: {self.Alldata.disk_1} liters of memory.\n")
+      print(f"disk 2: {self.Alldata.disk_2} liters of memory.\n")
+      print(f"disk 3: {self.Alldata.disk_3} liters of memory.\n")
       time.sleep(1)
       printsl("\n\n\nWRITE DOWN THE NUMBER OF THE SELECTED DISK \n== Write '!Back' to exit ==\n")
       disk_question = input("\n\n> ").lower().strip()
       match disk_question:
         case "1":
-          sdisk = self.alldata.disk_1
+          sdisk = self.Alldata.disk_1
         case "2":
-          sdisk = self.alldata.disk_2
+          sdisk = self.Alldata.disk_2
         case "3":
-          sdisk = self.alldata.disk_3
+          sdisk = self.Alldata.disk_3
         case "!back":
           return
         case _:
           continue   
-      if sdisk < self.alldata.program_weight:
-        printsl(f"\n\nUnfortunately, this disk has less space than required, and {self.alldata.program_weight} liters of storage are needed.\nYour disk has {sdisk} liters of storage space.\n\n\n")
+      if sdisk < self.Alldata.program_weight:
+        printsl(f"\n\nUnfortunately, this disk has less space than required, and {self.Alldata.program_weight} liters of storage are needed.\nYour disk has {sdisk} liters of storage space.\n\n\n")
         time.sleep(1)
         continue
       else:
@@ -449,22 +450,22 @@ class installer:
             
         loading_effect(4)
         if disk_question == "1":
-          self.alldata.disk_1 -= self.alldata.program_weight
+          self.Alldata.disk_1 -= self.Alldata.program_weight
         elif disk_question == "2":
-          self.alldata.disk_2 -= self.alldata.program_weight
+          self.Alldata.disk_2 -= self.Alldata.program_weight
         elif disk_question == "3":
-          self.alldata.disk_3 -= self.alldata.program_weight
-        self.alldata.programs.append({
-          "number": len(self.alldata.programs) + 1,
-          "name": self.alldata.program_name.strip()
+          self.Alldata.disk_3 -= self.Alldata.program_weight
+        self.Alldata.programs.append({
+          "number": len(self.Alldata.programs) + 1,
+          "name": self.Alldata.program_name.strip()
         })
         printsl("\nComplete!\n\n")
         time.sleep(2)
         return
 
-class my_api:
-  def __init__(self, alldata):
-    self.alldata = alldata
+class My_api:
+  def __init__(self, Alldata):
+    self.Alldata = Alldata
 
   def Get_Bird_Fact(self):
     loading_effect(1)
@@ -472,8 +473,8 @@ class my_api:
       url = "https://some-random-api.com/animal/bird"
       response = httpx.get(url, timeout=5)
       if response.status_code == 200:
-        alldata = response.json()
-        fact = alldata.get("fact", "Hummingbirds can fly backwards!")
+        Alldata = response.json()
+        fact = Alldata.get("fact", "Hummingbirds can fly backwards!")
         printsl(f"\n\n{fact}")
         input("\n\n\nPress Enter To Exit\n")
         return
@@ -488,8 +489,8 @@ class my_api:
       url = input("YOUR API-ADDRESS\n\nTHE COMMAND LINE: \n\n> ")
       response = httpx.get(url, timeout=5)
       if response.status_code == 200:
-        salldata = response.json()
-        fact = salldata.get("fact", "Dogs can't bury a full-size helicopter in the ground.")
+        sAlldata = response.json()
+        fact = sAlldata.get("fact", "Dogs can't bury a full-size helicopter in the ground.")
         printsl(f"\n\n{fact}")
         input("\n\n\nPress Enter To Exit\n")
         return
@@ -498,5 +499,5 @@ class my_api:
     input("\n\n\nPress Enter To Exit\n")
     return
 
-alldata = alldata()
-welcome(alldata).go()
+Alldata = Alldata()
+Welcome(Alldata).go()

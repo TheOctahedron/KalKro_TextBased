@@ -1,18 +1,18 @@
 from ollamafreeapi import OllamaFreeAPI
 from utilities import printsl, loading_effect, start_end
 import asyncio
-class dojdo:
-  def __init__(self, alldata):
-    self.alldata = alldata
+class DojDo:
+  def __init__(self, Alldata):
+    self.Alldata = Alldata
 
   @start_end
   def dojdo_ai(self):
     printsl("\n\n\n\nLoading dOjdO AI...")
     loading_effect(0.3)
 
-    asyncio.run(self._dojdo_async())
+    asyncio.run(self._DojDo_async())
 
-  async def _dojdo_async(self):
+  async def _DojDo_async(self):
     client = OllamaFreeAPI()
     MODEL = "llama3.2:3b"
     TEMPERATURE = 1
@@ -47,7 +47,7 @@ class dojdo:
               options={
                 "num_predict": MAX_TOKENS,
                 "top_p": TOP_P,
-                "repeat_penalty": REPEAT_PENALTY
+                "repeat_penality": REPEAT_PENALTY
               }
             )
           ),
@@ -59,20 +59,20 @@ class dojdo:
         conservation.append(f"User: {user_input}")
         conservation.append(f"DojDo: {answer}")
 
-        self.alldata.cursor.execute(
+        self.Alldata.cursor.execute(
           "SELECT id FROM users WHERE username = ?",
-          (self.alldata.username, )
+          (self.Alldata.username, )
         )
-        user_row = self.alldata.cursor.fetchone()
+        user_row = self.Alldata.cursor.fetchone()
 
         if user_row:
           user_id = user_row[0]
 
-          self.alldata.cursor.execute(
+          self.Alldata.cursor.execute(
             "INSERT INTO dialogues (user_id, user_message, ai_response) VALUES (?, ?, ?)",
             (user_id, user_input, answer)
           )
-          self.alldata.conn.commit()
+          self.Alldata.conn.commit()
       
       except asyncio.TimeoutError:
         printsl("\n\nDojDo: 'deep breath' I'm sorry... mortal, but you should try again, I had a Timeout...\n\n\n")
@@ -82,6 +82,6 @@ class dojdo:
 
 
   def __del__(self):
-    if hasattr(self.alldata, 'conn'):
-      self.alldata.conn.close()
+    if hasattr(self, 'conn'):
+      self.Alldata.conn.close()
 

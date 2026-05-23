@@ -1,14 +1,10 @@
 import time
 from utilities import loading_effect, printsl, start_end, yes_no
-from octawhisper import octawhisper
-from octice import octice_select
-from octaleaf import octaleaf
-from octaoerf import octaoerf
 
 @start_end
 class Octa_manager:
-    def __init__(self, alldata):
-        self.alldata = alldata
+    def __init__(self, Alldata, all_offices):
+        self.Alldata = Alldata
         self.edit_prs = {
             1: "Exit",
             2: "Delete slide",
@@ -26,9 +22,10 @@ class Octa_manager:
             5: "Save File",
             6: "Rename file"
         }
-        self.whisper = octawhisper(alldata)
-        self.leaf = octaleaf(alldata)
-        self.oerf = octaoerf(alldata)
+        self.office = all_offices
+        self.leaf = self.office["OctaLeaf"]
+        self.whisper = self.office["OctaWhisper"]
+        self.oerf = self.office["Octaoerf"]
         self.datafile = ""
         self.content_inf = ""
         self.file_name = ""
@@ -38,9 +35,9 @@ class Octa_manager:
         self.file_name = name
         self.file_type = self.oerf.type_file
         if self.file_type == "txt":
-            self.datafile = self.alldata.pages_txt
+            self.datafile = self.Alldata.pages_txt
         elif self.file_type == "prs":
-            self.datafile = self.alldata.pages_leafs
+            self.datafile = self.Alldata.pages_leafs
         while True:    
             printsl("\n\nYour Actions:\n")
             if self.file_type == "txt":
@@ -72,7 +69,7 @@ class Octa_manager:
                     self.rename_file()
                 case "7":
                     if self.file_type == "prs":
-                        octaleaf(self.alldata).new_slide()
+                        self.leaf(self.Alldata).new_slide()
                     elif self.file_type == "txt":
                         printsl("\n\nThere is no such action.")
                         time.sleep(0.4)
@@ -196,16 +193,18 @@ class Octa_manager:
                     time.sleep(1)
                     input("\n\nPress Enter to return to the office selection")
                     time.sleep(0.5)
-                    octice_select(self.alldata).select_office()
+                    from octice import OcticeSelect
+                    OcticeSelect(self.Alldata).select_office()
                     return
 
     def passage_file(self):
+        whisper = self.whisper(self.Alldata)
         printsl(f"\n\nWhile writing the file content: to enter in your document, write {r'\n'}, ")
         input("\nClick Enter to start writing text. = '!Back' to exit =")
         text_append = input("\n\n\n\n> ")
         if self.file_type == "txt":
-            self.whisper.text_file = self.whisper.text_file + " " + text_append
-            self.content_inf = self.whisper.text_file
+            whisper.text_file = whisper.text_file + " " + text_append
+            self.content_inf = whisper.text_file
         elif self.file_type == "prs":
             self.content_inf[self.leaf.slide_num] = self.content_inf.get(self.leaf.slide_num, "") + " " + text_append
         return

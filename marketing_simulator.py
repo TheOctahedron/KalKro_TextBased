@@ -3,9 +3,9 @@ from utilities import printsl, loading_effect, start_end, yes_no
 from market_product import all_action
 
 
-class welcome_market: # TRASH!!!!!
-  def __init__(self, alldata):
-    self.alldata = alldata
+class WelcomeMarket:
+  def __init__(self, Alldata):
+    self.Alldata = Alldata
 
   @start_end  
   def welcome_to_game(self):
@@ -28,7 +28,7 @@ class welcome_market: # TRASH!!!!!
     match question:
       case "1":
         time.sleep(1)
-        marketing_simulator(self.alldata).market_office()
+        MarketingSimulator(self.Alldata).market_office()
       case "2":
         time.sleep(1)
         self.rules()
@@ -44,7 +44,7 @@ class welcome_market: # TRASH!!!!!
     print("="*80)
     print("\nMAIN IDEA: \n")
     printsl("\nThe main idea: is that you are an investor, you open up startups, your own virtual currencies, monitor charts, and so on...")
-    printsl("\n\nCommands: \n'!Exit' is a command to exit the game and return to the desktop.\n'!Menu' is a command to exit the menu. \n'!Wallet' is a command for quickly viewing the amount of money.\n'!self.alldata.level' is command fast shows your current ranking in the economy.")
+    printsl("\n\nCommands: \n'!Exit' is a command to exit the game and return to the desktop.\n'!Menu' is a command to exit the menu. \n'!Wallet' is a command for quickly viewing the amount of money.\n'!self.Alldata.level' is command fast shows your current ranking in the economy.")
     print("="*80)
     time.sleep(1)
     input("\n\nPress Enter to menu\n")
@@ -54,16 +54,16 @@ class welcome_market: # TRASH!!!!!
     question = yes_no("Are you sure you want to start new game?")
     if question:
         loading_effect(0.5)
-        self.alldata.__dict__.update(all_action)
+        self.Alldata.__dict__.update(all_action)
         return
     else:
         return
     
 
 @start_end
-class marketing_simulator: # TRASH!!!!!
-    def __init__(self, alldata):
-      self.alldata = alldata
+class MarketingSimulator:
+    def __init__(self, Alldata):
+      self.Alldata = Alldata
       
       
     def market_office(self):
@@ -73,7 +73,7 @@ class marketing_simulator: # TRASH!!!!!
 
     def wallet_check(self):
       time.sleep(0.3)
-      printsl(f"\n\nYOUR WALLET AT THE MOMENT: {self.alldata.wallet['money']}$.")
+      printsl(f"\n\nYOUR WALLET AT THE MOMENT: {self.Alldata.wallet['money']}$.")
       printsl("\nYou can always quickly view your material account using the '!wallet' command.")
       input("\nPress Enter to continue. ")
       return
@@ -115,7 +115,7 @@ class marketing_simulator: # TRASH!!!!!
       time.sleep(1)
       print("="*20)
       printsl("\n\nCurrent market coins and their prices: ")
-      for coin, value in self.alldata.coin.items():
+      for coin, value in self.Alldata.coin.items():
         printsl(f"\n{coin}: {value}$")
       printsl("\nInflation is changing prices!")
       print("="*20)
@@ -123,7 +123,7 @@ class marketing_simulator: # TRASH!!!!!
       return
 
     def inflation_market(self):
-      print(f"\ntotal inflation for all time: {self.alldata.inflation_procent}%.")
+      print(f"\ntotal inflation for all time: {self.Alldata.inflation_procent}%.")
       input("\nPress Enter to continue. ")
       return
       
@@ -204,57 +204,57 @@ class marketing_simulator: # TRASH!!!!!
     def chance1(self):
       chance = random.randint(1, 20)
       if chance <= 16:
-        self.alldata.deal = True
+        self.Alldata.deal = True
       else:
-        self.alldata.deal = False
+        self.Alldata.deal = False
       return
 
     def chance2(self):
       chance = random.randint(1, 20)
       if chance <= 15:
-        self.alldata.deal = True
+        self.Alldata.deal = True
       else:
-        self.alldata.deal = False
+        self.Alldata.deal = False
       return
     
     def chance3(self):
       chance = random.randint(1, 20)
       if chance <= 14:
-        self.alldata.deal = True
+        self.Alldata.deal = True
       else:
-        self.alldata.deal = False
+        self.Alldata.deal = False
       return
     
     def chance4(self):
       chance = random.randint(1, 20)
       if chance <= 10:
-        self.alldata.deal = True
+        self.Alldata.deal = True
       else:
-        self.alldata.deal = False
+        self.Alldata.deal = False
       return
     
     def chance5(self):
       chance = random.randint(1, 20)
       if chance <= 8:
-        self.alldata.deal = True
+        self.Alldata.deal = True
       else:
-        self.alldata.deal = False
+        self.Alldata.deal = False
       return
       
 
 
     def check_deal(self):
-      self.alldata.level += self.alldata.starting_price / 2
-      if self.alldata.deal:
+      self.Alldata.level += self.Alldata.starting_price / 2
+      if self.Alldata.deal:
         printsl("\nGreat! The deal was successful and brought you profit.")
         self.add = random.randint( 
-          int(self.alldata.starting_price * 1.10), 
-          int(self.alldata.starting_price * 2.5)
+          int(self.Alldata.starting_price * 1.10), 
+          int(self.Alldata.starting_price * 2.5)
         )
-        self.alldata.profit = self.alldata.starting_price + self.add
-        self.alldata.starting_price = 0
+        self.Alldata.profit = self.Alldata.starting_price + self.add
+        self.Alldata.starting_price = 0
       else: 
-        printsl(f"\nUnfortunately, the deal failed, and the loss was: {self.alldata.starting_price}")
+        printsl(f"\nUnfortunately, the deal failed, and the loss was: {self.Alldata.starting_price}")
         time.sleep(1)
       input("\nPress Enter to complete this transaction.")
       return
@@ -266,7 +266,7 @@ class marketing_simulator: # TRASH!!!!!
       printsl("Buy full cycles (buy - automatic sell), buy knowing the risks of failure.")
       input("\nPress Enter to continue. ")
       print("\n\nselect an area to purchase a full-cycle product: ")
-      for number, cycle in self.alldata.full_cycles.items():
+      for number, cycle in self.Alldata.full_cycles.items():
         printsl(f"\n{number}: {cycle}")
       print("="*20)
       time.sleep(1)
@@ -274,25 +274,25 @@ class marketing_simulator: # TRASH!!!!!
       question = input("\n\n> ").lower().strip()
       match question:
         case "1":
-          self.alldata.market_name = self.alldata.full_cycles_store
+          self.Alldata.market_name = self.Alldata.full_cycles_store
         case "2":
-          self.alldata.market_name = self.alldata.full_cycles_restaurant
+          self.Alldata.market_name = self.Alldata.full_cycles_restaurant
         case "3":
-          self.alldata.market_name = self.alldata.full_cycles_gaming
+          self.Alldata.market_name = self.Alldata.full_cycles_gaming
         case "4":
-          self.alldata.market_name = self.alldata.full_cycles_shopping_malls
+          self.Alldata.market_name = self.Alldata.full_cycles_shopping_malls
         case "5":
-          self.alldata.market_name = self.alldata.full_cycles_mechanical
+          self.Alldata.market_name = self.Alldata.full_cycles_mechanical
         case "6":
-          self.alldata.market_name = self.alldata.full_cycles_farm
+          self.Alldata.market_name = self.Alldata.full_cycles_farm
         case "7":
-          self.alldata.market_name = self.alldata.full_cycles_sheepbuilding
+          self.Alldata.market_name = self.Alldata.full_cycles_sheepbuilding
         case "8":
-          self.alldata.market_name = self.alldata.full_cycles_laboratory
+          self.Alldata.market_name = self.Alldata.full_cycles_laboratory
         case "9":
-          self.alldata.market_name = self.alldata.full_cycles_IT
+          self.Alldata.market_name = self.Alldata.full_cycles_IT
         case "10":
-          self.alldata.market_name = self.alldata.full_cycles_spacesph
+          self.Alldata.market_name = self.Alldata.full_cycles_spacesph
 
         case "!back":
           printsl("\nGo back...")
@@ -303,11 +303,11 @@ class marketing_simulator: # TRASH!!!!!
       print("\n\n\n")
       print("=" * 25)
       printsl("FULL-CYCLE MARKET: ")
-      for product, price in self.alldata.market_name.items():
+      for product, price in self.Alldata.market_name.items():
         printsl(f"\nPRODUCT: {product} PRICE: {price}$")
       print("=" * 25)
       printsl("\n\n\nWRITE DOWN THE NUMBER OF THE SELECTED FULL-CYCLE PRODUCT\n== Write '!Back' to exit ==\n")
-      products = list(self.alldata.market_name.values())
+      products = list(self.Alldata.market_name.values())
       question = input("\n\n> ").lower().strip()
       s_price = "" # STARTING PRISE
       match question:
@@ -331,7 +331,7 @@ class marketing_simulator: # TRASH!!!!!
           s_price = products[8]
         case "10":
           s_price = products[9]
-      self.alldata.starting_price = s_price
+      self.Alldata.starting_price = s_price
       self.check_product(s_price)
 
 
@@ -364,8 +364,8 @@ class marketing_simulator: # TRASH!!!!!
         url = "https://www.alphavantage.co/query"
         response = httpx.get(url, timeout=5)
         if response.status_code == 200:
-          alldata = response.json()
-          fact = alldata.get("fact", "In 2011, Bitcoin was worth \$0.30.")
+          Alldata = response.json()
+          fact = Alldata.get("fact", "In 2011, Bitcoin was worth \$0.30.")
           printsl(f"\n\n{fact}.")
           input("\n\n\nPress Enter to exit\n")
           return
@@ -379,88 +379,88 @@ class marketing_simulator: # TRASH!!!!!
       requires_bubbles = 0
       time.sleep(0.5)
       print("===")
-      printsl(f"\n\nYOUR WALLET AT THE MOMENT: {self.alldata.wallet['money']}$.")
+      printsl(f"\n\nYOUR WALLET AT THE MOMENT: {self.Alldata.wallet['money']}$.")
       printsl("\nYou can always quickly view your material account using the '!wallet' command.")
       print("===")
       
-      printsl(f"\n\nYOUR RATING AT THE MOMENT: {self.alldata.level} bubbles.")
-      if self.alldata.level <= 1000:
-        self.alldata.specialization = "trainee economist"
+      printsl(f"\n\nYOUR RATING AT THE MOMENT: {self.Alldata.level} bubbles.")
+      if self.Alldata.level <= 1000:
+        self.Alldata.specialization = "trainee economist"
         requires_bubbles = 1000 # 0
 
-      elif self.alldata.level <= 10000:
-        self.alldata.specialization = "trainee+ economist"
+      elif self.Alldata.level <= 10000:
+        self.Alldata.specialization = "trainee+ economist"
         requires_bubbles = 10000
-        self.alldata.bubble += 1 # 1
+        self.Alldata.bubble += 1 # 1
 
-      elif self.alldata.level <= 50000:
-        self.alldata.specialization = "junior economist"
+      elif self.Alldata.level <= 50000:
+        self.Alldata.specialization = "junior economist"
         requires_bubbles = 50000
-        self.alldata.bubble += 1 # 2
+        self.Alldata.bubble += 1 # 2
 
-      elif self.alldata.level <= 79000:
-        self.alldata.specialization = "junior+ economist"
+      elif self.Alldata.level <= 79000:
+        self.Alldata.specialization = "junior+ economist"
         requires_bubbles = 79000
-        self.alldata.bubble += 1 # 3
+        self.Alldata.bubble += 1 # 3
 
-      elif self.alldata.level <= 85000:
-        self.alldata.specialization = "specialist economist"
+      elif self.Alldata.level <= 85000:
+        self.Alldata.specialization = "specialist economist"
         requires_bubbles = 85000
-        self.alldata.bubble += 1 # 4
+        self.Alldata.bubble += 1 # 4
 
-      elif self.alldata.level <= 105000:
-        self.alldata.specialization = "prosperous economist"
+      elif self.Alldata.level <= 105000:
+        self.Alldata.specialization = "prosperous economist"
         requires_bubbles = 105000
-        self.alldata.bubble += 1 # 5
+        self.Alldata.bubble += 1 # 5
 
-      elif self.alldata.level <= 190000:
-        self.alldata.specialization = "middle+ economist"
+      elif self.Alldata.level <= 190000:
+        self.Alldata.specialization = "middle+ economist"
         requires_bubbles = 190000
-        self.alldata.bubble += 1 # 6
+        self.Alldata.bubble += 1 # 6
 
-      elif self.alldata.level <= 1000000:
-        self.alldata.specialization = "senior economist"
+      elif self.Alldata.level <= 1000000:
+        self.Alldata.specialization = "senior economist"
         requires_bubbles = 1000000
-        self.alldata.bubble += 1 # 7
+        self.Alldata.bubble += 1 # 7
 
-      elif self.alldata.level <= 2000000:
-        self.alldata.specialization = "millionaire of economics"
+      elif self.Alldata.level <= 2000000:
+        self.Alldata.specialization = "millionaire of economics"
         requires_bubbles = 2000000
-        self.alldata.bubble += 1 # 8
+        self.Alldata.bubble += 1 # 8
 
-      elif self.alldata.level <= 10000000:
-        self.alldata.specialization = "investment analyst"
+      elif self.Alldata.level <= 10000000:
+        self.Alldata.specialization = "investment analyst"
         requires_bubbles = 10000000
-        self.alldata.bubble += 1 # 9
+        self.Alldata.bubble += 1 # 9
 
-      elif self.alldata.level <= 50000000:
-        self.alldata.specialization = "top-self.alldata.level financial analyst"
+      elif self.Alldata.level <= 50000000:
+        self.Alldata.specialization = "top-self.Alldata.level financial analyst"
         requires_bubbles = 50000000
-        self.alldata.bubble += 1 # 10
+        self.Alldata.bubble += 1 # 10
 
-      elif self.alldata.level <= 2000000000:
-        self.alldata.specialization = "affecting the country's economy"
+      elif self.Alldata.level <= 2000000000:
+        self.Alldata.specialization = "affecting the country's economy"
         requires_bubbles = 2000000000
-        self.alldata.bubble += 1 # 11
+        self.Alldata.bubble += 1 # 11
 
-      elif self.alldata.level <= 8000000000:
-        self.alldata.specialization = "influencing half the world economy"
+      elif self.Alldata.level <= 8000000000:
+        self.Alldata.specialization = "influencing half the world economy"
         requires_bubbles = 8000000000
-        self.alldata.bubble += 1 # 12
+        self.Alldata.bubble += 1 # 12
 
-      elif self.alldata.level <= 50000000000:
-        self.alldata.specialization = "influencing the world economy"
+      elif self.Alldata.level <= 50000000000:
+        self.Alldata.specialization = "influencing the world economy"
         requires_bubbles = 50000000000
-        self.alldata.bubble += 1 # 13
+        self.Alldata.bubble += 1 # 13
 
-      elif self.alldata.level >= 50005000000:
-        self.alldata.specialization = "the one who resold the gum"
+      elif self.Alldata.level >= 50005000000:
+        self.Alldata.specialization = "the one who resold the gum"
         requires_bubbles = 50005000000 # 14
 
 
-      printsl(f"\nSpecialization {self.alldata.specialization}")
+      printsl(f"\nSpecialization {self.Alldata.specialization}")
       time.sleep(0.5)
-      requires_bubbles -= self.alldata.level
+      requires_bubbles -= self.Alldata.level
       print(f"\nYou need {requires_bubbles} bubble points to reach the next specialization. (1$ in wallet = 0.5 bubble)")
       input("\n\nPress Enter to exit\n")
       return

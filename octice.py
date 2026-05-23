@@ -1,15 +1,13 @@
 import time
 from utilities import printsl, start_end
-from octaleaf import octaleaf
-from octawhisper import octawhisper
-from octaoerf import octaoerf
+from offices import OctaLeaf, OctaWhisper, Octaoerf
 
-class octice_select:
-  def __init__(self, alldata):
-    self.alldata = alldata
+class OcticeSelect:
+  def __init__(self, Alldata):
+    self.Alldata = Alldata
   @start_end
   def select_office(self):
-    printsl(f"\n\nWelcome to Octice Office. {self.alldata.username}.\n")
+    printsl(f"\n\nWelcome to Octice Office. {self.Alldata.username}.\n")
     time.sleep(0.5)
     print("=" * 30)
     printsl("Choose an office: ")
@@ -21,10 +19,10 @@ class octice_select:
     question = input("\n\n> ").lower().strip()
     match question:
       case "1":
-        octawhisper(self.alldata).whisper()
+        OctaWhisper(self.Alldata).whisper()
       case "2":
-        octaleaf(self.alldata).leaf()
+        OctaLeaf(self.Alldata).leaf()
       case "3":
-        octaoerf(self.alldata).oerf()
+        Octaoerf(self.Alldata).oerf()
       case "!back":
         return

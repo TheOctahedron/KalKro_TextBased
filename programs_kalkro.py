@@ -5,8 +5,8 @@ from utilities import printsl, loading_effect, start_end
 # SYSTEM PROGRAMS/GAMES
 @start_end
 class rockpaperscissors:
-  def __init__(self, alldata):
-    self.alldata = alldata
+  def __init__(self, Alldata):
+    self.Alldata = Alldata
     self.moves = ["rock", "paper", "scissors"]
     self.round_rps = 1
 
@@ -146,8 +146,8 @@ class rockpaperscissors:
     check_win(player_move, ai_move)
 
 class tictactoe:
-  def __init__(self, alldata):
-    self.alldata = alldata
+  def __init__(self, Alldata):
+    self.Alldata = Alldata
   @start_end 
   def tic_tac_toe(self):
     board = [" " for _ in range(9)]
@@ -258,8 +258,8 @@ class tictactoe:
         time.sleep(1)
         
 class DelDex:
-  def __init__(self, alldata):
-    self.alldata = alldata
+  def __init__(self, Alldata):
+    self.Alldata = Alldata
   @start_end
   def index_del(self):
     time.sleep(1)
@@ -275,8 +275,8 @@ class DelDex:
     return
      
 class randomiz:
-  def __init__(self, alldata):
-    self.alldata = alldata
+  def __init__(self, Alldata):
+    self.Alldata = Alldata
   @start_end 
   def randomizer(self):
     loading_effect(1)
@@ -312,8 +312,8 @@ class randomiz:
         continue
 
 class boring_calculator: # The best calculator of your life
-  def __init__(self, alldata):
-    self.alldata = alldata
+  def __init__(self, Alldata):
+    self.Alldata = Alldata
     self.r = 0
     self.x = 0
     self.y = 0
@@ -477,8 +477,8 @@ class boring_calculator: # The best calculator of your life
         self.choise()
 
 class garbage_truck:
-  def __init__(self, alldata):
-    self.alldata = alldata
+  def __init__(self, Alldata):
+    self.Alldata = Alldata
 
   @start_end
   def garbage(self):
@@ -489,27 +489,27 @@ class garbage_truck:
       while True:
         print("="*80)
         printsl("All Programs")
-        for program in self.alldata.programs:
+        for program in self.Alldata.programs:
           printsl(f"\n{program['number']}: {program['name']}")
         printsl("\n== System applications cannot be deleted. '!Back' to exit ==\n\n\n")
         print("="*80)
         delete = input("\n\n> ").strip().lower()
         match delete:
           case "7549":
-            self.alldata.program_name = "Rock Paper Scissors"
-            self.alldata.program_weight = 120
+            self.Alldata.program_name = "Rock Paper Scissors"
+            self.Alldata.program_weight = 120
 
           case "7550":
-            self.alldata.program_name = "Marketing Simulator"
-            self.alldata.program_weight = 1000
+            self.Alldata.program_name = "Marketing Simulator"
+            self.Alldata.program_weight = 1000
 
           case "7551":
-            self.alldata.program_name = "DojDO AI"
-            self.alldata.program_weight = 500
+            self.Alldata.program_name = "DojDO AI"
+            self.Alldata.program_weight = 500
 
           case "7552":
-            self.alldata.program_name = "DelDex"
-            self.alldata.program_weight = 100
+            self.Alldata.program_name = "DelDex"
+            self.Alldata.program_weight = 100
             
           case "!back":
             printsl("\nGarbage truck: Bye, I wasn't happy to see you!")
@@ -528,15 +528,15 @@ class garbage_truck:
 
 
   def check_found(self):   
-    for program in self.alldata.programs:
-      if program["name"].strip() == self.alldata.program_name:
-        if self.alldata.program_name == "Rock Paper Scissors":
+    for program in self.Alldata.programs:
+      if program["name"].strip() == self.Alldata.program_name:
+        if self.Alldata.program_name == "Rock Paper Scissors":
           printsl("\nGarbage Truck: Mm... original... what didn't you like about the game?")
-        elif self.alldata.program_name == "Marketing Simulator":
+        elif self.Alldata.program_name == "Marketing Simulator":
           printsl("\nGarbage Truck: Here it is! A real investor? What are you deleting?")
-        elif self.alldata.program_name == "DojDo AI":
+        elif self.Alldata.program_name == "DojDo AI":
           printsl("\nGarbage Truck: Yeah... getting rid of your last friend?")
-        elif self.alldata.program_name == "DelDex":
+        elif self.Alldata.program_name == "DelDex":
           printsl("\nGarbage truck: and why? has your memory supposedly improved?")
 
         self.disk_select()
@@ -549,23 +549,23 @@ class garbage_truck:
     while True:
       print("\n\n")
       print("="*80)
-      printsl(f"Garbage truck: which cheap disk do you want to return {self.alldata.program_weight} liters of memory to? \n'!Back' to exit'\n")
-      print(f"disk 1: {self.alldata.disk_1}\n")
-      print(f"disk 2: {self.alldata.disk_2}\n")
-      print(f"disk 3: {self.alldata.disk_3}\n")
+      printsl(f"Garbage truck: which cheap disk do you want to return {self.Alldata.program_weight} liters of memory to? \n'!Back' to exit'\n")
+      print(f"disk 1: {self.Alldata.disk_1}\n")
+      print(f"disk 2: {self.Alldata.disk_2}\n")
+      print(f"disk 3: {self.Alldata.disk_3}\n")
       print("="*80)
       time.sleep(1)
       printsl("\n\n\nWRITE DOWN THE NUMBER OF THE SELECTED DISK")
       question = input("\n\n> ").lower().strip()
       match question:
         case "1":
-          self.alldata.disk_1 += self.alldata.program_weight
+          self.Alldata.disk_1 += self.Alldata.program_weight
           break
         case "2":
-          self.alldata.disk_2 += self.alldata.program_weight
+          self.Alldata.disk_2 += self.Alldata.program_weight
           break
         case "3":
-          self.alldata.disk_3 += self.alldata.program_weight
+          self.Alldata.disk_3 += self.Alldata.program_weight
           break
         case "!back":
           printsl("\nGo back...")
@@ -576,10 +576,10 @@ class garbage_truck:
           continue
     printsl("\nGarbage truck: successfully deleted. Oh well.\n\n")
     loading_effect(3)
-    for program in self.alldata.programs:
-      if program["name"] == self.alldata.program_name[:]:
-        self.alldata.programs.remove(program)
+    for program in self.Alldata.programs:
+      if program["name"] == self.Alldata.program_name[:]:
+        self.Alldata.programs.remove(program)
         break
 
-    for i, program in enumerate(self.alldata.programs, 1):
+    for i, program in enumerate(self.Alldata.programs, 1):
       program["number"] = i
