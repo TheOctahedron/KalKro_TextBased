@@ -19,6 +19,17 @@ in the introduction of KalKro OS - an unusual operating system, where you will m
 4. Add a new office (secret) to 'Octice Office'.
 5. etc...
 
+## SCREENSHOTS
+---
+
+<img width="544" height="238" alt="KalKro registration" src="https://github.com/user-attachments/assets/4329c93f-5724-43cd-bf02-16ad85eaf736" />
+
+---
+
+<img width="811" height="820" alt="KalKro Desktop" src="https://github.com/user-attachments/assets/4432dfb7-e2bc-4d48-8d7e-51fd25aac6cc" />
+
+---
+
 
 
 ## LIBRARIES/VERSION
@@ -40,3 +51,5 @@ pip install httpx ollamafreeapi
 ```bash
 python system_kalkro.py
 ```
+
+
