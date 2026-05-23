@@ -5,10 +5,10 @@ A new project, following my disappearance! During this time, I've learned and re
 Full description: a new ambitious project, to be honest, this idea turned out to be difficult to implement, but still interesting! brought a lot of experience.
 
 in the introduction of KalKro OS - an unusual operating system, where you will meet:
-1. a simple and clear menu
-2. control in the terminal through numbers
-3. a paranoid AI
-4. and other charismatic characters-programs.
+1. A simple and **clear** menu
+2. Control in the terminal through numbers
+3. **A paranoid AI** (There may be instability, and a public gateway is used.)
+4. And other **charismatic** characters-programs.
 
 
 ## AMBITIONS
