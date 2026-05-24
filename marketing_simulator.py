@@ -86,8 +86,8 @@ class MarketingSimulator:
       print("\n1. View the crypto market")
       print("\n2. Look at inflation")
       print("\n3. Market (with full cycles)")
-      print("\n4. Find out a random fact.")
-      print("\n5. View your wallet and rating.")
+      print("\n4. View the exchange rate.")
+      print("\n5. View your wallet and rating.\n\n")
       print("="*20)
       time.sleep(1)
       printsl("\n\n\nWRITE DOWN THE NUMBER OF THE SELECTED ACTION\n== Write '!Back' to exit, '!Rating' to view the rating ==\n")
@@ -100,7 +100,7 @@ class MarketingSimulator:
         case "3":
           self.multi_market()
         case "4":
-          self.random_fact_economy()
+          self.exchange_rate()
         case "5":
           self.score_and_rating()
         case "!back":
@@ -198,8 +198,6 @@ class MarketingSimulator:
       self.make_deal("global")
       return
       
-      
-
 
     def chance1(self):
       chance = random.randint(1, 20)
@@ -242,7 +240,6 @@ class MarketingSimulator:
       return
       
 
-
     def check_deal(self):
       self.Alldata.level += self.Alldata.starting_price / 2
       if self.Alldata.deal:
@@ -259,6 +256,7 @@ class MarketingSimulator:
       input("\nPress Enter to complete this transaction.")
       return
     
+
     def multi_market(self):
       time.sleep(1)
       print("\n\n")
@@ -359,14 +357,20 @@ class MarketingSimulator:
         return True
 
 
-    def random_fact_economy(self):
+    def exchange_rate(self):
       try:
-        url = "https://www.alphavantage.co/query"
+        url = "https://open.er-api.com/v6/latest/USD"
         response = httpx.get(url, timeout=5)
         if response.status_code == 200:
           Alldata = response.json()
-          fact = Alldata.get("fact", "In 2011, Bitcoin was worth \$0.30.")
-          printsl(f"\n\n{fact}.")
+          rub = Alldata["rates"]["RUB"]
+          eur = Alldata["rates"]["EUR"]
+          update_time = Alldata["time_last_update_utc"]
+          printsl(f"\n\ndollar ($) exchange rate: \n")
+          print("\nUSD = 1")
+          print(f"RUB = {rub}")
+          print(f"EUR = {eur}\n")
+          printsl(f"\nRATE UPDATED: {update_time}\n")
           input("\n\n\nPress Enter to exit\n")
           return
       except Exception as e:
@@ -384,79 +388,13 @@ class MarketingSimulator:
       print("===")
       
       printsl(f"\n\nYOUR RATING AT THE MOMENT: {self.Alldata.level} bubbles.")
-      if self.Alldata.level <= 1000:
-        self.Alldata.specialization = "trainee economist"
-        requires_bubbles = 1000 # 0
-
-      elif self.Alldata.level <= 10000:
-        self.Alldata.specialization = "trainee+ economist"
-        requires_bubbles = 10000
-        self.Alldata.bubble += 1 # 1
-
-      elif self.Alldata.level <= 50000:
-        self.Alldata.specialization = "junior economist"
-        requires_bubbles = 50000
-        self.Alldata.bubble += 1 # 2
-
-      elif self.Alldata.level <= 79000:
-        self.Alldata.specialization = "junior+ economist"
-        requires_bubbles = 79000
-        self.Alldata.bubble += 1 # 3
-
-      elif self.Alldata.level <= 85000:
-        self.Alldata.specialization = "specialist economist"
-        requires_bubbles = 85000
-        self.Alldata.bubble += 1 # 4
-
-      elif self.Alldata.level <= 105000:
-        self.Alldata.specialization = "prosperous economist"
-        requires_bubbles = 105000
-        self.Alldata.bubble += 1 # 5
-
-      elif self.Alldata.level <= 190000:
-        self.Alldata.specialization = "middle+ economist"
-        requires_bubbles = 190000
-        self.Alldata.bubble += 1 # 6
-
-      elif self.Alldata.level <= 1000000:
-        self.Alldata.specialization = "senior economist"
-        requires_bubbles = 1000000
-        self.Alldata.bubble += 1 # 7
-
-      elif self.Alldata.level <= 2000000:
-        self.Alldata.specialization = "millionaire of economics"
-        requires_bubbles = 2000000
-        self.Alldata.bubble += 1 # 8
-
-      elif self.Alldata.level <= 10000000:
-        self.Alldata.specialization = "investment analyst"
-        requires_bubbles = 10000000
-        self.Alldata.bubble += 1 # 9
-
-      elif self.Alldata.level <= 50000000:
-        self.Alldata.specialization = "top-self.Alldata.level financial analyst"
-        requires_bubbles = 50000000
-        self.Alldata.bubble += 1 # 10
-
-      elif self.Alldata.level <= 2000000000:
-        self.Alldata.specialization = "affecting the country's economy"
-        requires_bubbles = 2000000000
-        self.Alldata.bubble += 1 # 11
-
-      elif self.Alldata.level <= 8000000000:
-        self.Alldata.specialization = "influencing half the world economy"
-        requires_bubbles = 8000000000
-        self.Alldata.bubble += 1 # 12
-
-      elif self.Alldata.level <= 50000000000:
-        self.Alldata.specialization = "influencing the world economy"
-        requires_bubbles = 50000000000
-        self.Alldata.bubble += 1 # 13
-
-      elif self.Alldata.level >= 50005000000:
-        self.Alldata.specialization = "the one who resold the gum"
-        requires_bubbles = 50005000000 # 14
-
+      all_levels = [1000, 10000, 50000, 79000, 85000, 105000, 190000, 1000000, 2000000, 10000000, 50000000, 2000000000, 8000000000, 50000000000, 50005000000]
+      all_specialization = ["trainee economist", "trainee+ economist", "junior economist", "junior+ economist", "specialist economist", "prosperous economist", "middle+ economist", "senior economist", "millionaire of economics", "investment analyst", "top financial analyst", "affecting the country's economy", "influencing half the world economy", "influencing the world economy", "the one who resold the gum"]
+      for level, specilization in zip(all_levels, all_specialization):
+        if self.Alldata.level <= level:
+          self.Alldata.specialization = specilization
+          requires_bubbles = level
+          break
 
       printsl(f"\nSpecialization {self.Alldata.specialization}")
       time.sleep(0.5)

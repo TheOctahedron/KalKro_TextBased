@@ -1,8 +1,6 @@
 import time, random, httpx
 from utilities import printsl, loading_effect, start_end
-
-
-# SYSTEM PROGRAMS/GAMES
+# SYSTEM/DOWNLOAD SMALL PROGRAMS
 @start_end
 class rockpaperscissors:
   def __init__(self, Alldata):
@@ -256,7 +254,7 @@ class tictactoe:
       case _:
         print("\n\nOpponent: Uuuuhmm... bye??...")
         time.sleep(1)
-        
+
 class DelDex:
   def __init__(self, Alldata):
     self.Alldata = Alldata
@@ -273,7 +271,7 @@ class DelDex:
     time.sleep(1)
     input("\n\n\nPress Enter To Exit\n")
     return
-     
+
 class randomiz:
   def __init__(self, Alldata):
     self.Alldata = Alldata
@@ -322,16 +320,12 @@ class boring_calculator: # The best calculator of your life
     time.sleep(1)
     printsl("\n\nCaaalculator: hello! In short, I'm a calculator with many abilities! Let's get started!")
     time.sleep(1)
-    self.calculator()
-  
-  def calculator(self):
     self.choise()
-
+  
   def plus(self):
     while True:
       try:
         self.xy()
-        
         self.r = self.x + self.y
         time.sleep(0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001)
         printsl(f"\nCaaalculator: {self.r}")
@@ -341,7 +335,7 @@ class boring_calculator: # The best calculator of your life
       except Exception as e:
         printsl(f"\nERROR... {e}\n\n\n")
         time.sleep(1)
-        self.calculator()
+        self.choise()
   
   def minus(self):
     while True:
@@ -356,7 +350,7 @@ class boring_calculator: # The best calculator of your life
       except Exception as e:
         printsl(f"\nERROR... {e}\n\n\n")
         time.sleep(1)
-        self.calculator()
+        self.choise()
     
   def division(self):
     while True:
@@ -371,7 +365,7 @@ class boring_calculator: # The best calculator of your life
       except Exception as e:
         printsl(f"\nERROR... {e}\n\n\n")
         time.sleep(1)
-        self.calculator()
+        self.choise()
 
   def multiplication(self):
     while True:
@@ -386,9 +380,9 @@ class boring_calculator: # The best calculator of your life
       except Exception as e:
         printsl(f"\nERROR... {e}\n\n\n")
         time.sleep(1)
-        self.calculator()
+        self.choise()
 
-  def CCBhhfsbhjfwvqegyrfwetur(self):
+  def absurdabsurd(self):
     while True:
       try:
         self.xy()
@@ -401,7 +395,7 @@ class boring_calculator: # The best calculator of your life
       except Exception as e:
         printsl(f"\nERROR... {e}\n\n\n")
         time.sleep(1)
-        self.calculator()
+        self.choise()
    
   def choise(self):
     printsl("\nCaaalculator: choose the payment method.")
@@ -410,7 +404,7 @@ class boring_calculator: # The best calculator of your life
     print("\n2. Minus")
     print("\n3. Division")
     print("\n4. Multiplication")
-    print("\n5. CCBhhfsbhjfwvqegyrfwetur")
+    print("\n5. AbsurdAbsurd")
     print("=" * 10)
     time.sleep(1)
     input("\nPress Enter")
@@ -426,7 +420,7 @@ class boring_calculator: # The best calculator of your life
       case "4":
         self.multiplication()
       case "5":
-        self.CCBhhfsbhjfwvqegyrfwetur()
+        self.absurdabsurd()
       case "!back":
         return
         return
@@ -484,72 +478,37 @@ class garbage_truck:
   def garbage(self):
     while True:
       time.sleep(0.3)
-      printsl("\n\n\nGarbage Truck: What do you want to delete, you fool? \n\nfor the especially gifted: You need to write the 4-digit removal code that was given when you tried to download the program... \n\nand if you don't remember, it's not my problem; I'm just an unfortunate garbage truck...\n", 0.005)
+      printsl("\n\n\nGarbage Truck: What do you want to delete?...\n\nfor the especially gifted: You need to write the number of selected program.\n", 0.001)
       input("\n\nPress Enter To Continue")
-      while True:
-        print("="*80)
-        printsl("All Programs")
-        for program in self.Alldata.programs:
-          printsl(f"\n{program['number']}: {program['name']}")
-        printsl("\n== System applications cannot be deleted. '!Back' to exit ==\n\n\n")
-        print("="*80)
-        delete = input("\n\n> ").strip().lower()
-        match delete:
-          case "7549":
-            self.Alldata.program_name = "Rock Paper Scissors"
-            self.Alldata.program_weight = 120
+      print("="*80)
+      printsl("All Programs")
+      for program in self.Alldata.download_programs:
+        printsl(f"\n{program['number']}: {program['name']}")
+      printsl("\n== System applications cannot be deleted. '!Back' to exit ==\n\n\n")
+      print("="*80)
+      delete = input("\n\n> ").strip().lower()
+      try:
+        found = None 
+        num = int(delete)
+        for program in self.Alldata.download_programs:
+          if program["number"] == num:
+            found = program 
+        if found is None:
+          printsl("\n\nProgram not found...")
+          continue
+      except Exception as e:
+        printsl(f"\n\nERROR... {e}")
+        print("\nHelp: You need to enter the program number that appears before the name of the desired application.")
+        time.sleep(0.5)
+        continue
+      self.disk_select(found)
 
-          case "7550":
-            self.Alldata.program_name = "Marketing Simulator"
-            self.Alldata.program_weight = 1000
-
-          case "7551":
-            self.Alldata.program_name = "DojDO AI"
-            self.Alldata.program_weight = 500
-
-          case "7552":
-            self.Alldata.program_name = "DelDex"
-            self.Alldata.program_weight = 100
-            
-          case "!back":
-            printsl("\nGarbage truck: Bye, I wasn't happy to see you!")
-            time.sleep(1)
-            return
-            
-          case _:
-            printsl("\nGarbage truck: another clown who decided to make fun of me? Actually, you don't have this program... or you entered the wrong index, use the DelDex app.")
-            time.sleep(1)
-            continue
-
-        self.check_found()  
-        
-
-          
-
-
-  def check_found(self):   
-    for program in self.Alldata.programs:
-      if program["name"].strip() == self.Alldata.program_name:
-        if self.Alldata.program_name == "Rock Paper Scissors":
-          printsl("\nGarbage Truck: Mm... original... what didn't you like about the game?")
-        elif self.Alldata.program_name == "Marketing Simulator":
-          printsl("\nGarbage Truck: Here it is! A real investor? What are you deleting?")
-        elif self.Alldata.program_name == "DojDo AI":
-          printsl("\nGarbage Truck: Yeah... getting rid of your last friend?")
-        elif self.Alldata.program_name == "DelDex":
-          printsl("\nGarbage truck: and why? has your memory supposedly improved?")
-
-        self.disk_select()
-        return  
-    printsl("\nGarbage Truck: you don't have this program!!..")
-    time.sleep(1)
-    return
-      
-  def disk_select(self):
+  def disk_select(self, found):
     while True:
+      weight = found["weight"]
       print("\n\n")
       print("="*80)
-      printsl(f"Garbage truck: which cheap disk do you want to return {self.Alldata.program_weight} liters of memory to? \n'!Back' to exit'\n")
+      printsl(f"Garbage truck: which cheap disk do you want to return {weight} liters of memory to? \n'!Back' to cancel delete.'\n")
       print(f"disk 1: {self.Alldata.disk_1}\n")
       print(f"disk 2: {self.Alldata.disk_2}\n")
       print(f"disk 3: {self.Alldata.disk_3}\n")
@@ -559,13 +518,13 @@ class garbage_truck:
       question = input("\n\n> ").lower().strip()
       match question:
         case "1":
-          self.Alldata.disk_1 += self.Alldata.program_weight
+          self.Alldata.disk_1 += weight
           break
         case "2":
-          self.Alldata.disk_2 += self.Alldata.program_weight
+          self.Alldata.disk_2 += weight
           break
         case "3":
-          self.Alldata.disk_3 += self.Alldata.program_weight
+          self.Alldata.disk_3 += weight
           break
         case "!back":
           printsl("\nGo back...")
@@ -575,11 +534,9 @@ class garbage_truck:
           time.sleep(1)
           continue
     printsl("\nGarbage truck: successfully deleted. Oh well.\n\n")
-    loading_effect(3)
-    for program in self.Alldata.programs:
-      if program["name"] == self.Alldata.program_name[:]:
-        self.Alldata.programs.remove(program)
-        break
-
-    for i, program in enumerate(self.Alldata.programs, 1):
+    loading_effect(1)
+    self.Alldata.download_programs.remove(found)
+    start_num = len(self.Alldata.system_programs) + 1
+    for i, program in enumerate(self.Alldata.download_programs, start_num):
       program["number"] = i
+                             

@@ -1,4 +1,5 @@
 import time
+import matplotlib.pyplot as plt
 from utilities import printsl, start_end
 from fileManager import Octa_manager
 
@@ -61,7 +62,16 @@ class OctaLeaf:
     printsl("\n\nAdded!")
     time.sleep(0.4)
     return
-  
+
+class OctaChart:
+  def __init__(self, Alldata):
+    self.Alldata = Alldata
+
+  def chart(self):
+    time.sleep(0.3)
+    printsl("\n\nOctaChart is an office built on the basis of Matplotlib. Create a useful chart.")
+
+
 @start_end
 class Octaoerf:
   def __init__(self, Alldata):
@@ -163,4 +173,3 @@ class action_addressee:
     time.sleep(0.5)
     self.manager.action_file()
 
-     

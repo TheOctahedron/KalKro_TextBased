@@ -116,7 +116,11 @@ class System:
     print("="*80)
     print("\nDesktop\n")
     print("\nYOUR PROGRAMS: ")
-    for program in self.Alldata.programs:
+    print("\n\n= SYSTEM PROGRAMS = \n\n")
+    for program in self.Alldata.system_programs:
+      printsl(f"\n{program['number']}: {program['name']}")
+    print("\n\n= DOWNLOAD PROGRAMS =\n\n")
+    for program in self.Alldata.download_programs:
       printsl(f"\n{program['number']}: {program['name']}")
     print("="*80)
     time.sleep(1)
@@ -242,18 +246,17 @@ class MarketData:
     self.profit = 0
     self.starting_price = 0
     self.level = 0
-    self.bubble = 0
     self.full_cycles = {
       1: "Store",
       2: "Restaurants",
-      3: "Gaming sphere", # bubble 1
-      4: "Shopping malls", # bubble 2
-      5: "Mechanical engineering", # bubble 2
-      6: "Farming", # bubble 2
-      7: "Laboratory field", # bubble 3
-      8: "Shipbuilding", # bubble 5
-      9: "Global IT ", # bubble 7
-      10: "Space Exploration" # bubble 13
+      3: "Gaming sphere", 
+      4: "Shopping malls", 
+      5: "Mechanical engineering", 
+      6: "Farming", 
+      7: "Laboratory field", 
+      8: "Shipbuilding",
+      9: "Global IT ", 
+      10: "Space Exploration" 
     }
     self.all_action = all_action
     self.coins = list(all_action["coin"].values())
@@ -273,12 +276,14 @@ class InternetData:
 
 class ProgramData:
   def __init__(self):
-    self.disk_1 = 1000
-    self.disk_2 = 1000
-    self.disk_3 = 1000
+    self.all_disks = [
+      {"number": 1, "memory": 1000},
+      {"number": 2, "memory": 1000},
+      {"number": 3, "memory": 1000}
+    ]
     self.program_weight = 1
     self.program_name = "Banana"
-    self.programs = [
+    self.system_programs = [
       {"number": 1, "name": "garbage_truck\n"},
       {"number": 2, "name": "settings\n"},
       {"number": 3, "name": "Internet\n"},
@@ -289,6 +294,7 @@ class ProgramData:
       {"number": 8, "name": "Boring Calculator\n"},
       {"number": 9, "name": "Octice Office\n"}
     ]
+    self.download_programs = []
 
 class Officedata:
   def __init__(self):
@@ -311,7 +317,7 @@ class Alldata:
     self.userd = UserData()
     self.officed = Officedata()
     self.db = SQL(self)
-    self.programs = self.programd.programs
+    self.system_programs = self.programd.programs
     self.db.init_db()
     
 
@@ -402,9 +408,8 @@ class Installer:
   def diskS(self):
     loading_effect(1)
     printsl("\n\n\nDISK SETTINGS: ")
-    print(f"disk 1: {self.Alldata.disk_1} liters of memory.\n")
-    print(f"disk 2: {self.Alldata.disk_2} liters of memory.\n")
-    print(f"disk 3: {self.Alldata.disk_3} liters of memory.\n")
+    for disk in self.Alldata.all_disks:
+      print(f"Disk {disk["number"]}: {disk["memory"]} liters of memory.\n")
     input("\n\n\nPress Enter To Exit\n")
     return
 
@@ -419,45 +424,39 @@ class Installer:
 
   def check_disk(self):
     while True:
-      printsl("\n\n\nGood, Specify which disk you want to download the program to, as well as your disks and their capacity:\n\n")
-      print(f"disk 1: {self.Alldata.disk_1} liters of memory.\n")
-      print(f"disk 2: {self.Alldata.disk_2} liters of memory.\n")
-      print(f"disk 3: {self.Alldata.disk_3} liters of memory.\n")
-      time.sleep(1)
-      printsl("\n\n\nWRITE DOWN THE NUMBER OF THE SELECTED DISK \n== Write '!Back' to exit ==\n")
-      disk_question = input("\n\n> ").lower().strip()
-      match disk_question:
-        case "1":
-          sdisk = self.Alldata.disk_1
-        case "2":
-          sdisk = self.Alldata.disk_2
-        case "3":
-          sdisk = self.Alldata.disk_3
-        case "!back":
-          return
-        case _:
-          continue   
-      if sdisk < self.Alldata.program_weight:
-        printsl(f"\n\nUnfortunately, this disk has less space than required, and {self.Alldata.program_weight} liters of storage are needed.\nYour disk has {sdisk} liters of storage space.\n\n\n")
+        printsl("\n\n\nGood, Specify which disk you want to download the program to, as well as your disks and their capacity:\n\n")
+        for disk in self.Alldata.all_disks:
+          print(f"Disk {disk["number"]}: {disk["memory"]} liters of memory.\n")
         time.sleep(1)
-        continue
-      else:
-        question = yes_no("Are you sure about your action?")
-        if question:
-          pass
-        else:
-          return
+        printsl("\n\n\nWRITE DOWN THE NUMBER OF THE SELECTED DISK \n== Write '!Back' to exit ==\n")
+        disk_question = input("\n\n> ").lower().strip()
+        try:
+          sdisk = int(disk_question)
+          found = None
+          for disk in self.Alldata.all_disks:
+            if sdisk == disk["number"]:
+              found = disk
+        except Exception as e:
+          printsl(f"\n\nERROR... {e}")
             
-        loading_effect(4)
-        if disk_question == "1":
-          self.Alldata.disk_1 -= self.Alldata.program_weight
-        elif disk_question == "2":
-          self.Alldata.disk_2 -= self.Alldata.program_weight
-        elif disk_question == "3":
-          self.Alldata.disk_3 -= self.Alldata.program_weight
-        self.Alldata.programs.append({
-          "number": len(self.Alldata.programs) + 1,
-          "name": self.Alldata.program_name.strip()
+        if found["memory"] < self.Alldata.program_weight:
+          printsl(f"\n\nUnfortunately, this disk has less space than required, and {self.Alldata.program_weight} liters of storage are needed.\nYour disk has {found["memory"]} liters of storage space.\n\n\n")
+          time.sleep(1)
+          continue
+        else:
+          question = yes_no("Are you sure about your action?")
+          if question:
+            pass
+          else:
+            return
+              
+          loading_effect(4)
+          found["memory"] -= self.Alldata.program_weight
+        new_number = len(self.Alldata.download_programs) + len(self.Alldata.system_programs) + 1
+        self.Alldata.download_programs.append({
+          "number": new_number,
+          "name": self.Alldata.program_name,
+          "weight": self.Alldata.program_weight
         })
         printsl("\nComplete!\n\n")
         time.sleep(2)
