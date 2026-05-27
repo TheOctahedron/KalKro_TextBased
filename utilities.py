@@ -18,14 +18,6 @@ def loading_effect(duration=5):
     time.sleep(0.3)
     i += 1
 
-def start_end(func):
-  def starting(*args,**kwargs):
-      print("\nProgram is started\n")
-      res = func(*args, **kwargs)
-      print("\nProgram is ended\n")
-      return res
-  return starting
-
 def yes_no(coconut):
   while True:
     try:

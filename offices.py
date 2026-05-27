@@ -1,14 +1,17 @@
 import time
 import matplotlib.pyplot as plt
-from utilities import printsl, start_end
+from utilities import printsl
 from fileManager import Octa_manager
 
-@start_end
+# -----------------------------------------------------------------------------------------------
+
+
 class OctaWhisper:
-  def __init__(self, Alldata):
-    self.Alldata = Alldata
+  def __init__(self, officedata): 
+    self.officed = officedata
     self.text_file = ""
-    self.oerf = Octaoerf(self.Alldata)
+    self.OERF = OctaOERF(self.officed)
+    self.action_addresse = Action_addressee(self.officed)
     
   def whisper(self):
     printsl(f"\n\nWhile writing the text: to enter in your document, write {r'\n'}")
@@ -19,18 +22,21 @@ class OctaWhisper:
     
       
   def action(self):
-    self.oerf.type_file = "txt"
+    self.OERF.type_file = "txt"
     time.sleep(1)
-    action_addressee(self.Alldata).action_add()
+    self.action_addresse.action_add()
       
-@start_end
+# -----------------------------------------------------------------------------------------------
+
+
 class OctaLeaf:
-  def __init__(self, Alldata):
-    self.Alldata = Alldata
+  def __init__(self, officedata):
+    self.officed = officedata
     self.slide_text = ""
     self.slide_num = 1
     self.leaf_file = {}
-    self.oerf = Octaoerf(self.Alldata)
+    self.OERF = OctaOERF(self.officed)
+    self.action_addresse = Action_addressee(self.officed)
     
 
   def leaf(self):
@@ -48,9 +54,9 @@ class OctaLeaf:
     return
   
   def action(self):
-    self.oerf.type_file = "prs"
+    self.OERF.type_file = "prs"
     time.sleep(1)
-    action_addressee(self.Alldata).action_add()
+    self.action_addresse.action_add()
 
   def new_slide(self):
     printsl(f"\n\nWhile writing the slide: to enter in your document, write {r'\n'}")
@@ -63,33 +69,38 @@ class OctaLeaf:
     time.sleep(0.4)
     return
 
+# -----------------------------------------------------------------------------------------------
+
+
 class OctaChart:
-  def __init__(self, Alldata):
-    self.Alldata = Alldata
+  def __init__(self, officedata):
+    self.officed = officedata
 
   def chart(self):
     time.sleep(0.3)
     printsl("\n\nOctaChart is an office built on the basis of Matplotlib. Create a useful chart.")
 
+# -----------------------------------------------------------------------------------------------
 
-@start_end
-class Octaoerf:
-  def __init__(self, Alldata):
-    self.Alldata = Alldata
+
+class OctaOERF:
+  def __init__(self, officedata):
+    self.officed = officedata
     self.files = ""
     self.type_file = ""
     self.content_file = ""
     self.name_file = ""
-    self.txt_page = self.Alldata.pages_txt
-    self.prs_page = self.Alldata.pages_leafs
+    self.txt_page = self.officed.pages_txt
+    self.prs_page = self.officed.pages_leafs
+    self.action_addresse = Action_addressee(self.officed)
 
-  def oerf(self):
+  def OERF(self):
     print("\n1. Your all documents: ")
     printsl("="*30)
     print("\n")
     printsl("="*20)
-    printsl("\nText Files: ")
-    for number, (file, nonuse) in enumerate(self.txt_page.items(), 1):
+    printsl("\n1. Text Files: ")
+    for number, (file, _) in enumerate(self.txt_page.items(), 1):
       print(f"\n{number}. {file}")
 
     print("\n")
@@ -98,7 +109,7 @@ class Octaoerf:
     print("\n\n\n")
     printsl("="*20)
     printsl("\n2. Presentation Files: ")
-    for number, (file, nonuse) in enumerate(self.prs_page.items(), 1):
+    for number, (file, _) in enumerate(self.prs_page.items(), 1):
       print(f"\n{number}. {file}")
     
     print("\n")
@@ -131,7 +142,7 @@ class Octaoerf:
       printsl("\n2. Presentation Files: ")
       page = self.prs_page
     self.files = list(page.items())
-    for number, (name, nonuse) in enumerate(self.files, 1):
+    for number, (name, _) in enumerate(self.files, 1):
       print(f"\n{number}. {name}")
     print("\n")
     printsl("="*20)
@@ -150,7 +161,7 @@ class Octaoerf:
       time.sleep(1)
       if 0 <= idx < len(self.files):
         self.name_file, self.content_file = self.files[idx]
-        action_addressee(self.Alldata).action_add()
+        self.action_addresse.action_add()
         return
       else:
         printsl("\n\nYou don't have such a file number.")
@@ -159,17 +170,13 @@ class Octaoerf:
       printsl(f"\nERROR... {e}\n\n\n")
       time.sleep(1)
 
-class action_addressee:
-  def __init__(self, Alldata):
-    self.Alldata = Alldata
-    self.all_offices = {
-      "OctaLeaf": OctaLeaf(self.Alldata),
-      "OctaWhisper": OctaWhisper(self.Alldata), 
-      "Octaoerf": Octaoerf(self.Alldata)
-    }
-    self.manager = Octa_manager(self.Alldata, self.all_offices)
+# -----------------------------------------------------------------------------------------------
+
+class Action_addressee:
+  def __init__(self, officedata): 
+    self.officed = officedata
   
   def action_add(self):
     time.sleep(0.5)
-    self.manager.action_file()
+    Octa_manager(self.officed).action_file()
 

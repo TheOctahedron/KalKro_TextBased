@@ -1,11 +1,11 @@
 from ollamafreeapi import OllamaFreeAPI
-from utilities import printsl, loading_effect, start_end
+from utilities import printsl, loading_effect
 import asyncio
 class DojDo:
-  def __init__(self, Alldata):
-    self.Alldata = Alldata
+  def __init__(self, userdata):
+     self.userd = userdata 
 
-  @start_end
+  
   def dojdo_ai(self):
     printsl("\n\n\n\nLoading dOjdO AI...")
     loading_effect(0.3)
@@ -59,20 +59,20 @@ class DojDo:
         conservation.append(f"User: {user_input}")
         conservation.append(f"DojDo: {answer}")
 
-        self.Alldata.cursor.execute(
+        self.userd.cursor.execute(
           "SELECT id FROM users WHERE username = ?",
-          (self.Alldata.username, )
+          (self.userd.username, )
         )
-        user_row = self.Alldata.cursor.fetchone()
+        user_row = self.userd.cursor.fetchone()
 
         if user_row:
           user_id = user_row[0]
 
-          self.Alldata.cursor.execute(
+          self.userd.cursor.execute(
             "INSERT INTO dialogues (user_id, user_message, ai_response) VALUES (?, ?, ?)",
             (user_id, user_input, answer)
           )
-          self.Alldata.conn.commit()
+          self.userd.conn.commit()
       
       except asyncio.TimeoutError:
         printsl("\n\nDojDo: 'deep breath' I'm sorry... mortal, but you should try again, I had a Timeout...\n\n\n")
@@ -83,4 +83,4 @@ class DojDo:
 
   def __del__(self):
     if hasattr(self, 'conn'):
-      self.Alldata.conn.close()
+      self.userd.conn.close()

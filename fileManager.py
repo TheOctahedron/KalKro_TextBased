@@ -1,10 +1,9 @@
 import time
-from utilities import loading_effect, printsl, start_end, yes_no
+from utilities import loading_effect, printsl, yes_no
 
-@start_end
+
 class Octa_manager:
-    def __init__(self, Alldata, all_offices):
-        self.Alldata = Alldata
+    def __init__(self, officedata):
         self.edit_prs = {
             1: "Exit",
             2: "Delete slide",
@@ -22,22 +21,25 @@ class Octa_manager:
             5: "Save File",
             6: "Rename file"
         }
-        self.office = all_offices
-        self.leaf = self.office["OctaLeaf"]
-        self.whisper = self.office["OctaWhisper"]
-        self.oerf = self.office["Octaoerf"]
+        from offices import OctaWhisper, OctaLeaf, OctaOERF, OctaChart
+        
+        self.officed = officedata
         self.datafile = ""
         self.content_inf = ""
         self.file_name = ""
+        self.whisper = OctaWhisper(self.officed)
+        self.leaf = OctaLeaf(self.officed)
+        self.oerf = OctaOERF(self.officed)
+        self.chart = OctaChart(self.officed)
         
     def action_file(self, content_file, name):
         self.content_inf = content_file
         self.file_name = name
-        self.file_type = self.oerf.type_file
+        self.file_type = (self.officed).type_file
         if self.file_type == "txt":
-            self.datafile = self.Alldata.pages_txt
+            self.datafile = self.officed.pages_txt
         elif self.file_type == "prs":
-            self.datafile = self.Alldata.pages_leafs
+            self.datafile = self.officed.pages_leafs
         while True:    
             printsl("\n\nYour Actions:\n")
             if self.file_type == "txt":
@@ -69,7 +71,7 @@ class Octa_manager:
                     self.rename_file()
                 case "7":
                     if self.file_type == "prs":
-                        self.leaf(self.Alldata).new_slide()
+                        self.leaf.new_slide()
                     elif self.file_type == "txt":
                         printsl("\n\nThere is no such action.")
                         time.sleep(0.4)
@@ -90,7 +92,7 @@ class Octa_manager:
             del self.datafile[self.file_name]
             printsl("\n\nGarbage Truck: deleted! go to OERF (open, edit, remove the file)") 
             time.sleep(0.4)
-            self.oerf.oerf()
+            self.oerf.OERF()
             
         elif self.file_type == "prs":
             printsl("\n\nGarbage Truck: what you want delete?: ")
@@ -106,7 +108,7 @@ class Octa_manager:
                             del self.datafile[self.file_name]
                             printsl("\n\nGarbage Truck: deleted! go to OERF (open, edit, remove the file)") 
                             time.sleep(0.4)
-                            self.oerf.oerf()
+                            self.oerf.OERF()
                         else:
                             printsl("\n\nGarbage Truck: error...")
                             return
@@ -118,7 +120,7 @@ class Octa_manager:
                     while True:
                         printsl("\n\nYOUR SLIDES: ")
                         print("="*25)
-                        for num, slide_text in self.content_inf.items():
+                        for num, _ in self.content_inf.items():
                             print(f"\nSLIDE {num}: ...")
                         print("\n")
                         print("="*25)
@@ -140,7 +142,7 @@ class Octa_manager:
                                 self.content_inf = dict(enumerate(self.content_inf.values(), 1))
                                 printsl("\n\nGarbage Truck: deleted! go to OERF (open, edit, remove the file)") 
                                 time.sleep(0.4)
-                                self.oerf.oerf()
+                                self.oerf.OERF()
                             else:
                                 printsl("\n\nGo back...")
                                 time.sleep(0.5)
@@ -194,11 +196,11 @@ class Octa_manager:
                     input("\n\nPress Enter to return to the office selection")
                     time.sleep(0.5)
                     from octice import OcticeSelect
-                    OcticeSelect(self.Alldata).select_office()
+                    OcticeSelect().select_office()
                     return
 
     def passage_file(self):
-        whisper = self.whisper(self.Alldata)
+        whisper = self.whisper
         printsl(f"\n\nWhile writing the file content: to enter in your document, write {r'\n'}, ")
         input("\nClick Enter to start writing text. = '!Back' to exit =")
         text_append = input("\n\n\n\n> ")

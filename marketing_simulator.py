@@ -1,13 +1,14 @@
 import time, random, httpx
-from utilities import printsl, loading_effect, start_end, yes_no
+from utilities import printsl, loading_effect, yes_no
 from market_product import all_action
 
 
 class WelcomeMarket:
-  def __init__(self, Alldata):
-    self.Alldata = Alldata
+  def __init__(self, marketdata):
+    self.marketd = marketdata
+    self.marketing_simulator = MarketingSimulator(self.marketd)
 
-  @start_end  
+    
   def welcome_to_game(self):
     time.sleep(1)
     print("\n\n= You can always use the command '!Exit' by typing it in the terminal to exit the game. =\n\n")
@@ -28,7 +29,7 @@ class WelcomeMarket:
     match question:
       case "1":
         time.sleep(1)
-        MarketingSimulator(self.Alldata).market_office()
+        self.marketing_simulator.market_office()
       case "2":
         time.sleep(1)
         self.rules()
@@ -44,7 +45,7 @@ class WelcomeMarket:
     print("="*80)
     print("\nMAIN IDEA: \n")
     printsl("\nThe main idea: is that you are an investor, you open up startups, your own virtual currencies, monitor charts, and so on...")
-    printsl("\n\nCommands: \n'!Exit' is a command to exit the game and return to the desktop.\n'!Menu' is a command to exit the menu. \n'!Wallet' is a command for quickly viewing the amount of money.\n'!self.Alldata.level' is command fast shows your current ranking in the economy.")
+    printsl("\n\nCommands: \n'!Exit' is a command to exit the game and return to the desktop.\n'!Menu' is a command to exit the menu. \n'!Wallet' is a command for quickly viewing the amount of money.\n'!self.   .level' is command fast shows your current ranking in the economy.")
     print("="*80)
     time.sleep(1)
     input("\n\nPress Enter to menu\n")
@@ -54,16 +55,16 @@ class WelcomeMarket:
     question = yes_no("Are you sure you want to start new game?")
     if question:
         loading_effect(0.5)
-        self.Alldata.__dict__.update(all_action)
+        self.marketd.__dict__.update(all_action)
         return
     else:
         return
     
 
-@start_end
+
 class MarketingSimulator:
-    def __init__(self, Alldata):
-      self.Alldata = Alldata
+    def __init__(self, marketdata):
+      self.marketd = marketdata
       
       
     def market_office(self):
@@ -73,7 +74,7 @@ class MarketingSimulator:
 
     def wallet_check(self):
       time.sleep(0.3)
-      printsl(f"\n\nYOUR WALLET AT THE MOMENT: {self.Alldata.wallet['money']}$.")
+      printsl(f"\n\nYOUR WALLET AT THE MOMENT: {self.marketd.wallet['money']}$.")
       printsl("\nYou can always quickly view your material account using the '!wallet' command.")
       input("\nPress Enter to continue. ")
       return
@@ -115,7 +116,7 @@ class MarketingSimulator:
       time.sleep(1)
       print("="*20)
       printsl("\n\nCurrent market coins and their prices: ")
-      for coin, value in self.Alldata.coin.items():
+      for coin, value in self.marketd.coin.items():
         printsl(f"\n{coin}: {value}$")
       printsl("\nInflation is changing prices!")
       print("="*20)
@@ -123,7 +124,7 @@ class MarketingSimulator:
       return
 
     def inflation_market(self):
-      print(f"\ntotal inflation for all time: {self.Alldata.inflation_procent}%.")
+      print(f"\ntotal inflation for all time: {self.marketd.inflation_procent}%.")
       input("\nPress Enter to continue. ")
       return
       
@@ -202,56 +203,56 @@ class MarketingSimulator:
     def chance1(self):
       chance = random.randint(1, 20)
       if chance <= 16:
-        self.Alldata.deal = True
+        self.marketd.deal = True
       else:
-        self.Alldata.deal = False
+        self.marketd.deal = False
       return
 
     def chance2(self):
       chance = random.randint(1, 20)
       if chance <= 15:
-        self.Alldata.deal = True
+        self.marketd.deal = True
       else:
-        self.Alldata.deal = False
+        self.marketd.deal = False
       return
     
     def chance3(self):
       chance = random.randint(1, 20)
       if chance <= 14:
-        self.Alldata.deal = True
+        self.marketd.deal = True
       else:
-        self.Alldata.deal = False
+        self.marketd.deal = False
       return
     
     def chance4(self):
       chance = random.randint(1, 20)
       if chance <= 10:
-        self.Alldata.deal = True
+        self.marketd.deal = True
       else:
-        self.Alldata.deal = False
+        self.marketd.deal = False
       return
     
     def chance5(self):
       chance = random.randint(1, 20)
       if chance <= 8:
-        self.Alldata.deal = True
+        self.marketd.deal = True
       else:
-        self.Alldata.deal = False
+        self.marketd.deal = False
       return
       
 
     def check_deal(self):
-      self.Alldata.level += self.Alldata.starting_price / 2
-      if self.Alldata.deal:
+      self.marketd.level += self.marketd.starting_price / 2
+      if self.marketd.deal:
         printsl("\nGreat! The deal was successful and brought you profit.")
         self.add = random.randint( 
-          int(self.Alldata.starting_price * 1.10), 
-          int(self.Alldata.starting_price * 2.5)
+          int(self.marketd.starting_price * 1.10), 
+          int(self.marketd.starting_price * 2.5)
         )
-        self.Alldata.profit = self.Alldata.starting_price + self.add
-        self.Alldata.starting_price = 0
+        self.marketd.profit = self.marketd.starting_price + self.add
+        self.marketd.starting_price = 0
       else: 
-        printsl(f"\nUnfortunately, the deal failed, and the loss was: {self.Alldata.starting_price}")
+        printsl(f"\nUnfortunately, the deal failed, and the loss was: {self.marketd.starting_price}")
         time.sleep(1)
       input("\nPress Enter to complete this transaction.")
       return
@@ -264,7 +265,7 @@ class MarketingSimulator:
       printsl("Buy full cycles (buy - automatic sell), buy knowing the risks of failure.")
       input("\nPress Enter to continue. ")
       print("\n\nselect an area to purchase a full-cycle product: ")
-      for number, cycle in self.Alldata.full_cycles.items():
+      for number, cycle in self.marketd.full_cycles.items():
         printsl(f"\n{number}: {cycle}")
       print("="*20)
       time.sleep(1)
@@ -272,25 +273,25 @@ class MarketingSimulator:
       question = input("\n\n> ").lower().strip()
       match question:
         case "1":
-          self.Alldata.market_name = self.Alldata.full_cycles_store
+          self.marketd.market_name = self.marketd.full_cycles_store
         case "2":
-          self.Alldata.market_name = self.Alldata.full_cycles_restaurant
+          self.marketd.market_name = self.marketd.full_cycles_restaurant
         case "3":
-          self.Alldata.market_name = self.Alldata.full_cycles_gaming
+          self.marketd.market_name = self.marketd.full_cycles_gaming
         case "4":
-          self.Alldata.market_name = self.Alldata.full_cycles_shopping_malls
+          self.marketd.market_name = self.marketd.full_cycles_shopping_malls
         case "5":
-          self.Alldata.market_name = self.Alldata.full_cycles_mechanical
+          self.marketd.market_name = self.marketd.full_cycles_mechanical
         case "6":
-          self.Alldata.market_name = self.Alldata.full_cycles_farm
+          self.marketd.market_name = self.marketd.full_cycles_farm
         case "7":
-          self.Alldata.market_name = self.Alldata.full_cycles_sheepbuilding
+          self.marketd.market_name = self.marketd.full_cycles_sheepbuilding
         case "8":
-          self.Alldata.market_name = self.Alldata.full_cycles_laboratory
+          self.marketd.market_name = self.marketd.full_cycles_laboratory
         case "9":
-          self.Alldata.market_name = self.Alldata.full_cycles_IT
+          self.marketd.market_name = self.marketd.full_cycles_IT
         case "10":
-          self.Alldata.market_name = self.Alldata.full_cycles_spacesph
+          self.marketd.market_name = self.marketd.full_cycles_spacesph
 
         case "!back":
           printsl("\nGo back...")
@@ -301,11 +302,11 @@ class MarketingSimulator:
       print("\n\n\n")
       print("=" * 25)
       printsl("FULL-CYCLE MARKET: ")
-      for product, price in self.Alldata.market_name.items():
+      for product, price in self.marketd.market_name.items():
         printsl(f"\nPRODUCT: {product} PRICE: {price}$")
       print("=" * 25)
       printsl("\n\n\nWRITE DOWN THE NUMBER OF THE SELECTED FULL-CYCLE PRODUCT\n== Write '!Back' to exit ==\n")
-      products = list(self.Alldata.market_name.values())
+      products = list(self.marketd.market_name.values())
       question = input("\n\n> ").lower().strip()
       s_price = "" # STARTING PRISE
       match question:
@@ -329,7 +330,7 @@ class MarketingSimulator:
           s_price = products[8]
         case "10":
           s_price = products[9]
-      self.Alldata.starting_price = s_price
+      self.marketd.starting_price = s_price
       self.check_product(s_price)
 
 
@@ -362,10 +363,10 @@ class MarketingSimulator:
         url = "https://open.er-api.com/v6/latest/USD"
         response = httpx.get(url, timeout=5)
         if response.status_code == 200:
-          Alldata = response.json()
-          rub = Alldata["rates"]["RUB"]
-          eur = Alldata["rates"]["EUR"]
-          update_time = Alldata["time_last_update_utc"]
+          htdata  = response.json()
+          rub = htdata["rates"]["RUB"]
+          eur = htdata["rates"]["EUR"]
+          update_time = htdata["time_last_update_utc"]
           printsl(f"\n\ndollar ($) exchange rate: \n")
           print("\nUSD = 1")
           print(f"RUB = {rub}")
@@ -383,22 +384,22 @@ class MarketingSimulator:
       requires_bubbles = 0
       time.sleep(0.5)
       print("===")
-      printsl(f"\n\nYOUR WALLET AT THE MOMENT: {self.Alldata.wallet['money']}$.")
+      printsl(f"\n\nYOUR WALLET AT THE MOMENT: {self.marketd.wallet['money']}$.")
       printsl("\nYou can always quickly view your material account using the '!wallet' command.")
       print("===")
       
-      printsl(f"\n\nYOUR RATING AT THE MOMENT: {self.Alldata.level} bubbles.")
+      printsl(f"\n\nYOUR RATING AT THE MOMENT: {self.marketd.level} bubbles.")
       all_levels = [1000, 10000, 50000, 79000, 85000, 105000, 190000, 1000000, 2000000, 10000000, 50000000, 2000000000, 8000000000, 50000000000, 50005000000]
       all_specialization = ["trainee economist", "trainee+ economist", "junior economist", "junior+ economist", "specialist economist", "prosperous economist", "middle+ economist", "senior economist", "millionaire of economics", "investment analyst", "top financial analyst", "affecting the country's economy", "influencing half the world economy", "influencing the world economy", "the one who resold the gum"]
       for level, specilization in zip(all_levels, all_specialization):
-        if self.Alldata.level <= level:
-          self.Alldata.specialization = specilization
+        if self.marketd.level <= level:
+          self.marketd.specialization = specilization
           requires_bubbles = level
           break
 
-      printsl(f"\nSpecialization {self.Alldata.specialization}")
+      printsl(f"\nSpecialization {self.marketd.specialization}")
       time.sleep(0.5)
-      requires_bubbles -= self.Alldata.level
+      requires_bubbles -= self.marketd.level
       print(f"\nYou need {requires_bubbles} bubble points to reach the next specialization. (1$ in wallet = 0.5 bubble)")
       input("\n\nPress Enter to exit\n")
       return

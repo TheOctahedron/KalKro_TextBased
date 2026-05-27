@@ -1,10 +1,11 @@
-import time, random, httpx
-from utilities import printsl, loading_effect, start_end
+import time, random
+from utilities import printsl, loading_effect
+
 # SYSTEM/DOWNLOAD SMALL PROGRAMS
-@start_end
-class rockpaperscissors:
-  def __init__(self, Alldata):
-    self.Alldata = Alldata
+
+class Rockpaperscissors:
+  def __init__(self,   ):
+     
     self.moves = ["rock", "paper", "scissors"]
     self.round_rps = 1
 
@@ -143,10 +144,12 @@ class rockpaperscissors:
     self.round_rps = 0
     check_win(player_move, ai_move)
 
-class tictactoe:
-  def __init__(self, Alldata):
-    self.Alldata = Alldata
-  @start_end 
+
+class Tictactoe:
+  def __init__(self):
+    pass
+     
+   
   def tic_tac_toe(self):
     board = [" " for _ in range(9)]
     def print_board():
@@ -255,34 +258,19 @@ class tictactoe:
         print("\n\nOpponent: Uuuuhmm... bye??...")
         time.sleep(1)
 
-class DelDex:
-  def __init__(self, Alldata):
-    self.Alldata = Alldata
-  @start_end
-  def index_del(self):
-    time.sleep(1)
-    printsl("welcome... all delete code: ")
-    print("=" * 20)
-    printsl("\nRock Paper Scissors: 7549.")
-    printsl("\nMarketing Simulator: 7550.")
-    printsl("\nDojDo AI: 7551.")
-    printsl("\nDelDex: 7552.\n")
-    print("=" * 20)
-    time.sleep(1)
-    input("\n\n\nPress Enter To Exit\n")
-    return
 
-class randomiz:
-  def __init__(self, Alldata):
-    self.Alldata = Alldata
-  @start_end 
+class Randomiz:
+  def __init__(self):
+    pass
+     
+   
   def randomizer(self):
     loading_effect(1)
     printsl("\n\nRandomizer: Hi, I'm... probably... a randomizer...")
     time.sleep(2)
-    x = int(input("\nENTER THE NUMBER YOU WANT TO RANDOMLY SELECT FROM: ").strip())
-    y = int(input("\nENTER THE NUMBER UP TO WHICH A RANDOM NUMBER SHOULD BE SELECTED: ").strip())
-    num = random.randint(x, y)
+    first_value = int(input("\nENTER THE NUMBER YOU WANT TO RANDOMLY SELECT FROM: ").strip())
+    second_value = int(input("\nENTER THE NUMBER UP TO WHICH A RANDOM NUMBER SHOULD BE SELECTED: ").strip())
+    num = random.randint(first_value, second_value)
     printsl(f"\n\n\nRandomizer: Well, it turned out...\n NUMBER: {num}")
     while True: 
       try:
@@ -309,172 +297,128 @@ class randomiz:
         printsl(f"\nERROR... {e}\n\n\n")
         continue
 
-class boring_calculator: # The best calculator of your life
-  def __init__(self, Alldata):
-    self.Alldata = Alldata
-    self.r = 0
-    self.x = 0
-    self.y = 0
+
+class Boring_calculator:
+  def __init__(self):
+    self.result_value = 0
+    self.first_value = 0
+    self.second_value = 0
   
   def hi_calculator(self):
     time.sleep(1)
     printsl("\n\nCaaalculator: hello! In short, I'm a calculator with many abilities! Let's get started!")
     time.sleep(1)
-    self.choise()
-  
-  def plus(self):
-    while True:
-      try:
-        self.xy()
-        self.r = self.x + self.y
-        time.sleep(0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001)
-        printsl(f"\nCaaalculator: {self.r}")
-        time.sleep(0.5)
-        self.another()
-       
-      except Exception as e:
-        printsl(f"\nERROR... {e}\n\n\n")
-        time.sleep(1)
-        self.choise()
-  
-  def minus(self):
-    while True:
-      try:
-        self.xy()
-        self.r = self.x - self.y
-        time.sleep(0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001)
-        printsl(f"\nCaaalculator: {self.r}")
-        time.sleep(0.5)
-        self.another()
+    self.choise_value()
 
-      except Exception as e:
-        printsl(f"\nERROR... {e}\n\n\n")
-        time.sleep(1)
-        self.choise()
-    
-  def division(self):
+  def choise_value(self):
     while True:
-      try:
-        self.xy()
-        self.r = self.x / self.y
-        time.sleep(0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001)
-        printsl(f"\nCaaalculator: {self.r}")
-        time.sleep(0.5)
-        self.another()
+      # ---------------------------------------------------------
+      printsl("\nCaaalculator: choose the payment method.")
+      print("=" * 10)
+      print("1. Plus")
+      print("\n2. Minus")
+      print("\n3. Division")
+      print("\n4. Multiplication")
+      print("\n5. AbsurdAbsurd")
+      print("=" * 10)
+      time.sleep(1)
+      input("\nPress Enter")
+      printsl("\nWRITE DOWN THE NUMBER OF THE SELECTED METHOD\n== Write '!Back' to exit ==\n")
+      question = input("\n\n> ").lower().strip()
 
-      except Exception as e:
-        printsl(f"\nERROR... {e}\n\n\n")
-        time.sleep(1)
-        self.choise()
+      # ---------------------------------------------------------
+      
+      self.enter_value() # VALUE INPUT (first value/second value)
 
-  def multiplication(self):
-    while True:
-      try:
-        self.xy()
-        self.r = self.x * self.y
-        time.sleep(0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001)
-        printsl(f"\nCaaalculator: {self.r}")
-        time.sleep(0.5)
-        self.another()
+      # ---------------------------------------------------------
 
-      except Exception as e:
-        printsl(f"\nERROR... {e}\n\n\n")
-        time.sleep(1)
-        self.choise()
-
-  def absurdabsurd(self):
-    while True:
-      try:
-        self.xy()
-        self.r = self.x * self.y * self.y / self.x * self.y / self.x + 32 + 913 / self.y * self.x * self.x
-        time.sleep(0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001)
-        printsl(f"\nCaaalculator: {self.r}")
-        time.sleep(0.5)
-        self.another()
+      # THE DECISION PROCESS
+      match question: 
+        case "1":
+          self.result_value = self.first_value + self.second_value  
+        case "2":
+          self.result_value = self.first_value - self.second_value
+        case "3":
+          self.result_value = self.first_value / self.second_value
+        case "4":
+          self.result_value = self.first_value * self.second_value
+        case "5":
+          self.result_value = self.first_value * self.second_value * self.second_value / self.first_value * self.second_value / self.first_value + 913 / self.second_value * self.first_value * self.first_value * 32
+        case "!back":
+          return
         
-      except Exception as e:
-        printsl(f"\nERROR... {e}\n\n\n")
-        time.sleep(1)
-        self.choise()
-   
-  def choise(self):
-    printsl("\nCaaalculator: choose the payment method.")
-    print("=" * 10)
-    print("1. Plus")
-    print("\n2. Minus")
-    print("\n3. Division")
-    print("\n4. Multiplication")
-    print("\n5. AbsurdAbsurd")
-    print("=" * 10)
-    time.sleep(1)
-    input("\nPress Enter")
-    printsl("\nWRITE DOWN THE NUMBER OF THE SELECTED METHOD\n== Write '!Back' to exit ==\n")
-    question = input("\n\n> ").lower().strip()
-    match question:
-      case "1":
-        self.plus()
-      case "2":
-        self.minus()
-      case "3":
-        self.division()
-      case "4":
-        self.multiplication()
-      case "5":
-        self.absurdabsurd()
-      case "!back":
-        return
-        return
-    
-  def xy(self):
-    def xx():
+      # ---------------------------------------------------------
+
+      # ENTER RESULT, AND SUGGESTION TO ADD ANOTHER METHOD TO THE RESULT.
+      loading_effect(1.5)
+      printsl(f"\nCaaalculator: {self.r}")
+      time.sleep(0.5)
+      self.another_value
+
+      # ---------------------------------------------------------
+
+  def enter_value(self):
+    # ---------------------------------------------------------
+    def x_value(): # ENTERING THE FIRST VALUE
       while True:
         try:
-          self.x = int(input("\nWrite the first number: "))
-          yy()
+          self.first_value = int(input("\nWrite the first number (value): "))
+          y_value()
         except Exception as e:
           printsl(f"\nERROR... {e}\n\n\n")
           time.sleep(1)
           continue
-    def yy():
+    # ---------------------------------------------------------
+    def y_value(): # ENTERING THE SECOND VALUE
       while True:
         try:
-          self.y = int(input("\nWrite the second number: "))
+          self.second_value = int(input("\nWrite the second number (value): "))
           return
         except Exception as e:
           printsl(f"\nERROR... {e}\n\n\n")
           time.sleep(1)
           continue
-    if self.x == "cd":
-        self.x = self.r
-        yy()
+    if self.first_value == "cd":
+        self.first_value = self.result_value
+        y_value()
     else:
-      xx()
+      x_value()
+
+    # ---------------------------------------------------------
 
 
-  def another(self):
-    printsl("\nCaaalculator: Are you going to add another method to this?")
+  def another_value(self): # SUGGESTION OF AN ADDITIONAL METHOD
+    print(f"\nCaaalculator: Are you going to add another method to this: {self.result_value}")
     print("\n1. Yes\n\n2. No")
-    time.sleep(1)
-    input("\nPress Enter")
+    time.sleep(0.5)
     printsl("\nWRITE DOWN THE NUMBER OF THE SELECTED ANSWER")
     question = input("\n\n> ").lower().strip()
+
+      # ---------------------------------------------------------
+
     match question:
       case "1":
-        self.x = "cd"
+        self.x = "cd" # A SPECIAL CODE THAT WILL IMMEDIATELY BRING UP THE SECOND VALUE, PRESERVING THE FIRST (as a result)
         printsl("\nCaaalculator: Okay, your number is saved, repeat the algorithm.")
-        self.choise()
-      case "2":
-        self.x = 0
-        self.r = 0
-        self.y = 0
+        self.choise_value()
+
+      # ---------------------------------------------------------
+
+      case "2": # DELETE VALUE-DATA
+        self.first_value = 0 
+        self.result_value = 0
+        self.second_value = 0
         time.sleep(1)
-        self.choise()
+        self.choise_value()
 
-class garbage_truck:
-  def __init__(self, Alldata):
-    self.Alldata = Alldata
+      # ---------------------------------------------------------
 
-  @start_end
+
+class Garbage_truck:
+  def __init__(self, programd):
+     self.programd = programd
+
+  
   def garbage(self):
     while True:
       time.sleep(0.3)
@@ -482,7 +426,7 @@ class garbage_truck:
       input("\n\nPress Enter To Continue")
       print("="*80)
       printsl("All Programs")
-      for program in self.Alldata.download_programs:
+      for program in self.programd.download_programs:
         printsl(f"\n{program['number']}: {program['name']}")
       printsl("\n== System applications cannot be deleted. '!Back' to exit ==\n\n\n")
       print("="*80)
@@ -490,7 +434,7 @@ class garbage_truck:
       try:
         found = None 
         num = int(delete)
-        for program in self.Alldata.download_programs:
+        for program in self.programd.download_programs:
           if program["number"] == num:
             found = program 
         if found is None:
@@ -509,34 +453,28 @@ class garbage_truck:
       print("\n\n")
       print("="*80)
       printsl(f"Garbage truck: which cheap disk do you want to return {weight} liters of memory to? \n'!Back' to cancel delete.'\n")
-      print(f"disk 1: {self.Alldata.disk_1}\n")
-      print(f"disk 2: {self.Alldata.disk_2}\n")
-      print(f"disk 3: {self.Alldata.disk_3}\n")
+      for disk in self.programd.all_disks:
+        print(f"Disk {disk["number"]}: {disk["memory"]} liters of memory.\n")
       print("="*80)
       time.sleep(1)
       printsl("\n\n\nWRITE DOWN THE NUMBER OF THE SELECTED DISK")
       question = input("\n\n> ").lower().strip()
-      match question:
-        case "1":
-          self.Alldata.disk_1 += weight
-          break
-        case "2":
-          self.Alldata.disk_2 += weight
-          break
-        case "3":
-          self.Alldata.disk_3 += weight
-          break
-        case "!back":
-          printsl("\nGo back...")
-          return
-        case _:
-          print("\n\nThis disk was not found")
-          time.sleep(1)
-          continue
+      try:
+        sdisk = int(question)
+        found = None
+        for disk in self.programd.all_disks:
+          if sdisk == disk["number"]:
+            found = disk
+      except Exception as e:
+        printsl(f"\n\nERROR... {e}")
+        time.sleep(1)
+        continue
+      break
+
     printsl("\nGarbage truck: successfully deleted. Oh well.\n\n")
     loading_effect(1)
-    self.Alldata.download_programs.remove(found)
-    start_num = len(self.Alldata.system_programs) + 1
-    for i, program in enumerate(self.Alldata.download_programs, start_num):
+    self.programd.download_programs.remove(found)
+    start_num = len(self.programd.system_programs) + 1
+    for i, program in enumerate(self.programd.download_programs, start_num):
       program["number"] = i
                              
