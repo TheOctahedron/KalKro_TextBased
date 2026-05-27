@@ -14,10 +14,9 @@ in the introduction of KalKro OS - an unusual operating system, where you will m
 ## AMBITIONS
 **My next steps are**:
 1. Complete the 'Marketing Simulator'.
-2. (IMPORTANT): Get this code in order and make it cleaner.
-3. Remove 'hotkeys' and 'delete codes' and replace them with simpler controls.
-4. Add a new office (secret) to 'Octice Office'.
-5. etc...
+2. (IMPORTANT): Get this code in order and make it cleaner.  (IN PROCESS)
+3. Remove 'hotkeys' and 'delete codes' and replace them with simpler controls.  (IN PROCESS)
+4. etc...
 
 ## SCREENSHOTS
 ---
@@ -26,7 +25,7 @@ in the introduction of KalKro OS - an unusual operating system, where you will m
 
 ---
 
-<img width="811" height="820" alt="KalKro Desktop" src="https://github.com/user-attachments/assets/4432dfb7-e2bc-4d48-8d7e-51fd25aac6cc" />
+<img width="662" height="901" alt="KalKro desktop (2)" src="https://github.com/user-attachments/assets/4a88715c-fff0-4812-816d-dc3d681d2ef0" />
 
 ---
 
