@@ -11,7 +11,7 @@ from octice import OcticeSelect
 # PIP IS USED, NOT UV
 
 #                         DATABASES
-# ---------------------------------------------------------------
+# ===============================================================
 
 class ProgramData:
   def __init__(self):
@@ -23,7 +23,7 @@ class ProgramData:
     self.program_weight = 1
     self.program_name = "Banana"
     self.system_programs = [
-      {"number": 1, "name": "garbage_truck\n"},
+      {"number": 1, "name": "Garbage_truck\n"},
       {"number": 2, "name": "settings\n"},
       {"number": 3, "name": "Internet\n"},
       {"number": 4, "name": "tic tac toe\n"},
@@ -35,7 +35,7 @@ class ProgramData:
     ]
     self.download_programs = []
 
-# ---------------------------------------------------------------
+# ===============================================================
 
 class MarketData:
   def __init__(self):
@@ -60,7 +60,7 @@ class MarketData:
     self.coins = list(all_action["coin"].values())
     self.__dict__.update(all_action) # everything for the Marketing Simulator
     
-# ---------------------------------------------------------------
+# ===============================================================
 
 class InternetData:
   def __init__(self):
@@ -73,7 +73,7 @@ class InternetData:
       6: "FIRE: WRITE YOUR OWN API"
     }
 
-# ---------------------------------------------------------------
+# ===============================================================
 
 class OfficeData:
   def __init__(self):
@@ -82,7 +82,7 @@ class OfficeData:
     self.pages_pdf = {}
     
     
-# ---------------------------------------------------------------
+# ===============================================================
 
 class UserData:
   def __init__(self):
@@ -92,7 +92,7 @@ class UserData:
     self.db = SQL(self)
     self.db.init_db()
 
-# ---------------------------------------------------------------
+# ===============================================================
 
 class SQL:
   def __init__(self, userdata: UserData):
@@ -141,7 +141,7 @@ class SQL:
       printsl(f"[{ts}] You: {user_msg}")
       printsl(f"DojDo: {ai_resp}\n")
 
-# ---------------------------------------------------------------
+# ===============================================================
 
 
 
@@ -230,60 +230,87 @@ class System:
     print("="*80)
     print("\nDesktop\n")
     print("\nYOUR PROGRAMS: ")
-    print("\n\n= SYSTEM PROGRAMS = \n\n")
+    print("\n\n= SYSTEM PROGRAMS =\n\n")
     for program in self.programd.system_programs:
       printsl(f"\n{program['number']}: {program['name']}")
+    print("="*25)
     print("\n\n= DOWNLOAD PROGRAMS =\n\n")
     for program in self.programd.download_programs:
       printsl(f"\n{program['number']}: {program['name']}")
     print("="*80)
     time.sleep(1)
-    return
 
   def select(self):
-    self.desktop()
     time.sleep(1)
-    printsl("\n\nWRITE DOWN THE NUMBER OF THE SELECTED PROGRAM (FOR DOWNLOADED PROGRAMS: WRITE THE HOT LETTERS, FOR EXAMPLE: mrs1)")
     while True:
+      self.desktop()
+      printsl("\n\nWRITE DOWN THE NUMBER OF THE SELECTED PROGRAM (FOR DOWNLOADED PROGRAMS: WRITE THE HOT LETTERS, FOR EXAMPLE: mrs1)")
       try:
         question = input("\n\n> ").lower().strip()
         match question:
           case "1":
             self.garbage.garbage()
+
           case "2":
             self.settings()
+
           case "3":
             self.web.request_select()
+            
           case "4":
             self.tictoe.tic_tac_toe()
+
           case "5":
             self.randomiz.randomizer()
+
           case "6":
             self.save_load.saveload()
+
           case "7":
             self.installer.diskS()
+
           case "8":
             self.brcalculator.hi_calculator()
+
           case "9":
             self.octice_office.select_office()
-          case "rps1":
-            self.rockpaper.rockpaper()
-          case "mrs1":
-            self.welcome_market.welcome_to_game()
-          case "djai1":
-            self.dojdo_hi.dojdo_ai()
-
-          case "!reset":
-            self.desktop()
 
           case _:
-            printsl("Sorry, this program number/name does not exist. If you are experiencing problems, please refresh your desktop using the command '!Reset'.")
-            time.sleep()
-            continue
+            try:
+              idx = int(question)
+              for program in self.programd.download_programs:
+                prg_number = program['number']
+                prg_name = program['name'].strip().lower()
+                found = False
+
+                if idx == prg_number:
+                  found = True
+                  match prg_name:
+                    case "rock paper scissors":
+                      self.rockpaper.rockpaper()
+                  
+                    case "marketing simulator":
+                      self.welcome_market.welcome_to_game()
+
+                    case "dojdo ai":
+                      self.dojdo_hi.dojdo_ai()
+
+              if found == False:
+                printsl("Sorry, this program number/name does not exist. You should write the number assigned to the program.")
+                time.sleep(0.5)
+                continue
+
+            except Exception as e:
+              printsl(f"\nERROR... {e}\n\n\n")
+              time.sleep(0.5)
+              continue
+              
+            
       except Exception as e:
         printsl(f"\nERROR... {e}\n\n\n")
         time.sleep(0.5)
         continue
+
 
 
   def settings(self):
@@ -294,13 +321,6 @@ class System:
     print("="*80)
     time.sleep(0.3)
     return
-        
-  def about_me(self):
-    loading_effect(1)
-    print("="*80)
-    printsl("\n\n\nAbout the developer: nickname: The Octahedron\n Ambitions: to become an AI engineer, to work for the USA.\n well... I also love birds, that's all I can tell you at the moment...\n\n\n\n")
-    print("="*80)
-    return
 
 
 class Internet:
@@ -308,10 +328,14 @@ class Internet:
     self.programd = programdata
     self.internetd = internetdata
     self.myapi = My_api()
-    self.system = System
     self.installer = Installer(self.programd)
      
-
+  def about_me(self):
+    loading_effect(1)
+    print("="*80)
+    printsl("\n\n\nAbout the developer: nickname: The Octahedron\n Ambitions: to become an AI engineer, to work for the USA.\n well... I also love birds, that's all I can tell you at the moment...\n\n\n\n")
+    print("="*80)
+    return
   
   def request_select(self):
     print("\n\n\n")
@@ -338,7 +362,7 @@ class Internet:
           self.programd.program_name = "Marketing Simulator"
           self.installer.downloader()
         case "4":
-          self.system.about_me()
+          self.about_me()
         case "5":
           self.programd.program_name = "DojDO AI"
           self.installer.downloader()
@@ -388,7 +412,7 @@ class SaveLoad:
 
 
 
-# ------------- SAVE -------------
+# ============= SAVE =============
 
   def saving(self):
     while True:
@@ -409,7 +433,7 @@ class SaveLoad:
     loading_effect(0.3)
     return
 
-# --------------------------
+# ==========================
 
   def save(self):
     with open('SystemPy.json', 'w') as f:
@@ -419,7 +443,7 @@ class SaveLoad:
 
 
 
-# ------------- LOAD -------------
+# ============= LOAD =============
 
   def loading(self):
     while True:
@@ -440,7 +464,7 @@ class SaveLoad:
     self.load()
     return
 
-# --------------------------
+# ==========================
 
   def load(self):
     try:

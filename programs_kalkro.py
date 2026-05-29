@@ -2,13 +2,13 @@ import time, random
 from utilities import printsl, loading_effect
 
 # SYSTEM/DOWNLOAD SMALL PROGRAMS
+# =====================================================================================
 
 class Rockpaperscissors:
-  def __init__(self,   ):
-     
+  def __init__(self):
     self.moves = ["rock", "paper", "scissors"]
     self.round_rps = 1
-
+ 
   def rockpaper(self):
     time.sleep(1)
     printsl("\nOpponent: No silly greetings! Shall we begin the game?\n\n")
@@ -29,6 +29,7 @@ class Rockpaperscissors:
       break
     self.game_rps()
     
+  # =====================================================================================
 
   def game_rps(self):
     def check_win(player_move, ai_move): 
@@ -56,17 +57,23 @@ class Rockpaperscissors:
         elif player_move == "Scissors":
           draw()
     
+    # =====================================================================================
+
     def win():
       printsl("Opponent: You win!")
       again()
+
       
     def defeat():
       printsl("Opponent: You defeat!")
       again()
+
       
     def draw():
       printsl("Opponent: Wow! Draw!")
       again()
+
+    # =====================================================================================
 
     def again():
       while True:
@@ -87,7 +94,9 @@ class Rockpaperscissors:
           case _:
             time.sleep(0.2)
             continue
-    
+
+    # =====================================================================================
+
     def rounds():
       while True:
         try:
@@ -102,12 +111,15 @@ class Rockpaperscissors:
           printsl(f"\nERROR... {e}\n\n\n")
           time.sleep(1)
           continue
+
+    # =====================================================================================
           
     def round_select():
       rounds()
-      
       return
     
+    # =====================================================================================
+
     round_select()
     while self.round_rps != 0:
       printsl("\nYour Move \n= '!Back' to exit =\n")
@@ -123,15 +135,14 @@ class Rockpaperscissors:
           printsl("\nOpponent: OK! bye!")
           time.sleep(0.4)
           return
-          
-
         case "!reset":
           self.print_rps()
-
         case _:
           printsl("Sorry, this program move/command does not exist. If you are experiencing problems, please refresh your desktop using the command '!Reset'.")
           time.sleep(0.3)
           continue
+
+    # =====================================================================================
 
       ai_move = random.choice(self.moves)
       loading_effect(0.1) 
@@ -145,30 +156,36 @@ class Rockpaperscissors:
     check_win(player_move, ai_move)
 
 
+# =====================================================================================
+
+
 class Tictactoe:
   def __init__(self):
     pass
      
-   
-  def tic_tac_toe(self):
+  # ===================================================================================== 
+
+  def tic_tac_toe(self): 
     board = [" " for _ in range(9)]
     def print_board():
       print("\n\n|-----|")
       print(f"|{board[0]}-{board[1]}-{board[2]}|")
       print("|-----|")
-      print(f"|{board[3]}-{board[4]}-{board[5]}|")
+      print(f"|{board[3]}-{board[4]}-{board[5]}|") # BOARD OUTPUT
       print("|-----|")
       print(f"|{board[6]}-{board[7]}-{board[8]}|")
       print("|-----|\n\n")
 
     def check(player):
-      wins = [(0,1,2), (3,4,5), (6,7,8), (0,4,8), (2,4,6), (0,3,6), (1,4,7), (2,5,8)]
+      wins = [(0,1,2), (3,4,5), (6,7,8), (0,4,8), (2,4,6), (0,3,6), (1,4,7), (2,5,8)] # ALL WINNING POSITIONS
       return any(board[a] == board[b] == board[c] == player for a,b,c in wins)
     
     def is_full():
       return " " not in board
     
-    def ai_move():
+    # =====================================================================================
+
+    def ai_move(): # OPPONENT'S MOVE SELECTION SYSTEM (AI)
       for i in range(((((((((((((((((((9))))))))))))))))))):
         if board[i] == " ":
           board[i] = "X"
@@ -195,7 +212,9 @@ class Tictactoe:
         
       return None
     
-    print("\n\nWELCOME TO TIC-TAC-TOE WITH AN OPPONENT WHO HAS A LOWER IQ THAN A FISH!\n\n= '30303' to exit = \n\n\n")
+    # =====================================================================================
+
+    print("\n\nWELCOME TO TIC-TAC-TOE WITH AN OPPONENT WHO HAS A LOWER IQ THAN A FISH!\n\n= '30303' to exit = \n\n\n") # WHY '30303' AND NOT '!Back': INPUT HAS INT. THIS WILL GAVE AN ERROR IF YOU ENTER ANY WORD.
     printsl("Opponent: HEllo, Lets go to game! \n== Choice: 0-8 (The upper left corner is 0, and then count to 8 from the right.) ==\n\nYou - O\n\nOpponent - X\n\n")
     print_board()
 
@@ -221,10 +240,14 @@ class Tictactoe:
         print("\n\n\nOpponent: ooh, Draw\n\n")
         break
 
+# =====================================================================================
+
       move = ai_move()
       if move is None:
         print("\n\n\nOpponent: uuhhmm... draw...\n\n")
         break
+
+# =====================================================================================
 
       board[move] = "X"
       print("Opponent is moving...")
@@ -237,7 +260,8 @@ class Tictactoe:
       if is_full():
         print("\n\n\nOpponent: uuhhmm... draw...\n\n")
         break
-    
+
+# =====================================================================================    
 
     printsl("\n\nOpponent: hmmm... Shall we play again?")
     print("\n1. Yes\n\n2. No")
@@ -249,14 +273,17 @@ class Tictactoe:
         print("RESTART...")
         loading_effect(0.2)
         self.tic_tac_toe()
+
       case "2":
         printsl("\n\nOpponent: Ok! Bye!..\n")
         time.sleep(1)
-        
 
       case _:
         print("\n\nOpponent: Uuuuhmm... bye??...")
         time.sleep(1)
+
+
+# =====================================================================================
 
 
 class Randomiz:
@@ -298,6 +325,9 @@ class Randomiz:
         continue
 
 
+# =====================================================================================
+
+
 class Boring_calculator:
   def __init__(self):
     self.result_value = 0
@@ -312,7 +342,7 @@ class Boring_calculator:
 
   def choise_value(self):
     while True:
-      # ---------------------------------------------------------
+      # =========================================================
       printsl("\nCaaalculator: choose the payment method.")
       print("=" * 10)
       print("1. Plus")
@@ -326,11 +356,11 @@ class Boring_calculator:
       printsl("\nWRITE DOWN THE NUMBER OF THE SELECTED METHOD\n== Write '!Back' to exit ==\n")
       question = input("\n\n> ").lower().strip()
 
-      # ---------------------------------------------------------
+      # =========================================================
       
       self.enter_value() # VALUE INPUT (first value/second value)
 
-      # ---------------------------------------------------------
+      # =========================================================
 
       # THE DECISION PROCESS
       match question: 
@@ -347,18 +377,18 @@ class Boring_calculator:
         case "!back":
           return
         
-      # ---------------------------------------------------------
+      # =========================================================
 
       # ENTER RESULT, AND SUGGESTION TO ADD ANOTHER METHOD TO THE RESULT.
       loading_effect(1.5)
-      printsl(f"\nCaaalculator: {self.r}")
+      printsl(f"\nCaaalculator: {self.result_value}")
       time.sleep(0.5)
       self.another_value
 
-      # ---------------------------------------------------------
+      # =========================================================
 
   def enter_value(self):
-    # ---------------------------------------------------------
+    # =========================================================
     def x_value(): # ENTERING THE FIRST VALUE
       while True:
         try:
@@ -368,7 +398,7 @@ class Boring_calculator:
           printsl(f"\nERROR... {e}\n\n\n")
           time.sleep(1)
           continue
-    # ---------------------------------------------------------
+    # =========================================================
     def y_value(): # ENTERING THE SECOND VALUE
       while True:
         try:
@@ -384,7 +414,7 @@ class Boring_calculator:
     else:
       x_value()
 
-    # ---------------------------------------------------------
+    # =========================================================
 
 
   def another_value(self): # SUGGESTION OF AN ADDITIONAL METHOD
@@ -394,7 +424,7 @@ class Boring_calculator:
     printsl("\nWRITE DOWN THE NUMBER OF THE SELECTED ANSWER")
     question = input("\n\n> ").lower().strip()
 
-      # ---------------------------------------------------------
+      # =========================================================
 
     match question:
       case "1":
@@ -402,7 +432,7 @@ class Boring_calculator:
         printsl("\nCaaalculator: Okay, your number is saved, repeat the algorithm.")
         self.choise_value()
 
-      # ---------------------------------------------------------
+      # =========================================================
 
       case "2": # DELETE VALUE-DATA
         self.first_value = 0 
@@ -411,7 +441,10 @@ class Boring_calculator:
         time.sleep(1)
         self.choise_value()
 
-      # ---------------------------------------------------------
+      # =========================================================
+
+
+# =====================================================================================
 
 
 class Garbage_truck:
@@ -432,12 +465,14 @@ class Garbage_truck:
       print("="*80)
       delete = input("\n\n> ").strip().lower()
       try:
-        found = None 
+        found_prg = None 
+        found = False
         num = int(delete)
         for program in self.programd.download_programs:
           if program["number"] == num:
-            found = program 
-        if found is None:
+            found_prg = program 
+            found = True
+        if found == False:
           printsl("\n\nProgram not found...")
           continue
       except Exception as e:
@@ -445,11 +480,11 @@ class Garbage_truck:
         print("\nHelp: You need to enter the program number that appears before the name of the desired application.")
         time.sleep(0.5)
         continue
-      self.disk_select(found)
+      self.disk_select(found_prg)
 
-  def disk_select(self, found):
+  def disk_select(self, found_prg):
     while True:
-      weight = found["weight"]
+      weight = found_prg["weight"]
       print("\n\n")
       print("="*80)
       printsl(f"Garbage truck: which cheap disk do you want to return {weight} liters of memory to? \n'!Back' to cancel delete.'\n")
@@ -461,10 +496,10 @@ class Garbage_truck:
       question = input("\n\n> ").lower().strip()
       try:
         sdisk = int(question)
-        found = None
+        found_prg = None
         for disk in self.programd.all_disks:
           if sdisk == disk["number"]:
-            found = disk
+            found_prg = disk
       except Exception as e:
         printsl(f"\n\nERROR... {e}")
         time.sleep(1)
@@ -473,8 +508,9 @@ class Garbage_truck:
 
     printsl("\nGarbage truck: successfully deleted. Oh well.\n\n")
     loading_effect(1)
-    self.programd.download_programs.remove(found)
+    self.programd.download_programs.remove(found_prg)
     start_num = len(self.programd.system_programs) + 1
     for i, program in enumerate(self.programd.download_programs, start_num):
       program["number"] = i
-                             
+
+# =====================================================================================                            
