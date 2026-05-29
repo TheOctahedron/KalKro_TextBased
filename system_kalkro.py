@@ -221,7 +221,7 @@ class System:
       self.octice_office = OcticeSelect(self.userd, self.officed) # userdata, officedata
       self.welcome_market = WelcomeMarket(self.marketd)
       self.dojdo_hi = DojDo(self.userd) # userdata
-      self.save_load = SaveLoad()
+      self.save_load = SaveLoad(self.userd)
       self.installer = Installer(self.programd) # programdata
 
   def desktop(self):
@@ -379,8 +379,9 @@ class Internet:
 
 
 class SaveLoad:
-  def __init__(self):
-    self.db = SQL(self)
+  def __init__(self, userdata):
+    self.userd = userdata
+    self.db = SQL(self.userd)
 
   
   def saveload(self):
