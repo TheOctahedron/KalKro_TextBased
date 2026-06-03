@@ -11,7 +11,8 @@ in the introduction of KalKro OS - an unusual operating system, where you will m
 1. A simple and **clear** menu
 2. Control in the terminal through numbers
 3. **A paranoid AI** (There may be instability, and a public gateway is used.)
-4. And other **charismatic** characters-programs.
+4. Office Suite **(4 offices)**
+5. And other **charismatic** characters-programs.
 
 
 ## AMBITIONS
