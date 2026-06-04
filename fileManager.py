@@ -1,100 +1,151 @@
 import time
-from utilities import loading_effect, printsl, yes_no
+from utilities import printsl, yes_no
+import matplotlib.pyplot as plt
 
-
-class Octa_manager:
-    def __init__(self, officedata):
-        self.edit_prs = {
-            1: "Exit",
-            2: "Delete slide",
-            3: "Add another passage to it",
-            4: "Open file",
-            5: "Save File", 
-            6: "Rename file",
-            7: "Add new slide"
-        }
-        self.edit_txt = {
-            1: "Exit",
-            2: "Delete text",
-            3: "Add another passage to it",
-            4: "Open file",
-            5: "Save File",
-            6: "Rename file"
-        }
-        from offices import OctaWhisper, OctaLeaf, OctaOERF, OctaChart
-        
-        self.officed = officedata
-        self.datafile = ""
-        self.content_inf = ""
-        self.file_name = ""
-        self.whisper = OctaWhisper(self.officed)
-        self.leaf = OctaLeaf(self.officed)
-        self.oerf = OctaOERF(self.officed)
-        self.chart = OctaChart(self.officed)
-        
-    def action_file(self, content_file, name):
-        self.content_inf = content_file
-        self.file_name = name
-        self.file_type = (self.officed).type_file
-        if self.file_type == "txt":
-            self.datafile = self.officed.pages_txt
-        elif self.file_type == "prs":
-            self.datafile = self.officed.pages_leafs
-        while True:    
-            printsl("\n\nYour Actions:\n")
-            if self.file_type == "txt":
-                print("TXT ACTION\n")
-                for num_action, action in self.edit_txt.items():
-                    print(f"{num_action}: {action}\n")
-            elif self.file_type == "prs":
-                print("PRESENTATION ACTION\n")
-                for num_action, action in self.edit_prs.items():
-                    print(f"{num_action}: {action}\n")
-
-
-            printsl("\n\nWRITE DOWN THE NUMBER OF THE SELECTED ACTION (auto-save enabled.)")
-            question = input("\n\n> ").lower().strip()
-            match question:
-                case "1":
-                    printsl("\n\nGo back...")
-                    time.sleep(0.2)
-                    return
-                case "2":
-                    self.delete_file()
-                case "3":
-                    self.passage_file()
-                case "4":
-                    self.open_file(self.content_inf)
-                case "5":
-                    self.save_file()
-                case "6":
-                    self.rename_file()
-                case "7":
-                    if self.file_type == "prs":
-                        self.leaf.new_slide()
-                    elif self.file_type == "txt":
-                        printsl("\n\nThere is no such action.")
-                        time.sleep(0.4)
-                        continue
-                case _:
-                    printsl("\n\nThere is no such action.")
-                    time.sleep(0.4)
-                    continue
-    
-    def delete_file(self):
-        question = yes_no("Are you sure you want to delete this file?")
-        if question:
-            loading_effect(0.2)
+class FileSaver:
+    def __init__(self, content_file, name, page):
+        if name is None:
+            self.file_name = "Unsaved"
         else:
+            self.file_name = name
+        self.append = ""
+        self.content = content_file
+        self.page = page
+        self.given_name = ""
+        
+
+    def save_file(self):
+        if self.file_name in self.page:
+            self.given_name = self.file_name
             return
-                
-        if self.file_type == "txt":
-            del self.datafile[self.file_name]
-            printsl("\n\nGarbage Truck: deleted! go to OERF (open, edit, remove the file)") 
-            time.sleep(0.4)
-            self.oerf.OERF()
-            
-        elif self.file_type == "prs":
+        while True:
+            print("\nEnter the name of your file, no more than 25 characters. = '!Back' to exit =")
+            self.given_name = input("\n\n> ")
+            if self.given_name.lower().strip() == "!back":
+                print("\nBack to the file settings (sorry if that's what you wanted to name the file).\n")
+                time.sleep(1)
+                return
+            elif len(self.given_name) > 25:
+                print("\nSorry, but the file name should not exceed 25 characters.\n")
+                time.sleep(0.3)
+                continue
+            elif self.given_name.strip() == "" or self.given_name.lower().strip() == "unsaved":
+                printsl("\n\nSorry, but you can't call the file that.")
+                time.sleep(0.3)
+                continue
+    
+    def save_typefound(self, f_type, horisontal, vertical):
+        match f_type:
+            case "txt":
+                self.save_txt()
+            case "prs":
+                self.save_prs()
+            case "chrt":
+                self.save_chrt(horisontal, vertical)
+        time.sleep(0.3)
+        return
+
+    def save_txt(self):
+        self.save_file()
+        self.page[self.given_name] = self.content
+        return
+    
+    def save_prs(self):
+        self.save_file()
+        if self.given_name not in self.page:
+            self.page[self.given_name] = {}
+            for slide_num, slide_text in self.content.items():
+                self.page[self.given_name][slide_num] = slide_text
+        return
+
+    def save_chrt(self, horisontal, vertical):
+        self.page[self.given_name] = {
+            "horisontal": horisontal,
+            "vertical": vertical
+        }
+        return
+
+
+class FileOpener:
+    def __init__(self, content_file, name):
+        self.content = content_file
+        self.file_name = name
+
+    def open_typefound(self, f_type):
+        match f_type:
+            case "txt":
+                self.open_txt()
+            case "prs":
+                self.open_prs()
+            case "chrt":
+                self.open_chrt()
+        time.sleep(0.3)
+        return     
+
+    def open_txt(self):
+        printsl(f"\nTEXT FILE {self.file_name}: \n\n")
+
+        print("===\n")
+        print(self.content)
+        print("\n===")
+
+        input("\n\nPress Enter To Exit")
+        time.sleep(0.2)
+        return
+    
+    def open_prs(self):
+        printsl(f"\n\nPRESENTATION {self.file_name}:")
+        for number_slide, text_slide in self.content.items():
+            print(f"\n\n[SLIDE {number_slide}]\n")
+
+            print("===\n")
+            print(f"\n{text_slide}\n")
+            print("\n===")
+
+            while True:
+                scroll = input("\n\nPress Enter To Scroll Slides  = '!Exit' to exit = ").lower().strip()
+                match scroll:
+                    case "!exit":
+                        time.sleep(1)
+                        return
+                    case _:
+                        break
+
+    def open_chrt(self):
+        print(f"\n\nChart {self.file_name} datas: ")
+        print(f"\nX: {self.content['horisontal']}")
+        print(f"\n\nY: {self.content['vertical']}\n\n")
+        plt.plot(self.content['horisontal'], self.content['vertical'])
+        plt.show()
+        input("Press Enter To Exit.")
+        return
+
+
+class FileDeleter:
+    def __init__(self, content_file, name, page):
+        self.content = content_file
+        self.file_name = name
+        self.page = page
+
+    def delete_type_found(self, f_type):
+        match f_type:
+            case "txt":
+                self.delete_txt()
+            case "prs":
+                self.delete_prs()
+            case "chrt":
+                self.delete_chrt()
+        time.sleep(0.3)
+        printsl("\n\nGarbage Truck: process is ended!")
+        time.sleep(0.3)
+        return
+
+    def delete_txt(self):
+        del self.page[self.file_name]
+        return
+
+    def delete_prs(self):
+        while True:
             printsl("\n\nGarbage Truck: what you want delete?: ")
             print("\n1. All Presentation\n\n2. Slide")
             printsl("\n\nWRITE DOWN THE NUMBER OF THE SELECTED ACTION = '!Back' to exit = ")
@@ -103,209 +154,81 @@ class Octa_manager:
                 case "1":
                     question = yes_no("Are you sure you want to delete the entire presentation?")
                     if question:
-                        time.sleep(0.5)
-                        if self.file_name in self.datafile:
-                            del self.datafile[self.file_name]
-                            printsl("\n\nGarbage Truck: deleted! go to OERF (open, edit, remove the file)") 
-                            time.sleep(0.4)
-                            self.oerf.OERF()
-                        else:
-                            printsl("\n\nGarbage Truck: error...")
-                            return
+                        time.sleep(0.1)
+                        if self.file_name in self.page:
+                            del self.page[self.file_name]
+                            break
                     else:
                         printsl("\n\nGo back...")
-                        time.sleep(0.4)
-
+                        continue
                 case "2":
-                    while True:
-                        printsl("\n\nYOUR SLIDES: ")
-                        print("="*25)
-                        for num, _ in self.content_inf.items():
-                            print(f"\nSLIDE {num}: ...")
-                        print("\n")
-                        print("="*25)
-                        printsl("\n\nWRITE DOWN THE NUMBER OF THE SELECTED SLIDE = '!Back' to exit = ")
-                        question = input("\n\n> ").lower().strip()
-                        if question == "!Back":
+                    printsl("\n\nYOUR SLIDES: ")
+                    print("\n===\n")
+                    for slide_num, _ in self.content.items():
+                        print(f"\nSLIDE {slide_num}: ...")
+                    print("\n===")
+                    printsl("\n\nWRITE DOWN THE NUMBER OF THE SELECTED SLIDE = '!Back' to exit = ")
+                    question = input("\n\n> ").lower().strip()
+                    if question == "!Back":
+                        break
+                    try: 
+                        selected_slide = int(question)
+                    except Exception as e:
+                        printsl(f"\nERROR... {e}\n\n\n")
+                        time.sleep(0.1)
+                    if selected_slide in self.content:
+                        printsl("\n\nSLIDE PREVIEW: ")
+                        printsl(f"\n\n{selected_slide}\n\n {self.content[selected_slide]}")
+                        question = yes_no("Are you sure to delete this slide?")
+                        if question:
+                            del self.content[selected_slide]
+                            self.content = dict(enumerate(self.content.values(), 1))
+                            printsl("\n\nGarbage Truck: deleted!") 
                             break
-                        try: 
-                            selected_slide = int(question)
-                        except Exception as e:
-                            printsl(f"\nERROR... {e}\n\n\n")
-                            time.sleep(0.5)
-                        if selected_slide in self.content_inf:
-                            printsl("\n\nSLIDE PREVIEW: ")
-                            printsl(f"\n\n{selected_slide}\n\n {self.content_inf[selected_slide]}")
-                            question = yes_no("Are you sure to delete this slide?")
-                            if question:
-                                del self.content_inf[selected_slide]
-                                self.content_inf = dict(enumerate(self.content_inf.values(), 1))
-                                printsl("\n\nGarbage Truck: deleted! go to OERF (open, edit, remove the file)") 
-                                time.sleep(0.4)
-                                self.oerf.OERF()
-                            else:
-                                printsl("\n\nGo back...")
-                                time.sleep(0.5)
-                                continue
                         else:
-                            printsl("\nGarbage Truck: slide is not found...")
-                            time.sleep(0.3)
+                            printsl("\n\nGo back...")
+                            time.sleep(0.1)
                             continue
-                                
-                            
-                                
-        printsl("Garbage Truck: operation is ended!")
-        time.sleep(0.3)
-        return
-
-    def save_file(self):
-        while True:
-            printsl("\nEnter the name of your file, no more than 25 characters. = '!Back' to exit =")
-            file_name = input("\n\n> ")
-            if file_name.lower().strip() == "!back":
-                printsl("\nBack to the file settings (sorry if that's what you wanted to name the file).\n")
-                time.sleep(1)
-                return
-            elif len(file_name) > 25:
-                printsl("\nSorry, but the file name should not exceed 25 characters.\n")
-                time.sleep(1)
-                continue
-            else:
-                if file_name in self.datafile:
-                    question = yes_no("Sorry, but you already have a file with that name. Do you want to replace it to this one?")
-                    if question:
-                        loading_effect(0.2)
                     else:
-                        return
-                else:
-                    question = yes_no("Are you sure you want to save this text file?")
-                    if question:
-                        loading_effect(0.2)
-                    else:
-                        return
-                if self.file_type == "prs":
-                    if file_name not in self.datafile:
-                        self.datafile[file_name] = {}
-                        for slide_num, slide_text in self.content_inf.items():
-                            self.datafile[file_name][slide_num] = slide_text
-                elif self.file_type == "txt":
-                    self.datafile[file_name] = self.content_inf
-                    loading_effect(1)
-                    printsl("\nDone!")
-                    time.sleep(1)
-                    input("\n\nPress Enter to return to the office selection")
-                    time.sleep(0.5)
-                    from octice import OcticeSelect
-                    OcticeSelect().select_office()
-                    return
-
-    def passage_file(self):
-        whisper = self.whisper
-        printsl(f"\n\nWhile writing the file content: to enter in your document, write {r'\n'}, ")
-        input("\nClick Enter to start writing text. = '!Back' to exit =")
-        text_append = input("\n\n\n\n> ")
-        if self.file_type == "txt":
-            whisper.text_file = whisper.text_file + " " + text_append
-            self.content_inf = whisper.text_file
-        elif self.file_type == "prs":
-            self.content_inf[self.leaf.slide_num] = self.content_inf.get(self.leaf.slide_num, "") + " " + text_append
+                        printsl("\nGarbage Truck: slide is not found...")
+                        continue
         return
-
-    def open_file(self, content_file):
-        self.content_inf = content_file
-        if self.file_type == "txt":
-            printsl(f"\n{self.file_name}\n\n")
-            print("===\n")
-            print(self.content_inf)
-            print("\n===")
-            input("\n\nPress Enter To Exit")
-            time.sleep(0.2)
-            return
-        elif self.file_type == "prs":
-            printsl(f"\n\nPRESENTATION {self.file_name}")
-            for number_slide, text_slide in self.content_inf.items():
-                print(f"\n\n[SLIDE {number_slide}]\n")
-                print("="*20)
-                print(f"\n{text_slide}\n")
-                print("="*20)
-                while True:
-                    scroll = input("\n\nPress Enter To Scroll Slides  = '!Exit' to exit = ").lower().strip()
-                    match scroll:
-                        case "!exit":
-                            time.sleep(1)
-                            return
-                        case _:
-                            break
-
-        input("\n\nPress Enter To Exit")
+     
+    def delete_chrt(self):
+        del self.page[self.file_name]
         return
     
-    def rename_file(self):
-        def check_content():
-            time.sleep(0.5)
-            printsl(f"\n{self.file_name} text: ")
-            print("=====")
-            print(self.content_inf)
-            print("=====")
-            input("\n\nPress enter to continue.")
-            return
-        if self.file_type == "txt":
-            while True:
-                printsl(f"\n\nOLD TXT FILE NAME: {self.file_name}.")
-                printsl("\nENTER A NEW FILE NAME (limit: 25 characters) = '!Text' to check file content (text), '!Back' to exit = ")
-                new_name = input("\n\n> ")
-                if new_name.lower().strip() == "!back":
-                    printsl("\n\nGo back...")
-                    time.sleep(0.4)
-                    return
-                elif new_name.lower().strip() == "!text":
-                    check_content()
-                    continue
-                else:
-                    if len(new_name) > 25:
-                        printsl("\nSorry, but the file name should not exceed 25 characters.\n")
-                        time.sleep(1)
-                        continue
-                    if self.file_name == new_name or new_name in self.datafile:
-                        printsl("\n\nSorry, but you already have this file name")
-                        time.sleep(0.3)
-                        continue
-                    del self.datafile[self.file_name]
-                    self.datafile[new_name] = self.content_inf
-                    self.file_name = new_name
-                    printsl("\nDone!")
-                    time.sleep(0.3)
-                    printsl("\n\nGo back...")
-                    time.sleep(0.5)
-                    return #TAdf3fg43vhgh3h443473272456hfdwif
 
-        elif self.file_type == "prs":
-            while True:
-                printsl(f"\n\nOLD PRESENTATION FILE NAME: {self.file_name}.")
-                printsl("\nENTER A NEW FILE NAME (limit: 25 characters) = '!Text' to check file content (presentation), '!Back' to exit = ")
-                new_name = input("\n\n> ")
-                if new_name.lower().strip() == "!back":
-                    printsl("\n\nGo back...")
-                    time.sleep(0.4)
-                    return
-                elif new_name.lower().strip() == "!text":
-                    check_content()
-                    continue
-                else:
-                    if len(new_name) > 25:
-                        printsl("\nSorry, but the file name should not exceed 25 characters.\n")
-                        time.sleep(1)
-                        continue
-                    if self.file_name == new_name or new_name in self.datafile:
-                        printsl("\n\nSorry, but you already have this file name")
-                        time.sleep(0.3)
-                        continue
-                    del self.datafile[self.file_name]
-                    self.datafile[new_name] = self.content_inf
-                    self.file_name = new_name
-                    printsl("\nDone!")
+class FileRenamer:
+    def __init__(self, content_file, name, page):
+        self.content = content_file
+        self.file_name = name
+        self.page = page
+
+    def rename_file(self, f_type):
+        while True:
+            printsl(f"\nOLD {f_type} FILE NAME: {self.file_name}")
+            printsl("\nENTER A NEW FILE NAME (limit: 25 characters) = '!Back' to exit = ")
+            new_name = input("\n\n> ")
+            if new_name.lower().strip() == "!back":
+                printsl("\n\nGo back...")
+                time.sleep(0.4)
+                return
+            else:
+                if len(new_name) > 25:
+                    printsl("\nSorry, but the file name should not exceed 25 characters.\n")
+                    time.sleep(1)
+                elif self.file_name == new_name or new_name in self.page:
+                    printsl("\n\nSorry, but you already have this file name")
                     time.sleep(0.3)
-                    printsl("\n\nGo back...")
-                    time.sleep(0.5)
-                    return
-            
+                else:
+                    del self.page[self.file_name]
+                    self.page[new_name] = self.content
+                    self.file_name = new_name
+                    break
+                continue
+        printsl(f"\n\nRenamed. New {f_type} File Name: {new_name}")   
+        new_name = "" 
+        time.sleep(0.3)
+        return
+                

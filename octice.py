@@ -15,10 +15,16 @@ class OcticeSelect:
     time.sleep(0.5)
     print("=" * 30)
     printsl("Choose an office: ")
-    print("\n1. OctaWhisper")
-    print("\n2. OctaLeaf") 
+    print("\n")
+
+    print("1. OctaWhisper (Offices-Mini)")
+
+    print("\n2. OctaLeaf (Offices-Mini)") 
+
     print("\n3. OctaOERF (Open, Edit, and Remove the File.)")
-    print("\n4 OctaChart")
+
+    print("\n4 OctaChart (Offices-Mini)")
+    
     print("\n")
     print("=" * 30)        
     printsl("\n\nWRITE DOWN THE NUMBER OF THE SELECTED ANSWER = '!Back' to exit =")

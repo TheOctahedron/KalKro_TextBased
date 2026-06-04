@@ -1,9 +1,8 @@
 import time
-import matplotlib.pyplot as plt
-from utilities import printsl
-from fileManager import Octa_manager
+from utilities import printsl, yes_no
+from fileManager import FileSaver, FileDeleter, FileOpener, FileRenamer
 
-# -----------------------------------------------------------------------------------------------
+# =================================================================================================
 
 
 class OctaWhisper:
@@ -11,7 +10,6 @@ class OctaWhisper:
     self.officed = officedata
     self.text_file = ""
     self.OERF = OctaOERF(self.officed)
-    self.action_addresse = Action_addressee(self.officed)
     
   def whisper(self):
     printsl(f"\n\nWhile writing the text: to enter in your document, write {r'\n'}")
@@ -20,13 +18,17 @@ class OctaWhisper:
     self.action()
     return
     
+  def passage_txt(self):
+    self.text_file = self.text_file + " " + self.append
       
   def action(self):
-    self.OERF.type_file = "txt"
+    f_type = "txt"
     time.sleep(1)
-    self.action_addresse.action_add()
+    self.OERF.OERF_actions(f_type)
+    return
       
-# -----------------------------------------------------------------------------------------------
+
+# =================================================================================================
 
 
 class OctaLeaf:
@@ -36,8 +38,15 @@ class OctaLeaf:
     self.slide_num = 1
     self.leaf_file = {}
     self.OERF = OctaOERF(self.officed)
-    self.action_addresse = Action_addressee(self.officed)
-    
+    self.edit_prs = {
+        1: "Exit",
+        2: "Delete slide",
+        3: "Add another passage to it",
+        4: "Open file",
+        5: "Save File", 
+        6: "Rename file",
+        7: "Add new slide"
+    }    
 
   def leaf(self):
     self.leaf_file = {}
@@ -54,9 +63,10 @@ class OctaLeaf:
     return
   
   def action(self):
-    self.OERF.type_file = "prs"
+    f_type = "prs"
     time.sleep(1)
-    self.action_addresse.action_add()
+    self.OERF.OERF_actions(f_type)
+    return
 
   def new_slide(self):
     printsl(f"\n\nWhile writing the slide: to enter in your document, write {r'\n'}")
@@ -64,84 +74,238 @@ class OctaLeaf:
     self.slide_text = input("\n\n\n\n> ")
     self.leaf_file[self.slide_num] = self.slide_text
     self.slide_num += 1
-    
     printsl("\n\nAdded!")
     time.sleep(0.4)
     return
 
-# -----------------------------------------------------------------------------------------------
+
+# =================================================================================================
 
 
 class OctaChart:
   def __init__(self, officedata):
     self.officed = officedata
+    self.chart_line = "".upper()
+    self.horisontal_values = []
+    self.vertical_values = []
+    self.OERF = OctaOERF(self.officed, self.horisontal_values, self.vertical_values)
 
   def chart(self):
     time.sleep(0.3)
-    printsl("\n\nOctaChart is an office built on the basis of Matplotlib. Create a useful chart.")
+    printsl("\n\nOctaChart is an office built on the basis of Matplotlib. Create a simple chart.")
+    input("\n\nClick Enter to start writing HORISONTAL line-values.")
+    self.chart_line = "horisontal"
+    self.type_values()
+    input("\n\nClick Enter to start writing VERTICAL line-values.")
+    self.chart_line = "vertical"
+    self.type_values()
+    time.sleep(0.4)
+    printsl("\n\nDone!, your data:\n")
+    print(f"\n1. HORISONTAL VALUES:\n{self.horisontal_values}\n")
+    print(f"\n2. VERTICAL VALUES:\n{self.vertical_values}\n")
+    time.sleep(0.5)
+    input("\n\nPress Enter to go the OERF")
+    self.action()
+    return
+    
+  
+
+  def action(self):
+    f_type = "chrt"
+    time.sleep(0.3)
+    self.OERF.OERF_actions(f_type)
+    return
+
+
+  def type_values(self):
+    while True:
+      printsl(f"\n\nTYPES FOR {self.chart_line} VALUES: ") 
+
+      print("\n\n1. AUTO-DIGITAL  (AUTOMATIC ENTRY FROM 1 TO A SPECIFIED NUMBER:  Example if you typed 5:  1, 2, 3, 4, 5)")
+
+      print("\n\n2. VERBAL  (ENTER EACH GIVEN ONE MANUALLY, IN ANY CHARACTERS: An example if you want to calculate something on the days of the week: MONDAY, TUESDAY, WEDNESDAY, ...)") 
+
+      printsl("\n\nWRITE THE NUMBER OF SELECTED VALUE-TYPE  = '!Back' to exit. =")
+
+      select_type = input("\n\n> ")
+      match select_type:
+        case "1":
+          select_type = "digital"
+        case "2":
+          select_type = "verbal"
+        case "!Back":
+          printsl("\n\nGo back...")
+          time.sleep(0.5)
+          return
+        case _:
+          printsl("\n\nError... Write 1 or 2 depending on your choice of value type...")
+          time.sleep(0.5)
+          continue
+      question = yes_no(f"\n\nAre you sure you want to use this type-values?: {select_type} type")
+      if question:
+        printsl("\nADDED.")
+        self.value_type = select_type
+        break
+      else:
+        printsl("\n\nCansel...")
+        time.sleep(0.4)
+        continue
+    if self.chart_line == "HORISONTAL":
+      label = "X"
+    elif self.chart_line == "VERTICAL": 
+      label = "Y"
+    match select_type:
+      case "digital":
+        self.digital_enter(label)
+      case "verbal":
+        self.verbal_enter(label)  
+    return
+
+     
+  def digital_enter(self, label):
+    while True:
+      try:
+        print(f"\n== {label}-LABEL ==")
+        print("\n\nAutomatic range: Enter the desired number and we will create so many simple values consisting of a solid number. = '30303' to exit =")
+        enter_number = int(input("\n\n> ").strip())
+        if enter_number == "30303":
+          printsl("\n\nGo back...")
+          time.sleep(0.5)
+          return
+        question = yes_no(f"\n\nAre you sure you want to have exactly {enter_number} values in the horizontal?")
+        if question:
+          for i in range(1, enter_number + 1):
+            if label == "X":
+              self.horisontal_values = []
+              self.horisontal_values.append(i)
+            elif label == "Y":
+              self.vertical_values = []
+              self.vertical_values.append(i)
+              printsl("\nADDED.")
+              time.sleep(0.4)
+              break
+          break
+        else:
+          printsl("\n\nCansel...")
+          time.sleep(0.4)
+          continue
+      except Exception as e:
+        printsl(f"\nERROR... {e}\n\n\n")
+        time.sleep(1)
+        continue
+    return
+  
+  def verbal_enter(self, label):
+    while True:
+      try:
+        print(f"\n== {label}-LABEL ==")
+        print("\n\nManually enter each value: please enter the number of manual values you want to create (example: if you enter 5, there will be 5 handwritten values). = '30303' to exit =")
+        enter_number = int(input("\n\n> ").strip())
+        if enter_number == "30303":
+          printsl("\n\nGo back...")
+          time.sleep(0.5)
+          return
+        question = yes_no(f"\n\nAre you sure you want to have exactly {enter_number} values in the {self.chart_line}?")
+        if question:
+          time.sleep(0.4)
+          break
+        else:
+          printsl("\n\nCansel...")
+          time.sleep(0.4)
+          continue
+      except Exception as e:
+        printsl(f"\nERROR... {e}\n\n\n")
+        time.sleep(1)
+        continue
+    option = 0
+    if label == "X":
+      self.horisontal_values = []
+    elif label == "Y":
+      self.vertical_values = []
+    while enter_number > 0:
+      option += 1
+      print(f"\n\nENTER A VALUE FOR OPTION {option}.  = '!Back' to exit. =")
+      enter_value = input("\n\n> ").strip()
+      question = yes_no("\nARE YOU SURE THIS IS THE MEANING?")
+      if question:
+        if label == "X":
+          self.horisontal_values.append(enter_value)
+        elif label == "Y":
+          self.vertical_values.append(enter_value)
+        enter_number -= 1
+        continue
+    return
+
 
 # -----------------------------------------------------------------------------------------------
 
 
 class OctaOERF:
-  def __init__(self, officedata):
+  def __init__(self, officedata, horisontal, vertical):
     self.officed = officedata
     self.files = ""
-    self.type_file = ""
     self.content_file = ""
     self.name_file = ""
-    self.txt_page = self.officed.pages_txt
-    self.prs_page = self.officed.pages_leafs
-    self.action_addresse = Action_addressee(self.officed)
+    self.page = ""
 
-  def OERF(self):
-    print("\n1. Your all documents: ")
-    printsl("="*30)
-    print("\n")
-    printsl("="*20)
-    printsl("\n1. Text Files: ")
-    for number, (file, _) in enumerate(self.txt_page.items(), 1):
-      print(f"\n{number}. {file}")
+    self.saver = FileSaver(self.content_file, self.name_file, self.page)
 
-    print("\n")
-    printsl("="*20)
-    time.sleep(0.3)
-    print("\n\n\n")
-    printsl("="*20)
-    printsl("\n2. Presentation Files: ")
-    for number, (file, _) in enumerate(self.prs_page.items(), 1):
-      print(f"\n{number}. {file}")
+    self.deleter = FileDeleter(self.content_file, self.name_file,  self.page)
+
+    self.opener = FileOpener(self.content_file, self.name_file)
+
+    self.renamer = FileRenamer(self.content_file, self.name_file,  self.page)
+
+    self.horisontal = horisontal
+    self.vertical = vertical
+
+    self.leaf = OctaLeaf(self.officed)
     
-    print("\n")
-    printsl("="*20)
-    time.sleep(0.3)
-    print("\n\n\n")
-    printsl("="*30)
-    time.sleep(0.2)
+      
+# ==================================                
 
-    printsl("\n\nWRITE DOWN THE NUMBER OF THE SELECTED FILE-SPHERE (1/2) = '!Back' to exit =")
+# MAIN OERF
+  def OERF(self):
+    print("\n1. Your all documents-pages: ")
+    printsl("\n1. Text_Files.PAGE")
+    time.sleep(0.3)
+    printsl("\n2. Presentation_Files.PAGE")
+    time.sleep(0.3)
+    printsl("\n3. Chart_Files.PAGE")
+
+    printsl("\n\nWRITE DOWN THE NUMBER OF THE SELECTED DOCUMENT PAGE (INSIDE ALL DOCUMENTS) = '!Back' to exit =")
     question = input("\n\n> ").lower().strip()
     match question:
+
       case "1":
-        self.type_file = "txt"
-        self.prstxt_files()
+        f_type = "txt"
       case "2":
-        self.type_file = "prs"
-        self.prstxt_files()
+        f_type = "prs"
+      case "3":
+        f_type = "chrt"
+
       case "!back":
         printsl("\nGo back...")
         time.sleep(1)
         return
+    self.all_files(f_type)
 
-  def prstxt_files(self):
+# FINDING A FILE 
+  def all_files(self, f_type):
     printsl("="*20)
-    if self.type_file == "txt":
-      printsl("\nText Files: ")
-      page = self.txt_page
-    elif self.type_file == "prs":
-      printsl("\n2. Presentation Files: ")
-      page = self.prs_page
-    self.files = list(page.items())
+    printsl(f"\n{f_type.capitalize()} Files: ")
+    match f_type:
+# ==========================================
+      case "txt":
+        self.page = self.officed.pages_txt
+
+      case "prs":  
+        self.page = self.officed.pages_leafs
+
+      case "chrt":
+        self.page = self.officed.pages_chart
+# ==========================================    
+    self.files = list(self.page.items())
     for number, (name, _) in enumerate(self.files, 1):
       print(f"\n{number}. {name}")
     print("\n")
@@ -153,15 +317,16 @@ class OctaOERF:
       printsl("\nGo back...")
       time.sleep(1)
       return
-    self.check_file(question)
+    self.check_file(question, f_type)
 
-  def check_file(self, question):
+# VERIFYING A FILE
+  def check_file(self, question, f_type):
     try:
       idx = int(question) - 1
       time.sleep(1)
       if 0 <= idx < len(self.files):
         self.name_file, self.content_file = self.files[idx]
-        self.action_addresse.action_add()
+        self.OERF_actions(f_type)
         return
       else:
         printsl("\n\nYou don't have such a file number.")
@@ -170,13 +335,68 @@ class OctaOERF:
       printsl(f"\nERROR... {e}\n\n\n")
       time.sleep(1)
 
-# -----------------------------------------------------------------------------------------------
+# ==================================
 
-class Action_addressee:
-  def __init__(self, officedata): 
-    self.officed = officedata
+# ALL ACTIONS
+  def OERF_actions(self, f_type):
+    full_actions = {
+      1: "Exit",
+      2: "Delete",
+      3: "Rename file",
+      4: "Open file",
+      5: "Save File", 
+      6: "Add another passage to it",
+      7: "Add new slide"
+    }
+
+
+    match f_type:
+      case "txt":
+        del full_actions[7]
+      case "prs":
+        pass
+      case "chrt":
+        del full_actions[6], full_actions[7]
+    while True:
+      print(f"\n\nFile.{f_type} actions:\n===")
+      for action_number, action_info in full_actions.items():
+        print(f"\n{action_number}: {action_info}...")
+      print("\n===")
+      time.sleep(0.3)
+      printsl("\n\nWRITE DOWN THE NUMBER OF THE SELECTED ACTION (auto-save enabled.)")
+      question = input("\n\n> ").lower().strip()
+      if question == action_number:
+        match question:
+          case "1":
+            break
+          case "2":
+            self.deleter.delete_type_found(f_type)
+          case "3":
+            self.renamer.rename_file(f_type)
+          case "4":
+            self.opener.open_typefound(f_type)
+          case "5":
+            self.saver.save_typefound(f_type)
+          case "6":
+            self.append()
+            self.saver.save_typefound(f_type, self.horisontal, self.vertical)
+          case "7":
+            self.leaf.new_slide()  
+          case _:
+            time.sleep(0.4)
+            continue
+        break
+
+    printsl("\n\nGo back...")
+    time.sleep(0.2)
+    return  
   
-  def action_add(self):
-    time.sleep(0.5)
-    Octa_manager(self.officed).action_file()
+  def append(self):
+    printsl(f"\n\nWhile writing the file content: to enter in your document, write {r'\n'}, ")
+    input("\nClick Enter to start writing text. = '!Back' to exit =")
+    text_append = input("\n\n\n\n> ")
+    self.content_file = self.content_file + " " + text_append
+    return
 
+
+# =================================================================================================
