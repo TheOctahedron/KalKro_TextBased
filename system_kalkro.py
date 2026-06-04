@@ -79,7 +79,7 @@ class OfficeData:
   def __init__(self):
     self.pages_txt = {}
     self.pages_leafs = {}
-    self.pages_pdf = {}
+    self.pages_chrt = {}
     
     
 # ===============================================================
