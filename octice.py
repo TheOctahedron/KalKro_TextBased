@@ -1,6 +1,6 @@
 import time
 from utilities import printsl
-from offices import OctaLeaf, OctaWhisper, OctaOERF
+from offices import OctaLeaf, OctaWhisper, OctaOERF, OctaChart
 
 class OcticeSelect:
   def __init__(self, userdata, officedata):
@@ -9,6 +9,7 @@ class OcticeSelect:
     self.octawhisper = OctaWhisper(self.officed)
     self.octaleaf = OctaLeaf(self.officed)
     self.octaOERF = OctaOERF(self.officed)
+    self.octachart = OctaChart(self.officed)
   
   def select_office(self):
     printsl(f"\n\nWelcome to Octice Office. {self.userd.username}.\n")
@@ -36,5 +37,7 @@ class OcticeSelect:
         self.octaleaf.leaf()
       case "3":
         self.octaOERF.OERF()
+      case "4":
+        self.octachart.chart()
       case "!back":
         return
