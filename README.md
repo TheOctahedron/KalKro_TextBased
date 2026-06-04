@@ -19,7 +19,7 @@ in the introduction of KalKro OS - an unusual operating system, where you will m
 **My next steps are**:
 1. Complete the 'Marketing Simulator'.
 2. (IMPORTANT): Get this code in order and make it cleaner.  (IN PROCESS)
-3. Finish the OctaChart..  (IN PROCESS)
+3. Add more screenshots to the README and more information.
 4. etc...
 
 ## SCREENSHOTS
