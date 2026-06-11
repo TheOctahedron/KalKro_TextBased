@@ -1,7 +1,4 @@
 all_action = {
-    "wallet": {
-        "money": 1000
-    },
     "coin": {
         "Milcoin": 2300,
         "Excoin": 3000000,

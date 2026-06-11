@@ -1,6 +1,6 @@
 import time
 import json
-import httpx
+import httpx 
 from dojdo_ai import DojDo
 import sqlite3
 from market_product import all_action
@@ -40,6 +40,7 @@ class ProgramData:
 class MarketData:
   def __init__(self):
     self.deal = False
+    self.money = 1000
     self.add = 0
     self.profit = 0
     self.starting_price = 0
@@ -56,9 +57,9 @@ class MarketData:
       9: "Global IT ", 
       10: "Space Exploration" 
     }
-    self.all_action = all_action
+    self.all_action = all_action # everything for the Marketing Simulator
     self.coins = list(all_action["coin"].values())
-    self.__dict__.update(all_action) # everything for the Marketing Simulator
+    self.__dict__.update(all_action) 
     
 # ===============================================================
 
@@ -142,6 +143,8 @@ class SQL:
       printsl(f"DojDo: {ai_resp}\n")
 
 # ===============================================================
+
+
 
 
 

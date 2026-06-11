@@ -1,7 +1,7 @@
 # utilities
 import sys, time
 
-def printsl(text, delay=0.01):
+def printsl(text, delay=0.005):
   for char in text:
    sys.stdout.write(char)
    sys.stdout.flush()
@@ -15,7 +15,7 @@ def loading_effect(duration=5):
   while time.time() < end_time:
     sys.stdout.write(f'\rLoading{frames[i % len(frames)]}')
     sys.stdout.flush()
-    time.sleep(0.3)
+    time.sleep(0.01)
     i += 1
 
 def yes_no(coconut):
