@@ -7,7 +7,7 @@ class WelcomeMarket:
   def __init__(self, marketdata):
     self.marketd = marketdata
     self.marketing_simulator = MarketingSimulator(self.marketd)
-
+    
     
   def welcome_to_game(self):
     time.sleep(1)
@@ -45,7 +45,7 @@ class WelcomeMarket:
     print("="*80)
     print("\nMAIN IDEA: \n")
     printsl("\nThe main idea: is that you are an investor, you open up startups, your own virtual currencies, monitor charts, and so on...")
-    printsl("\n\nCommands: \n'!Exit' is a command to exit the game and return to the desktop.\n'!Menu' is a command to exit the menu. \n'!Wallet' is a command for quickly viewing the amount of money.\n'!self.   .level' is command fast shows your current ranking in the economy.")
+    printsl("\n\nCommands: \n'!Menu' is a command to exit the menu. \n'!Wallet' is a command for quickly viewing the amount of money.\n'!level' is command fast shows your current ranking in the economy.")
     print("="*80)
     time.sleep(1)
     input("\n\nPress Enter to menu\n")
@@ -65,11 +65,29 @@ class WelcomeMarket:
 class MarketingSimulator:
   def __init__(self, marketdata):
     self.marketd = marketdata
-    
+    self.go_welcome_market = WelcomeMarket(self.marketd)
+    self.etc_data = {
+      "!wallet": self.wallet_check,
+      "!rating": self.score_and_rating,
+      "!menu": self.go_welcome_market.main_menu
+    }
+
+
+  def etc_actions(self, cmd):
+    if cmd in self.etc_data():
+      self.etc_data[cmd]()
+    else:
+      printsl("\n\nSorry, but this command it not found.")
+    printsl("\n\nGo back...")
+    time.sleep(0.5)
+    return 
+
+
     
   def market_office(self): # GREET THE PLAYER AND SEND HIM TO THE CENTER OF THE MAIN ACTION
     printsl("\n\nWelcome to your office!")
     self.actions_market()
+
 
   # ============================================================================
 
@@ -86,41 +104,42 @@ class MarketingSimulator:
 
   # ============================================================================
 
+
   def actions_market(self): # MAIN ACTIONS, THE OFFICE ITSELF
     time.sleep(1)
-    print("="*20)
-    printsl("\n\nYour possible actions: ")
-    print("\n1. View/Buy Crypto-Сurrency from the Crypto-Market.")
-    print("\n2. Look at inflation")
-    print("\n3. Market (with full cycles)")
-    print("\n4. View the exchange rate.")
-    print("\n5. View your wallet and rating.")
-    print("\n6. Buy shares. (FIRE)")
-
-    print("\n\n")
-    print("="*20)
-    time.sleep(1)
-    printsl("\n\n\nWRITE DOWN THE NUMBER OF THE SELECTED ACTION\n== Write '!Back' to exit, '!Rating' to view the rating ==\n")
-    question = input("\n\n> ").lower().strip()
-    match question:
-      case "1":
-        self.crypto_market()
-      case "2":
-        self.inflation_market()
-      case "3":
-        self.found_market()
-      case "4":
-        self.exchange_rate()
-      case "5":
-        self.score_and_rating()
-      case "6":
-        self.show_shares()
-      case "!back":
-        printsl("\nGo back...")
-        time.sleep(1)
-        return
-      case "!rating":
-        self.score_and_rating()
+    while True:
+      print("="*20)
+      printsl("\n\nYour possible actions: ")
+      print("\n1. View/Buy Crypto-Сurrency from the Crypto-Market.")
+      print("\n2. Look at inflation")
+      print("\n3. Market (with full cycles)")
+      print("\n4. View the exchange rate.")
+      print("\n5. View your wallet and rating.")
+      print("\n6. Buy shares. (FIRE)\n\n")
+      print("="*20)
+      time.sleep(1)
+      printsl("\n\n\nWRITE DOWN THE NUMBER OF THE SELECTED ACTION\n== Write '!Back' to exit, '!Rating' to view the rating ==\n")
+      question = input("\n\n> ").lower().strip()
+      match question:
+        case "1":
+          self.crypto_market()
+        case "2":
+          self.inflation_market()
+        case "3":
+          self.found_market()
+        case "4":
+          self.exchange_rate()
+        case "5":
+          self.score_and_rating()
+        case "6":
+          self.show_shares()
+        case "!back":
+          printsl("\nGo back...")
+          time.sleep(1)
+          return
+        case _:
+          self.etc_actions(question)
+          continue
 
 
 
@@ -158,7 +177,7 @@ class MarketingSimulator:
         case "!help":
           self.get_share_help() 
         case _:
-          time.sleep(0.3)
+          self.etc_actions(question)
           continue
       self.found_shares(selected_section, share_category)
    
@@ -247,7 +266,6 @@ class MarketingSimulator:
 
 
 
-
   def buy_share(self, share_number, share_name, share_price, category):  # MAKING A PURCHASE
     while True:
       printsl(f"\n\n{share_number}. {share_name}.")   
@@ -315,6 +333,8 @@ class MarketingSimulator:
           case "2":
             self.sell_share(total_price)
             return
+          case _:
+            self.etc_actions(question)
       
       chance = random.randint(1, 50)
       match category:
@@ -419,6 +439,9 @@ class MarketingSimulator:
           break
         case "2":
           return
+        case _:
+          self.etc_actions(question)
+          continue
           
     self.check_deal()
     return
@@ -458,7 +481,7 @@ class MarketingSimulator:
         return
     self.make_deal("global")
     return
-  
+    
 
 
   # ============================================================================
@@ -466,81 +489,93 @@ class MarketingSimulator:
 
   def found_market(self): # WE SHOW ALL FULL-CYCLES STORES AND LOOK FOR THE RIGHT ONE.
     time.sleep(1)
-    print("\n\n")
-    print("="*20)
-    printsl("Buy full cycles (buy - automatic sell), buy knowing the risks of failure.")
-    input("\nPress Enter to continue. ")
-    print("\n\nselect an area to purchase a full-cycle product: ")
-    for number, cycle in self.marketd.full_cycles.items():
-      printsl(f"\n{number}: {cycle}")
-    print("="*20)
-    time.sleep(1)
-    printsl("\n\n\nWRITE DOWN THE NUMBER OF THE SELECTED SPHERE\n== Write '!Back' to exit ==\n")
-    question = input("\n\n> ").lower().strip()
-    match question:
-      case "1":
-        self.marketd.market_name = self.marketd.full_cycles_store
-      case "2":
-        self.marketd.market_name = self.marketd.full_cycles_restaurant
-      case "3":
-        self.marketd.market_name = self.marketd.full_cycles_gaming
-      case "4":
-        self.marketd.market_name = self.marketd.full_cycles_shopping_malls
-      case "5":
-        self.marketd.market_name = self.marketd.full_cycles_mechanical
-      case "6":
-        self.marketd.market_name = self.marketd.full_cycles_farm
-      case "7":
-        self.marketd.market_name = self.marketd.full_cycles_sheepbuilding
-      case "8":
-        self.marketd.market_name = self.marketd.full_cycles_laboratory
-      case "9":
-        self.marketd.market_name = self.marketd.full_cycles_IT
-      case "10":
-        self.marketd.market_name = self.marketd.full_cycles_spacesph
-
-      case "!back":
-        printsl("\nGo back...")
-        time.sleep(1)
-        return
-    self.found_product_price()
+    while True:
+      print("\n\n")
+      print("="*20)
+      printsl("Buy full cycles (buy - automatic sell), buy knowing the risks of failure.")
+      input("\nPress Enter to continue. ")
+      print("\n\nselect an area to purchase a full-cycle product: ")
+      for number, cycle in self.marketd.full_cycles.items():
+        printsl(f"\n{number}: {cycle}")
+      print("="*20)
+      time.sleep(1)
+      printsl("\n\n\nWRITE DOWN THE NUMBER OF THE SELECTED SPHERE\n== Write '!Back' to exit ==\n")
+      question = input("\n\n> ").lower().strip()
+      match question:
+        case "1":
+          self.marketd.market_name = self.marketd.full_cycles_store
+        case "2":
+          self.marketd.market_name = self.marketd.full_cycles_restaurant
+        case "3":
+          self.marketd.market_name = self.marketd.full_cycles_gaming
+        case "4":
+          self.marketd.market_name = self.marketd.full_cycles_shopping_malls
+        case "5":
+          self.marketd.market_name = self.marketd.full_cycles_mechanical
+        case "6":
+          self.marketd.market_name = self.marketd.full_cycles_farm
+        case "7":
+          self.marketd.market_name = self.marketd.full_cycles_sheepbuilding
+        case "8":
+          self.marketd.market_name = self.marketd.full_cycles_laboratory
+        case "9":
+          self.marketd.market_name = self.marketd.full_cycles_IT
+        case "10":
+          self.marketd.market_name = self.marketd.full_cycles_spacesph
+        case "!back":
+          printsl("\nGo back...")
+          time.sleep(1)
+          return
+        case _:
+          self.etc_actions(question)
+          continue
+      self.found_product_price()
 
 
   def found_product_price(self): # WE SHOW THE MENU, FIND THE DESIRED PRODUCT.
     time.sleep(1)
-    print("\n\n\n")
-    print("=" * 25)
-    printsl("FULL-CYCLE MARKET: ")
-    for product, price in self.marketd.market_name.items():
-      printsl(f"\nPRODUCT: {product} PRICE: {price}$")
-    print("=" * 25)
-    printsl("\n\n\nWRITE DOWN THE NUMBER OF THE SELECTED FULL-CYCLE PRODUCT\n== Write '!Back' to exit ==\n")
-    products = list(self.marketd.market_name.values())
-    question = input("\n\n> ").lower().strip()
-    s_price = "" # STARTING PRISE
-    match question:
-      case "1":
-        s_price = products[0]
-      case "2":
-        s_price = products[1]
-      case "3":
-        s_price = products[2]
-      case "4":
-        s_price = products[3]
-      case "5":
-        s_price = products[4]
-      case "6":
-        s_price = products[5]
-      case "7":
-        s_price = products[6]
-      case "8":
-        s_price = products[7]
-      case "9":
-        s_price = products[8]
-      case "10":
-        s_price = products[9]
-    self.marketd.starting_price = s_price
-    self.product_category(s_price)
+    while True:
+      print("\n\n\n")
+      print("=" * 25)
+      printsl("FULL-CYCLE MARKET: ")
+      for product, price in self.marketd.market_name.items():
+        printsl(f"\nPRODUCT: {product} PRICE: {price}$")
+      print("=" * 25)
+      printsl("\n\n\nWRITE DOWN THE NUMBER OF THE SELECTED FULL-CYCLE PRODUCT\n== Write '!Back' to exit ==\n")
+      products = list(self.marketd.market_name.values())
+      question = input("\n\n> ").lower().strip()
+      s_price = "" # STARTING PRISE
+      match question:
+        case "1":
+          s_price = products[0]
+        case "2":
+          s_price = products[1]
+        case "3":
+          s_price = products[2]
+        case "4":
+          s_price = products[3]
+        case "5":
+          s_price = products[4]
+        case "6":
+          s_price = products[5]
+        case "7":
+          s_price = products[6]
+        case "8":
+          s_price = products[7]
+        case "9":
+          s_price = products[8]
+        case "10":
+          s_price = products[9]
+        case "!back":
+          printsl("\nGo back...")
+          time.sleep(1)
+          return
+        case _:
+          self.etc_actions(question)
+          continue
+
+      self.marketd.starting_price = s_price
+      self.product_category(s_price)
 
 
 
@@ -577,7 +612,7 @@ class MarketingSimulator:
     requires_bubbles = 0
     time.sleep(0.5)
     print("===")
-    printsl(f"\n\nYOUR WALLET AT THE MOMENT: {self.marketd.wallet['money']}$.")
+    printsl(f"\n\nYOUR WALLET AT THE MOMENT: {self.marketd.money}$.")
     printsl("\nYou can always quickly view your material account using the '!wallet' command.")
     print("===")
     
