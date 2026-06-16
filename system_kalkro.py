@@ -156,11 +156,11 @@ class Welcome:
     self.internetd = internetdata
     self.officed = officedata
     self.enter = Enter(self.userd, self.programd, self.marketd, self.internetd, self.officed)
-    self.saveload = SaveLoad()
+    self.saveload = SaveLoad(self.userd)
      
   
   def go(self):
-    printsl("\n\nWelcome to KalKro 2.1\n\n")
+    printsl("\n\nWelcome to KalKro 2.2\n\n")
     time.sleep(1)
     print("'!Go' - Let's register! \n('!LogIn' - I already have an account, log in via JSON save)")
     command = input("\n\n> ").lower().strip()
@@ -229,25 +229,30 @@ class System:
 
   def desktop(self):
     time.sleep(1)
+    raw_end = r"/\    /\    /\ "
     print("\n\n\n")
-    print("="*80)
-    print("\nDesktop\n")
-    print("\nYOUR PROGRAMS: ")
-    print("\n\n= SYSTEM PROGRAMS =\n\n")
+    print("\nDesktop")
+    print("\nYOUR PROGRAMS: \n\n")
+    print(r"\/  SYSTEM PROGRAMS  \/")
+    print("\n\n")
     for program in self.programd.system_programs:
       printsl(f"\n{program['number']}: {program['name']}")
-    print("="*25)
-    print("\n\n= DOWNLOAD PROGRAMS =\n\n")
+    print(f"\n\n{raw_end}")
+    print("="*45+"\n")
+    print(r"\/  DOWNLOAD PROGRAMS  \/")
+    print("\n\n")
     for program in self.programd.download_programs:
       printsl(f"\n{program['number']}: {program['name']}")
-    print("="*80)
+    if not self.programd.download_programs:
+      print("Emptiness... You haven't installed any apps yet.")
+    print(f"\n\n{raw_end}")
     time.sleep(1)
 
   def select(self):
     time.sleep(1)
     while True:
       self.desktop()
-      printsl("\n\nWRITE DOWN THE NUMBER OF THE SELECTED PROGRAM (FOR DOWNLOADED PROGRAMS: WRITE THE HOT LETTERS, FOR EXAMPLE: mrs1)")
+      printsl("\n\nWRITE DOWN THE NUMBER OF THE SELECTED PROGRAM")
       try:
         question = input("\n\n> ").lower().strip()
         match question:

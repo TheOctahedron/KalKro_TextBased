@@ -9,7 +9,7 @@ class OctaWhisper:
   def __init__(self, officedata): 
     self.officed = officedata
     self.text_file = ""
-    self.OERF = OctaOERF(self.officed)
+    self.OERF = OctaOERF(self.officed, [], [])
     
   def whisper(self):
     printsl(f"\n\nWhile writing the text: to enter in your document, write {r'\n'}")
@@ -37,7 +37,7 @@ class OctaLeaf:
     self.slide_text = ""
     self.slide_num = 1
     self.leaf_file = {}
-    self.OERF = OctaOERF(self.officed)
+    self.OERF = OctaOERF(self.officed, [],[])
     self.edit_prs = {
         1: "Exit",
         2: "Delete slide",
@@ -259,7 +259,7 @@ class OctaOERF:
     self.horisontal = horisontal
     self.vertical = vertical
 
-    self.leaf = OctaLeaf(self.officed)
+    
     
       
 # ==================================                
@@ -381,7 +381,7 @@ class OctaOERF:
             self.append()
             self.saver.save_typefound(f_type, self.horisontal, self.vertical)
           case "7":
-            self.leaf.new_slide()  
+             pass
           case _:
             time.sleep(0.4)
             continue

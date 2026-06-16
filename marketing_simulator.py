@@ -6,8 +6,6 @@ from market_product import all_action
 class WelcomeMarket:
   def __init__(self, marketdata):
     self.marketd = marketdata
-    self.marketing_simulator = MarketingSimulator(self.marketd)
-    
     
   def welcome_to_game(self):
     time.sleep(1)
@@ -29,7 +27,8 @@ class WelcomeMarket:
     match question:
       case "1":
         time.sleep(1)
-        self.marketing_simulator.market_office()
+        marketing_simulator = MarketingSimulator(self.marketd)
+        marketing_simulator.market_office()
       case "2":
         time.sleep(1)
         self.rules()

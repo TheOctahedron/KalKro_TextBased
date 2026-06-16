@@ -8,7 +8,7 @@ class OcticeSelect:
     self.officed = officedata
     self.octawhisper = OctaWhisper(self.officed)
     self.octaleaf = OctaLeaf(self.officed)
-    self.octaOERF = OctaOERF(self.officed)
+    self.octaOERF = OctaOERF(self.officed, [], [])
     self.octachart = OctaChart(self.officed)
   
   def select_office(self):
