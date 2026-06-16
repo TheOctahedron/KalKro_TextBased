@@ -24,12 +24,16 @@ in the introduction of KalKro OS - an unusual operating system, where you will m
 
 ## SCREENSHOTS
 ---
+! REGISTRATION !
 
-<img width="544" height="238" alt="KalKro registration" src="https://github.com/user-attachments/assets/4329c93f-5724-43cd-bf02-16ad85eaf736" />
+<img width="469" height="455" alt="kalkro register" src="https://github.com/user-attachments/assets/64bdff62-5c10-4cd0-bb03-925dc3a30318" />
+
 
 ---
+! DESKTOP !
 
-<img width="662" height="901" alt="KalKro desktop (2)" src="https://github.com/user-attachments/assets/4a88715c-fff0-4812-816d-dc3d681d2ef0" />
+<img width="547" height="948" alt="desktop kalkro" src="https://github.com/user-attachments/assets/98d7dd51-d0d9-4b9d-8c8d-f9e79e9d1f99" />
+
 
 ---
 
@@ -42,11 +46,13 @@ REQUIRED LIBRARIES:
    
 2. **ollamafreeapi**
 
+3. **matplotlib**
+
 **VERSION**: Python **3.7+**
 
 ## DOWLAND LIBRARIES
 ```bash
-pip install httpx ollamafreeapi
+pip install httpx ollamafreeapi matplotlib
 
 ```
 
