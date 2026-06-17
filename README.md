@@ -50,7 +50,7 @@ REQUIRED LIBRARIES:
 
 **VERSION**: Python **3.7+**
 
-## DOWLAND LIBRARIES
+## REQUIREMENTS & LAUNCH
 ```bash
 pip install httpx ollamafreeapi matplotlib
 
