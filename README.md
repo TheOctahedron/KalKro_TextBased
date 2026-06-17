@@ -39,7 +39,7 @@ in the introduction of KalKro OS - an unusual operating system, where you will m
 
 
 
-## LIBRARIES/VERSION
+## REQUIREMENTS & LAUNCH
 REQUIRED LIBRARIES:
 
 1. **httpx**
@@ -50,13 +50,12 @@ REQUIRED LIBRARIES:
 
 **VERSION**: Python **3.7+**
 
-## REQUIREMENTS & LAUNCH
+**1. LIBRARIES**
 ```bash
 pip install httpx ollamafreeapi matplotlib
-
 ```
 
-## START
+**2. HOW TO START**
 ```bash
 python system_kalkro.py
 ```
