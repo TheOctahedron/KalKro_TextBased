@@ -1,9 +1,9 @@
 import time, random, httpx
-from utilities import printsl, loading_effect, yes_no
-from market_product import all_action
+from ....utilities.helpers import printsl, loading_effect, yes_no
+from market_helper import all_action
 
 
-class WelcomeMarket:
+class Welcome_Market:
   def __init__(self, marketdata):
     self.marketd = marketdata
     
@@ -61,7 +61,7 @@ class WelcomeMarket:
     
 
 
-class MarketingSimulator:
+class Marketing_Simulator:
   def __init__(self, marketdata):
     self.marketd = marketdata
     self.go_welcome_market = WelcomeMarket(self.marketd)

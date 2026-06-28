@@ -459,18 +459,16 @@ class Garbage_truck:
       input("\n\nPress Enter To Continue")
       print("="*80)
       printsl("All Programs")
-      for program in self.programd.download_programs:
-        printsl(f"\n{program['number']}: {program['name']}")
+      for my_program in self.programd.download_programs:
+        printsl(f"\n{my_program['number']}: {my_program['name']}")
       printsl("\n== System applications cannot be deleted. '!Back' to exit ==\n\n\n")
       print("="*80)
       delete = input("\n\n> ").strip().lower()
       try:
-        found_prg = None 
         found = False
         num = int(delete)
-        for program in self.programd.download_programs:
-          if program["number"] == num:
-            found_prg = program 
+        for my_program in self.programd.download_programs:
+          if my_program["number"] == num:
             found = True
         if found == False:
           printsl("\n\nProgram not found...")
@@ -480,37 +478,43 @@ class Garbage_truck:
         print("\nHelp: You need to enter the program number that appears before the name of the desired application.")
         time.sleep(0.5)
         continue
-      self.disk_select(found_prg)
+      self.disk_select(my_program)
 
-  def disk_select(self, found_prg):
+  def disk_select(self, my_program):
     while True:
-      weight = found_prg["weight"]
+      weight = my_program['weight']
+      name = my_program['name']
       print("\n\n")
       print("="*80)
       printsl(f"Garbage truck: which cheap disk do you want to return {weight} liters of memory to? \n'!Back' to cancel delete.'\n")
       for disk in self.programd.all_disks:
-        print(f"Disk {disk["number"]}: {disk["memory"]} liters of memory.\n")
+        print(f"disk {disk["number"]}: {disk["memory"]} liters of memory.\n")
       print("="*80)
       time.sleep(1)
-      printsl("\n\n\nWRITE DOWN THE NUMBER OF THE SELECTED DISK")
+      printsl("\n\n\nWRITE DOWN THE NUMBER OF THE SELECTED disk")
       question = input("\n\n> ").lower().strip()
       try:
-        sdisk = int(question)
-        found_prg = None
+        idx = int(question)
+        found = False
         for disk in self.programd.all_disks:
-          if sdisk == disk["number"]:
-            found_prg = disk
+          if idx == disk["number"]:
+            found = True
+        if found == False:
+          printsl("\n\ndisk is not found...")
+          time.sleep(0.5)
+          continue
       except Exception as e:
         printsl(f"\n\nERROR... {e}")
         time.sleep(1)
         continue
       break
-
+    
+    loading_effect(3)
     printsl("\nGarbage truck: successfully deleted. Oh well.\n\n")
-    loading_effect(1)
-    self.programd.download_programs.remove(found_prg)
-    start_num = len(self.programd.system_programs) + 1
-    for i, program in enumerate(self.programd.download_programs, start_num):
+    self.programd.download_programs.remove(my_program)
+    new_num = len(self.programd.system_programs) + 1
+    for i, program in enumerate(self.programd.download_programs, new_num):
       program["number"] = i
+    for disk
 
 # =====================================================================================                            
