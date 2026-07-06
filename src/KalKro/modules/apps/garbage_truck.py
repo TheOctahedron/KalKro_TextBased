@@ -36,25 +36,24 @@ class Garbage_Truck:
 
   def disk_select(self, my_program):
     while True:
-      weight = my_program['weight']
-      name = my_program['name']
+      prg_weight = my_program['weight']
+      prg_name = my_program['name']
       print("\n\n")
       print("="*80)
-      printsl(f"Garbage truck: which cheap disk do you want to return {weight} liters of memory to? \n'!Back' to cancel delete.'\n")
+      printsl(f"Garbage truck: which cheap disk do you want to return {prg_weight} liters of memory to? \n'!Back' to cancel delete.'\n")
       for disk in self.programd.all_disks:
-        print(f"disk {disk["number"]}: {disk["memory"]} liters of memory.\n")
+        print(f"{disk["type"]} {disk["id"]}: {disk["memory"]} liters of memory.\n")
       print("="*80)
       time.sleep(1)
-      printsl("\n\n\nWRITE DOWN THE NUMBER OF THE SELECTED disk")
+      printsl("\n\n\nWRITE DOWN THE NUMBER OF THE SELECTED DISK")
       question = input("\n\n> ").lower().strip()
       try:
         idx = int(question)
-        found = False
+        founded_disk = False
         for disk in self.programd.all_disks:
-          if idx == disk["number"]:
-            selected_disk = disk["number"]
-            found = True
-        if found == False:
+          if idx == disk["id"]:
+            founded_disk = disk["id"]
+        if founded_disk == None:
           printsl("\n\ndisk is not found...")
           time.sleep(0.5)
           continue
@@ -63,13 +62,17 @@ class Garbage_Truck:
         time.sleep(1)
         continue
       break
-    
     loading_effect(3)
     self.programd.download_programs.remove(my_program)
     new_num = len(self.programd.system_programs) + 1
     for i, program in enumerate(self.programd.download_programs, new_num):
       program["number"] = i
-    selected_disk + weight
+    founded_disk + prg_weight
+
+    founded_disk["content"] = [
+      prg for prg in founded_disk["content"]
+      if prg["name"] != prg_name
+    ]
+
     printsl("\nGarbage truck: successfully deleted. Oh well.\n\n")
-
-
+    return

@@ -1,6 +1,15 @@
 import time
-from utilities import printsl
-from offices import OctaLeaf, OctaWhisper, OctaOERF, OctaChart
+from KalKro.utilities.helpers import printsl
+# ==================================================================================
+from KalKro.modules.apps.octice_office.all_offices.octa_leaf import OctaLeaf
+# ==================================================================================
+from KalKro.modules.apps.octice_office.all_offices.octa_whisper import OctaWhisper
+# ==================================================================================
+from KalKro.modules.apps.octice_office.all_offices.oerf.octa_OERF import OctaOERF
+# ==================================================================================
+from KalKro.modules.apps.octice_office.all_offices.octf_chart import OctaChart
+# ==================================================================================
+
 
 class OcticeSelect:
   def __init__(self, userdata, officedata):

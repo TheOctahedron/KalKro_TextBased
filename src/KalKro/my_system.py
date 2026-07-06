@@ -5,7 +5,7 @@ import sqlite3 as sq3
 
 
 # ========== System Apps ========== 
-from KalKro.modules.apps.dojdo_ai import DojDo
+from KalKro.modules.apps.ai_dojdo.dojdo_main import DojDo_Main
 # =================
 from KalKro.modules.apps.boring_calculator import Boring_Calculator
 # =================
@@ -17,7 +17,9 @@ from KalKro.modules.apps.installer import Installer
 # =================
 from KalKro.modules.apps.save_load import SaveLoad
 # =================
-from KalKro.modules.apps.catfish_browser_internet import CatFishBrowser, My_api
+from KalKro.modules.apps.catfish.catfish_browser import CatFishBrowser
+# =================
+from KalKro.file_conductor.file_conductor import File_Conductor
 # =================================
 
 
@@ -35,7 +37,7 @@ from KalKro.modules.games.marketing_simulator.market_helper import all_action
 
 
 # =========== Utilities ===========
-from KalKro.utilities.helpers import printsl, loading_effect, yes_no
+from KalKro.utilities.helpers import printsl, yes_no
 # =================================
 
 
@@ -53,18 +55,15 @@ from KalKro.modules.apps.octice_office.octice import OcticeSelect
 
 class ProgramData:
   def __init__(self):
-    self.programd = self # ...D = ...DATA
-    self.userd = UserData()
+    self.userd = UserData() # ...D = ...DATA
     self.marketd = MarketData()
     self.internetd = InternetData()
     self.officed = OfficeData()
+    self.mySQL = mySQL
+    self.diskd = DiskData()
 
 
-    self.all_disks = [
-      {"id": 1, "memory": 1000},
-      {"id": 2, "memory": 1000},
-      {"id": 3, "memory": 1000}
-    ]
+    self.all_disks = self.diskd.disks
     
 
     self.downloadable_programs = [
@@ -75,14 +74,15 @@ class ProgramData:
 
 
     self.system_programs = [
-      {"id": 1, "name": "Garbage Truck"},  # added to prg_link
+      {"id": 1, "name": "Garbage Truck"}, # added to prg_link
       {"id": 2, "name": "Catfish-Browser (internet)"},  # added to prg_link
-      {"id": 3, "name": "tic-tac-toe"},  # added to prg_link
+      {"id": 3, "name": "tic-tac-toe"}, # added to prg_link
       {"id": 4, "name": "The Randomizer"},  # added to prg_link
       {"id": 5, "name": "SaVeLoAd"},  # added to prg_link
-      {"id": 6, "name": "diskS"},  # added to prg_link
-      {"id": 7, "name": "Boring Calculator"},  # added to prg_link
-      {"id": 8, "name": "Octice Office"}  # added to prg_link
+      {"id": 6, "name": "diskS"}, # added to prg_link
+      {"id": 7, "name": "Boring Calculator"}, # added to prg_link
+      {"id": 8, "name": "Octice Office"}, # added to prg_link
+      {"id": 9, "name": "File Conductor"} # added to prg_link
     ]
 
 
@@ -90,23 +90,35 @@ class ProgramData:
 
     self.program_link = {
       # ============ SYSTEM ============
-      "Garbage Truck": Garbage_Truck(self.programd).garbage,
-      "Internet": CatFishBrowser(self.programd, self.internetd).request_select,
+      "Garbage Truck": Garbage_Truck(self).garbage,
+      "Catfish-Browser (internet)": CatFishBrowser(self, self.internetd).catfish_go,
       "tic-tac-toe": Tic_Tac_Toe().tic_tac_toe,
       "The Randomizer": Randomizer().random_go,
-      "SaveLoad": SaveLoad(self.programd, self.userd, self.marketd, self.officed).saveload,
-      "Installer": Installer(self.programd).diskS,
+      "SaveLoad": SaveLoad(self, self.userd, self.marketd, self.officed, self.mySQL).saveload,
+      "Installer": Installer(self).diskS,
       "Boring Calculator": Boring_Calculator().hi_calculator,
       "Octice Office": OcticeSelect(self.userd, self.officed).select_office,
+      "File Conductor": File_Conductor(self, self.officed).main_menu,
 
       # ========== DOWNLOADED ==========
       "Rock-Paper-Scissors": Rock_Paper_Scissors().game_rps,
       "Marketing-Simulator": Welcome_Market(self.marketd).main_menu,
-      "DojDo AI": DojDo(self.userd).dojdo_ai
-      
+      "DojDo AI": DojDo_Main(self.userd).DojDo_go
       # ================================
       
     }
+
+# ===============================================================
+
+class DiskData:
+  def __init__(self):
+    self.disks = [
+      {"id": 1, "type": "DISK", "memory": 1000, "content": []},
+      {"id": 2, "type": "DISK", "memory": 1000, "content": []}, 
+      {"id": 3, "type": "DISK", "memory": 1000, "content": []}
+    ]
+      
+    
 
 # ===============================================================
 
@@ -151,11 +163,14 @@ class InternetData:
 
 class OfficeData:
   def __init__(self):
-    self.pages_txt = {}
-    self.pages_leafs = {}
-    self.pages_chrt = {}
+    self.my_offices = [
+      {"txt_pages": {}},
+      {"lfs_pages": {}},
+      {"cht_pages": {}}  
+    ]
+        
     
-    
+
 # ===============================================================
 
 class UserData:
@@ -163,12 +178,12 @@ class UserData:
     self.number_emails = 0
     self.emails = {}
     self.username = "Banana"
-    self.db = SQL(self)
+    self.db = mySQL(self)
     self.db.init_db()
 
 # ===============================================================
 
-class SQL:
+class mySQL:
   def __init__(self, userdata: UserData):
     self.userd = userdata
 
@@ -228,8 +243,9 @@ class Welcome:
     self.marketd = marketdata
     self.internetd = internetdata
     self.officed = officedata
+    self.mySQL = mySQL
     self.enter = Enter(self.userd, self.programd, self.marketd, self.internetd, self.officed)
-    self.saveload = SaveLoad(self.userd)
+    self.saveload = SaveLoad(self.programd, self.userd, self.marketd, self.officed, self.mySQL)
      
   
   def go(self):
@@ -312,7 +328,7 @@ class System:
     print("\n\n")
     for program in self.programd.system_programs:
       printsl(f"\n{program['id']}: {program['name']}")
-    print(f"\n\n{raw_end}")
+    print(f"\n\n{raw_end}\n")
     print("="*45+"\n")
     print(r"\/  DOWNLOAD PROGRAMS  \/")
     print("\n\n")

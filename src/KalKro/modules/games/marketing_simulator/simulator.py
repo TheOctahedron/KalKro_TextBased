@@ -1,6 +1,6 @@
 import time, random, httpx
-from ....utilities.helpers import printsl, loading_effect, yes_no
-from market_helper import all_action
+from KalKro.utilities.helpers import printsl, loading_effect, yes_no
+from KalKro.modules.games.marketing_simulator.market_helper import all_action
 
 
 class Welcome_Market:
@@ -27,7 +27,7 @@ class Welcome_Market:
     match question:
       case "1":
         time.sleep(1)
-        marketing_simulator = MarketingSimulator(self.marketd)
+        marketing_simulator = Marketing_Simulator(self.marketd)
         marketing_simulator.market_office()
       case "2":
         time.sleep(1)
@@ -64,7 +64,7 @@ class Welcome_Market:
 class Marketing_Simulator:
   def __init__(self, marketdata):
     self.marketd = marketdata
-    self.go_welcome_market = WelcomeMarket(self.marketd)
+    self.go_welcome_market = Welcome_Market(self.marketd)
     self.etc_data = {
       "!wallet": self.wallet_check,
       "!rating": self.score_and_rating,

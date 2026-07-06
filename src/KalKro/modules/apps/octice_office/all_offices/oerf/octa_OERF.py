@@ -1,7 +1,7 @@
 import time
-from utilities import printsl, yes_no
-from fileManager import FileSaver, FileDeleter, FileOpener, FileRenamer
-
+from KalKro.modules.apps.octice_office.file_manager import FileSaver, FileDeleter, FileOpener, FileRenamer
+from KalKro.utilities.helpers import printsl
+import time
 
 class OctaOERF:
   def __init__(self, officedata, horisontal, vertical):
@@ -27,7 +27,7 @@ class OctaOERF:
       
 # ==================================                
 
-# MAIN OERF
+#  OERF
   def OERF(self):
     print("\n1. Your all documents-pages: ")
     printsl("\n1. Text_Files.PAGE")
@@ -60,13 +60,13 @@ class OctaOERF:
     match f_type:
 # ==========================================
       case "txt":
-        self.page = self.officed.pages_txt
+        self.page = self.officed.all_offices["txt_page"]
 
       case "prs":  
-        self.page = self.officed.pages_leafs
+        self.page = self.officed.all_offices["lfs_page"]
 
       case "chrt":
-        self.page = self.officed.pages_chart
+        self.page = self.officed.all_offices["cht_page"]
 # ==========================================    
     self.files = list(self.page.items())
     for number, (name, _) in enumerate(self.files, 1):

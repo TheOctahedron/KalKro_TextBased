@@ -1,4 +1,5 @@
-
+from KalKro.utilities.helpers import printsl, loading_effect
+import time
 
 class Tic_Tac_Toe:
   def __init__(self):

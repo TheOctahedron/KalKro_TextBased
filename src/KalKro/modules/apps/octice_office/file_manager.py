@@ -1,5 +1,5 @@
 import time
-from utilities import printsl, yes_no
+from KalKro.utilities.helpers import printsl, yes_no
 import matplotlib.pyplot as plt
 
 class FileSaver:

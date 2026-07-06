@@ -1,4 +1,4 @@
-from src import printsl, loading_effect
+from KalKro.utilities.helpers import printsl, loading_effect
 import time, random
 
 class Rock_Paper_Scissors:

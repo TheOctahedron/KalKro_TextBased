@@ -2,7 +2,7 @@ from KalKro.utilities.helpers import loading_effect, printsl
 from KalKro.modules.apps.installer import Installer
 import time, httpx
 
-class CatFishBrowser:
+class Internet:
   def __init__(self, programdata, internetdata):
     self.programd = programdata
     self.internetd = internetdata

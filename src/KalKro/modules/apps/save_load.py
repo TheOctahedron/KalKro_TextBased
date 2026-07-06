@@ -1,17 +1,17 @@
 from KalKro.utilities.helpers import loading_effect, printsl, yes_no
-from KalKro.my_system import SQL
 import time, json
 
 
 
 class SaveLoad:
-  def __init__(self, programdata, userdata, marketdata, officedata):
+  def __init__(self, programdata, userdata, marketdata, officedata, mySQL):
     self.programd = programdata
     self.userd = userdata
     self.marketd = marketdata
     self.officed = officedata
-    self.db = SQL(self.userd)
-
+    self.mySQL = mySQL
+    self.db = self.mySQL(self.userd)
+    
   
   def saveload(self):
     loading_effect(1)
@@ -107,7 +107,7 @@ class SaveLoad:
       with open('SystemPy.json', 'r') as f:
         saved_data = json.load(f)
       self.__dict__.update(saved_data)
-      self.db = SQL(self.userd)
+      self.db = self.mySQL(self.userd)
       self.db.init_db()
     except Exception as e:
       printsl(f"\nERROR... {e}\n\n\n")
