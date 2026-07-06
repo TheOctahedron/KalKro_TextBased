@@ -5,7 +5,8 @@
 A new project, following my disappearance! During this time, I've learned and realized that it's better to divide everything into classes and files rather than putting it all in one large file.  This project is a text-based operating system simulator.
 
 ## FULL DESCRIPTION
-Full description: a new ambitious project, to be honest, this idea turned out to be difficult to implement, but still interesting! brought a lot of experience.
+**Full description:** a new ambitious project, to be honest, this idea turned out to be difficult to implement, but still interesting! brought a lot of experience.
+
 
 in the introduction of KalKro OS - an unusual operating system, where you will meet:
 1. A simple and **clear** menu
@@ -13,6 +14,19 @@ in the introduction of KalKro OS - an unusual operating system, where you will m
 3. **A paranoid AI** (There may be instability, and a public gateway is used.)
 4. Office Suite **(4 offices)**
 5. And other **charismatic** characters-programs.
+
+
+
+## HOW IT WORKS
+**In short:** everything works through pure Python and standard/known libraries, for the selection system (for example, the desired program) is a convenient navigation through special lists and match/case. 
+
+**Commands:**
+1. **'1-9 and more': select a numbered item**
+
+2. **'! Back'/'30303': Output (30303 is used in rare cases.)**
+
+3... **Other commands are marked by themselves.**
+
 
 
 ## AMBITIONS
@@ -59,5 +73,3 @@ pip install httpx ollamafreeapi matplotlib
 ```bash
 python system_kalkro.py
 ```
-
-
