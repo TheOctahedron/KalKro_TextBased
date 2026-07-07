@@ -4,13 +4,13 @@ import time, json
 
 
 class SaveLoad:
-  def __init__(self, programdata, userdata, marketdata, officedata, mySQL):
+  def __init__(self, programdata, userdata, marketdata, officedata, mySQLite):
     self.programd = programdata
     self.userd = userdata
     self.marketd = marketdata
     self.officed = officedata
-    self.mySQL = mySQL
-    self.db = self.mySQL(self.userd)
+    self.mySQLite = mySQLite
+    self.db = self.mySQLite(self.userd)
     
   
   def saveload(self):
@@ -107,7 +107,7 @@ class SaveLoad:
       with open('SystemPy.json', 'r') as f:
         saved_data = json.load(f)
       self.__dict__.update(saved_data)
-      self.db = self.mySQL(self.userd)
+      self.db = self.mySQLite(self.userd)
       self.db.init_db()
     except Exception as e:
       printsl(f"\nERROR... {e}\n\n\n")
