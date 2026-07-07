@@ -53,13 +53,62 @@ from KalKro.modules.apps.octice_office.octice import OcticeSelect
 #                         DATABASES
 # ===============================================================
 
+class mySQLite:
+  def __init__(self, userdata: UserData):
+    self.userd = userdata
+
+  def init_db(self):
+    self.conn = sq3.connect("kalkro.db")
+    self.cursor = self.conn.cursor()
+
+    self.cursor.execute("""
+      CREATE TABLE IF NOT EXISTS users (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          username TEXT UNIQUE,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
+    self.cursor.execute("""
+      CREATE TABLE IF NOT EXISTS dialogues (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          user_id INTEGER,
+          user_message TEXT,
+          ai_response TEXT,
+          timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+          FOREIGN KEY (user_id) REFERENCES users (id)
+        )
+    """)
+    self.conn.commit()
+
+
+  def show_history(self):
+    self.cursor.execute("""
+      SELECT user_message, ai_response, timestamp
+      FROM dialogues
+      WHERE user_id = (SELECT id FROM users WHERE username = ?)
+      ORDER BY timestamp DESC LIMIT 10                
+    """, (self.userd.username,))
+    rows = self.cursor.fetchall()
+
+    if not rows:
+      printsl("\nNo dialoge history found.\n")
+      return
+    
+    printsl("\n== Last 10 dialogues ==\n")
+    for user_msg, ai_resp, ts in rows:
+      printsl(f"[{ts}] You: {user_msg}")
+      printsl(f"DojDo: {ai_resp}\n")
+
+# ===============================================================
+
 class ProgramData:
   def __init__(self):
     self.userd = UserData() # ...D = ...DATA
     self.marketd = MarketData()
     self.internetd = InternetData()
     self.officed = OfficeData()
-    self.mySQL = mySQL
+    self.mySQLite = mySQLite
     self.diskd = DiskData()
 
 
@@ -94,7 +143,7 @@ class ProgramData:
       "Catfish-Browser (internet)": CatFishBrowser(self, self.internetd).catfish_go,
       "tic-tac-toe": Tic_Tac_Toe().tic_tac_toe,
       "The Randomizer": Randomizer().random_go,
-      "SaveLoad": SaveLoad(self, self.userd, self.marketd, self.officed, self.mySQL).saveload,
+      "SaveLoad": SaveLoad(self, self.userd, self.marketd, self.officed, self.mySQLite).saveload,
       "Installer": Installer(self).diskS,
       "Boring Calculator": Boring_Calculator().hi_calculator,
       "Octice Office": OcticeSelect(self.userd, self.officed).select_office,
@@ -168,8 +217,6 @@ class OfficeData:
       {"lfs_pages": {}},
       {"cht_pages": {}}  
     ]
-        
-    
 
 # ===============================================================
 
@@ -178,59 +225,11 @@ class UserData:
     self.number_emails = 0
     self.emails = {}
     self.username = "Banana"
-    self.db = mySQL(self)
+    self.db = mySQLite(self)
     self.db.init_db()
 
 # ===============================================================
 
-class mySQL:
-  def __init__(self, userdata: UserData):
-    self.userd = userdata
-
-  def init_db(self):
-    self.conn = sq3.connect("kalkro.db")
-    self.cursor = self.conn.cursor()
-
-    self.cursor.execute("""
-      CREATE TABLE IF NOT EXISTS users (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          username TEXT UNIQUE,
-          created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        )
-    """)
-
-    self.cursor.execute("""
-      CREATE TABLE IF NOT EXISTS dialogues (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          user_id INTEGER,
-          user_message TEXT,
-          ai_response TEXT,
-          timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
-          FOREIGN KEY (user_id) REFERENCES users (id)
-        )
-    """)
-    self.conn.commit()
-
-
-  def show_history(self):
-    self.cursor.execute("""
-      SELECT user_message, ai_response, timestamp
-      FROM dialogues
-      WHERE user_id = (SELECT id FROM users WHERE username = ?)
-      ORDER BY timestamp DESC LIMIT 10                
-    """, (self.userd.username,))
-    rows = self.cursor.fetchall()
-
-    if not rows:
-      printsl("\nNo dialoge history found.\n")
-      return
-    
-    printsl("\n== Last 10 dialogues ==\n")
-    for user_msg, ai_resp, ts in rows:
-      printsl(f"[{ts}] You: {user_msg}")
-      printsl(f"DojDo: {ai_resp}\n")
-
-# ===============================================================
 
 
 # SYSTEM
@@ -243,9 +242,9 @@ class Welcome:
     self.marketd = marketdata
     self.internetd = internetdata
     self.officed = officedata
-    self.mySQL = mySQL
+    self.mySQLite = mySQLite
     self.enter = Enter(self.userd, self.programd, self.marketd, self.internetd, self.officed)
-    self.saveload = SaveLoad(self.programd, self.userd, self.marketd, self.officed, self.mySQL)
+    self.saveload = SaveLoad(self.programd, self.userd, self.marketd, self.officed, self.mySQLite)
      
   
   def go(self):
@@ -320,23 +319,27 @@ class System:
 
   def desktop(self):
     time.sleep(1)
-    raw_end = r"/\    /\    /\ "
     print("\n\n\n")
     print("\nDesktop")
+
     print("\nYOUR PROGRAMS: \n\n")
-    print(r"\/  SYSTEM PROGRAMS  \/")
-    print("\n\n")
+
+    
+    print("- - -  SYSTEM PROGRAMS  - - -\n\n")
     for program in self.programd.system_programs:
       printsl(f"\n{program['id']}: {program['name']}")
-    print(f"\n\n{raw_end}\n")
-    print("="*45+"\n")
-    print(r"\/  DOWNLOAD PROGRAMS  \/")
-    print("\n\n")
+    print(f"\n\n- - - - - - - - - - - - -\n")
+
+    print("="*45)
+
+    print("\n- - -  DOWNLOAD PROGRAMS  - - -\n\n")
     for program in self.programd.installed_programs:
       printsl(f"\n{program['id']}: {program['name']}")
     if not self.programd.installed_programs:
-      print("Emptiness... You haven't installed any apps yet.")
-    print(f"\n\n{raw_end}")
+      print("Emptiness...")
+    print(f"\n\n- - - - - - - - - - - - -\n")
+
+
     time.sleep(1)
 
 
@@ -357,19 +360,20 @@ class System:
 
           case _:
             try:
+              selected_prg_name = None
               idx = int(question)
-              for program in self.programd.system_programs:
+              found = False
+              for program in self.programd.system_programs:  # SEARCH IN SYSTEM APPLICATIONS
                   prg_id = program['id']
-                  prg_name = program['name'].strip().lower()
-                  found = False
+                  selected_prg_name = program['name'].strip()
                   if idx == prg_id:
                     found = True
                     break
               
               if found == False:
-                for program in self.programd.installed_programs:
+                for program in self.programd.installed_programs:  # SEARCH IN DOWNLOAD APPLICATIONS
                   prg_id = program['id']
-                  prg_name = program['name'].strip().lower()
+                  selected_prg_name = program['name'].strip()
                   if idx == prg_id:
                     found = True
                     break
@@ -378,11 +382,16 @@ class System:
                   time.sleep(0.5)
                   continue
                 
-
+              prg_launched = False
               for link_name, program_link in self.programd.program_link.items():
-                if link_name == prg_name:
+                if link_name == selected_prg_name:
                   program_link()
+                  prg_launched = True
                   break
+              
+              if not prg_launched:
+                printsl("\n\nSorry, But Program Launch is not Found")
+                time.sleep(0.5)
 
           
             except Exception as e:
