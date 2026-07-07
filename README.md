@@ -46,7 +46,7 @@ in the introduction of KalKro OS - an unusual operating system, where you will m
 ---
 ! DESKTOP !
 
-<img width="547" height="948" alt="desktop kalkro" src="https://github.com/user-attachments/assets/98d7dd51-d0d9-4b9d-8c8d-f9e79e9d1f99" />
+<img width="378" height="690" alt="KalKro_Desktop" src="https://github.com/user-attachments/assets/9ea86edb-d4e6-46ff-b5d9-c3e2b19eb8b5" />
 
 
 ---
