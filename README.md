@@ -1,5 +1,5 @@
 
-# KalKro_OS/KalKr_OS  
+# KalKro/KalKr TB system (text-based)
 <img width="64" height="64" alt="KalkrOS non" src="https://github.com/user-attachments/assets/aeffe168-a1b0-458b-bfeb-c2c6e5899ae1" />
 
 A new project, following my disappearance! During this time, I've learned and realized that it's better to divide everything into classes and files rather than putting it all in one large file.  This project is a text-based operating system simulator.
