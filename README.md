@@ -11,8 +11,8 @@ A new project, following my disappearance! During this time, I've learned and re
 in the introduction of KalKro OS - an unusual operating system, where you will meet:
 1. A simple and **clear** menu
 2. Control in the terminal through numbers
-3. **A paranoid AI** (There may be instability, and a public gateway is used.)
-4. Office Suite **(4 offices)**
+3. **A paranoid AI** (used: Transformers. 5GB FREE required)
+4. Office Suite **(3 offices)**
 5. And other **charismatic** characters-programs.
 
 
