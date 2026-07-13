@@ -27,7 +27,7 @@ from KalKro.file_conductor.file_conductor import File_Conductor
 # ============= Games =============
 from KalKro.modules.games.tic_tac_toe import Tic_Tac_Toe
 # =================
-from KalKro.modules.games.marketing_simulator.simulator import Welcome_Market
+from KalKro.modules.games.marketing_simulator.simulator.main_office import Welcome_Market
 # =================
 from KalKro.modules.games.rock_paper_scissors import Rock_Paper_Scissors
 # =================
