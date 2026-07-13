@@ -58,7 +58,7 @@ REQUIRED LIBRARIES:
 
 1. **httpx**
    
-2. **ollamafreeapi**
+2. **transformers**
 
 3. **matplotlib**
 
@@ -66,7 +66,7 @@ REQUIRED LIBRARIES:
 
 **1. LIBRARIES**
 ```bash
-pip install httpx ollamafreeapi matplotlib
+pip install httpx transformers matplotlib
 ```
 
 **2. HOW TO START**
